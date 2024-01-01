@@ -1,0 +1,55 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'myriad_pro_regular';
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.f-bold {
+  font-weight: bold;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.override-space {
+  align-self: flex-start;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.fw-n {
+  font-weight: normal !important;
+}

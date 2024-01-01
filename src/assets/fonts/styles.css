@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'yanone_kaffeesatzregular';
+  src: url(./yanonekaffeesatz-regular-webfont.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'lithos_pro_regular';
+  src: url(./lithospro-regular_0-webfont.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'myriad_pro_regular';
+  src: url(./myriadpro-regular_0-webfont.woff) format('woff');
+}
