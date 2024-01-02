@@ -18,16 +18,29 @@
         ></div>
         <div class="container-register">
           <div class="register" :style="{ backgroundImage: `url(${images.layoutRegisterImage})` }">
-            <form>
+            <form @submit.prevent="register">
               <div class="card">
                 <div class="title">Informações de Login /////////////////</div>
                 <div class="flex space-between align-item-center mt-10">
-                  <label for="user">Usuário:</label>
-                  <input type="text" name="user" />
+                  <label for="user" :class="{ 'error-label': userError !== '' }">Usuário:</label>
+                  <img
+                    :src="existUser ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                    alt="error icon image"
+                    v-show="user !== ''"
+                  />
+                  <input type="text" name="user" v-model="user" />
+                </div>
+                <div class="error flex justify-end mt-10" v-show="userError !== ''">
+                  {{ userError }}
                 </div>
                 <div class="flex space-between align-item-center mt-10">
-                  <label for="password">Senha:</label>
+                  <label for="password" :class="{ 'error-label': passwordError !== '' }"
+                    >Senha:</label
+                  >
                   <input type="password" name="password" v-model="password" />
+                </div>
+                <div class="error flex justify-end mt-10" v-show="passwordError !== ''">
+                  {{ passwordError }}
                 </div>
                 <div class="flex mt-10 space-between">
                   <span>{{ passwordStrengthText }}</span>
@@ -39,15 +52,28 @@
                   </div>
                 </div>
                 <div class="flex space-between align-item-center mt-10">
-                  <label for="user">E-mail:</label>
-                  <input type="email" name="user" />
+                  <label for="email" :class="{ 'error-label': emailError !== '' }">E-mail:</label>
+                  <img
+                    :src="existEmail ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                    alt="error icon image"
+                    v-show="email !== ''"
+                  />
+                  <input type="email" name="email" v-model="email" />
+                </div>
+                <div class="error flex justify-end mt-10" v-show="emailError !== ''">
+                  {{ emailError }}
                 </div>
               </div>
               <div class="card text-center">
                 <div class="title blue">Informações Adicionais /////////////</div>
                 <div class="flex space-between align-item-center mt-10">
-                  <label for="fullName">Nome completo:</label>
-                  <input type="text" name="fullName" />
+                  <label for="fullName" :class="{ 'error-label': fullNameError !== '' }"
+                    >Nome completo:</label
+                  >
+                  <input type="text" name="fullName" v-model="fullName" />
+                </div>
+                <div class="error flex justify-end mt-10" v-show="fullNameError !== ''">
+                  {{ fullNameError }}
                 </div>
                 <div class="flex space-between align-item-center mt-10">
                   <label for="gender">Gênero:</label>
@@ -78,9 +104,13 @@
                 </div>
                 <div class="mt-10">
                   <label for="tos" class="fw-n">
-                    <input type="checkbox" id="tos" value="true" />
-                    Li e concordo com os <RouterLink to="/tos">Termos de Uso</RouterLink> do jogo.
+                    <input type="checkbox" id="tos" v-model="tos" />
+                    Li e concordo com os
+                    <RouterLink to="/tos" class="f-bold">Termos de Uso</RouterLink> do jogo.
                   </label>
+                  <div class="error text-center mt-10" v-show="tosError !== ''">
+                    {{ tosError }}
+                  </div>
                 </div>
                 <button class="register-button mt-10">Continuar registro</button>
               </div>
@@ -101,11 +131,22 @@
 
 <script setup lang="ts">
 import images from '@/data/imageData';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
+const user = ref('');
+const existUser = ref(false);
+const userError = ref('');
 const password = ref('');
+const minPasswordLength = 6;
+const passwordError = ref('');
+const email = ref('');
+const existEmail = ref(false);
+const emailError = ref('');
+const fullName = ref('');
+const fullNameError = ref('');
 const selectedGender = ref<'male' | 'female'>('male');
-const minLength = 6;
+const tos = ref(false);
+const tosError = ref('');
 
 const passwordStrength = computed(() => {
   return calculatePasswordStrength(password.value);
@@ -119,21 +160,39 @@ const passwordStrengthText = computed(() => {
   return getPasswordStrengthText(passwordStrength.value);
 });
 
+watch(user, (newValue: string) => {
+  if (newValue.trim() !== '') {
+    existUser.value = true;
+  }
+  if (newValue.trim() === 'aaa') {
+    existUser.value = false;
+  }
+});
+
+watch(email, (newValue: string) => {
+  if (newValue.trim() !== '') {
+    existEmail.value = true;
+  }
+  if (newValue.trim() === 'aaa@aaa.com') {
+    existEmail.value = false;
+  }
+});
+
 function calculatePasswordStrength(password: string): number {
   const length = password.length;
   if (length === 0) {
     return 0;
   }
-  if (length < minLength) {
-    return (length / minLength) * 25;
+  if (length < minPasswordLength) {
+    return (length / minPasswordLength) * 25;
   }
   if (/\d/.test(password) && /[a-zA-Z]/.test(password)) {
-    return length >= minLength * 2 ? 100 : 50;
+    return length >= minPasswordLength * 2 ? 100 : 50;
   }
   return 50;
 }
 
-function getPasswordStrengthColor(strength: number) {
+function getPasswordStrengthColor(strength: number): string {
   if (strength >= 100) {
     return '#00ff00';
   }
@@ -145,7 +204,7 @@ function getPasswordStrengthColor(strength: number) {
 
 function getPasswordStrengthText(strength: number): string {
   if (strength === 0) {
-    return '-';
+    return '';
   }
   if (strength >= 100) {
     return 'Forte';
@@ -154,6 +213,51 @@ function getPasswordStrengthText(strength: number): string {
     return 'Média';
   }
   return 'Fraca';
+}
+
+function register(): void {
+  clearValidateRegister();
+  if (validateRegister()) {
+    return;
+  }
+  alert('register');
+}
+
+function validateRegister(): boolean {
+  let error = false;
+  if (user.value.trim() === '') {
+    userError.value = 'Digite um nome de usuário';
+    error = true;
+  }
+  if (password.value.length < 6) {
+    passwordError.value = 'Senha fraca, no mínimo 6 caracteres';
+    error = true;
+  }
+  if (password.value === '') {
+    passwordError.value = 'Digite uma senha';
+    error = true;
+  }
+  if (email.value === '') {
+    emailError.value = 'Digite um e-mail';
+    error = true;
+  }
+  if (fullName.value.trim() === '') {
+    fullNameError.value = 'Digite o nome completo';
+    error = true;
+  }
+  if (!tos.value) {
+    tosError.value = 'Você deve aceitar os termos de uso';
+    error = true;
+  }
+  return error;
+}
+
+function clearValidateRegister(): void {
+  userError.value = '';
+  passwordError.value = '';
+  emailError.value = '';
+  fullNameError.value = '';
+  tosError.value = '';
 }
 </script>
 
@@ -284,5 +388,15 @@ input {
 .footer-flex a {
   text-decoration: underline;
   color: white;
+}
+
+.error {
+  font-size: 9px;
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.error-label {
+  color: #ff0000;
 }
 </style>

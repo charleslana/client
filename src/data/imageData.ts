@@ -23,6 +23,8 @@ import layoutBgContentImage from '@/assets/images/layout/content-bg.png';
 import layoutContentTopImage from '@/assets/images/layout/content-top.png';
 import layoutRegisterImage from '@/assets/images/layout/register.jpg';
 import layoutFooterImage from '@/assets/images/layout/footer.png';
+import layoutIconErrorImage from '@/assets/images/icon/error.png';
+import layoutIconOkImage from '@/assets/images/icon/ok.png';
 
 const images = {
   homeCloudsImage,
@@ -49,7 +51,9 @@ const images = {
   layoutBgContentImage,
   layoutContentTopImage,
   layoutRegisterImage,
-  layoutFooterImage
+  layoutFooterImage,
+  layoutIconErrorImage,
+  layoutIconOkImage
 };
 
 export default images;
