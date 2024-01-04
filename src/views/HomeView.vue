@@ -1,115 +1,120 @@
 <template>
-  <div>
-    <div class="bg" :style="{ backgroundImage: `url(${images.homeCloudsImage})` }">
-      <img :src="displayedImage" alt="random image" class="random-image" />
-      <div class="container">
-        <div class="flex space-between">
-          <div>
-            <transition name="fade">
-              <div class="position" v-show="showCrews" :key="playersKey">
-                <img :src="images.homeRankingCrewImage" alt="ranking crew image" />
-                <div class="flex flex-column">
-                  <div
-                    v-for="(crew, index) in rankingCrewList"
-                    :key="index"
-                    class="card"
-                    :style="{ backgroundImage: getBackgroundImage(crew.type) }"
-                  >
-                    <div class="position">{{ index + 1 }}</div>
-                    <div class="data-1">{{ crew.name }}</div>
-                    <div class="data-2">Cap: {{ crew.captain }}</div>
-                    <div class="data-3">
-                      Nv.: <span>{{ crew.level }}</span>
-                    </div>
-                    <div class="data-4">{{ crew.members }}</div>
-                    <div class="data-5">membros</div>
-                  </div>
-                  <button class="toggle-button override-space" @click="togglePlayers">
-                    jogadores
-                  </button>
+  <div class="bg" :style="{ backgroundImage: `url(${images.homeCloudsImage})` }">
+    <div class="container">
+      <!-- <h1 v-for="index in 10" :key="index">Lista</h1> -->
+      <!-- <div class="is-flex is-justify-content-space-between mt-5"> -->
+      <div class="columns mt-5">
+        <div class="column">
+          <transition name="fade" mode="out-in">
+            <div class="position" key="1" v-if="showCrews">
+              <figure>
+                <img src="../assets/images/home/ranking-crew.png" alt="ranking crew image" />
+              </figure>
+              <div
+                v-for="(crew, index) in rankingCrewList"
+                :key="index"
+                class="ranking-card"
+                :style="{ backgroundImage: getBackgroundImage(crew.type) }"
+              >
+                <div class="position">{{ index + 1 }}</div>
+                <div class="data-1" :style="{ color: getColor(crew.type) }">{{ crew.name }}</div>
+                <div class="data-2">Cap: {{ crew.captain }}</div>
+                <div class="data-3">
+                  Nv.: <span>{{ crew.level }}</span>
                 </div>
+                <div class="data-4">{{ crew.members }}</div>
+                <div class="data-5">membros</div>
               </div>
-            </transition>
-            <transition name="fade">
-              <div class="position" v-show="showPlayers" :key="crewsKey">
-                <img :src="images.homeRankingPlayerImage" alt="ranking player image" />
-                <div class="flex flex-column">
-                  <div
-                    v-for="(player, index) in rankingPlayerList"
-                    :key="index"
-                    class="card"
-                    :style="{ backgroundImage: getBackgroundImage(player.type) }"
-                  >
-                    <div class="position">{{ index + 1 }}</div>
-                    <div class="data-1">{{ player.name }}</div>
-                    <div class="data-2">Trip.: {{ player.crewName }}</div>
-                    <div class="data-3">
-                      Nv.: <span>{{ player.level }}</span>
-                    </div>
-                    <div class="data-4">{{ formatNumber(player.reputation) }}</div>
-                    <div class="data-5">Reputação</div>
-                  </div>
-                  <button class="toggle-button override-space" @click="toggleCrews">
-                    tripulações
-                  </button>
-                </div>
-              </div>
-            </transition>
-          </div>
-          <div class="register">
-            <RouterLink to="/register">
-              <img :src="images.homeRegisterImage" alt="register image" />
-            </RouterLink>
-            <div
-              class="login-box"
-              :style="{ backgroundImage: `url(${images.homeLoginBoxImage})` }"
-              v-show="!loading"
-            >
-              <form @submit.prevent="login">
-                <input
-                  type="text"
-                  placeholder="nome do usuário"
-                  class="name"
-                  ref="userNameRef"
-                  v-model="userName"
-                />
-                <input
-                  type="password"
-                  placeholder="••••••"
-                  class="password"
-                  v-model="userPassword"
-                />
-                <button
-                  class="login-button"
-                  :style="{ backgroundImage: `url(${images.homeLoginButtonImage})` }"
-                  :disabled="isLoginDisabled"
-                ></button>
-              </form>
-              <button
-                class="login-new-password"
-                :style="{ backgroundImage: `url(${images.homeNewPasswordButtonImage})` }"
-                @click="$router.push({ name: 'new-password' })"
-              ></button>
+              <button class="toggle-button" @click="togglePlayers">jogadores</button>
             </div>
-            <div
-              class="bg-login-box"
-              :style="{ backgroundImage: `url(${images.homeBgLoginBoxImage})` }"
-              v-show="loading"
-            >
-              <img
-                :src="images.homeLoadingImage"
-                :key="loadingKey"
-                alt="loading image"
-                class="random-image"
-                width="150"
-                height="150"
-              />
+            <div class="position" key="2" v-else>
+              <figure>
+                <img src="../assets/images/home/ranking-player.png" alt="ranking player image" />
+              </figure>
+              <div
+                v-for="(player, index) in rankingPlayerList"
+                :key="index"
+                class="ranking-card"
+                :style="{ backgroundImage: getBackgroundImage(player.type) }"
+              >
+                <div class="position">{{ index + 1 }}</div>
+                <div class="data-1" :style="{ color: getColor(player.type) }">
+                  {{ player.name }}
+                </div>
+                <div class="data-2">Trip.: {{ player.crewName }}</div>
+                <div class="data-3">
+                  Nv.: <span>{{ player.level }}</span>
+                </div>
+                <div class="data-4">{{ formatNumber(player.reputation) }}</div>
+                <div class="data-5">Reputação</div>
+              </div>
+              <button class="toggle-button override-space" @click="toggleCrews">tripulações</button>
+            </div>
+          </transition>
+        </div>
+        <div class="column">
+          <div class="is-pulled-right">
+            <div class="register">
+              <RouterLink to="/register">
+                <img :src="images.homeRegisterImage" alt="register image" />
+              </RouterLink>
+              <div
+                class="login-box"
+                :style="{ backgroundImage: `url(${images.homeLoginBoxImage})` }"
+                v-if="!loading"
+              >
+                <form @submit.prevent="login">
+                  <input
+                    type="text"
+                    placeholder="nome do usuário"
+                    class="name"
+                    id="name"
+                    ref="userNameRef"
+                    v-model="userName"
+                    autocomplete="false"
+                  />
+                  <input
+                    type="password"
+                    placeholder="••••••"
+                    class="password"
+                    id="password"
+                    v-model="userPassword"
+                  />
+                  <button
+                    class="login-button"
+                    :style="{ backgroundImage: `url(${images.homeLoginButtonImage})` }"
+                    :disabled="isLoginDisabled"
+                  ></button>
+                </form>
+                <button
+                  class="login-new-password"
+                  :style="{ backgroundImage: `url(${images.homeNewPasswordButtonImage})` }"
+                  @click="$router.push({ name: 'new-password' })"
+                ></button>
+              </div>
+              <div
+                class="bg-login-box"
+                :style="{ backgroundImage: `url(${images.homeBgLoginBoxImage})` }"
+                v-if="loading"
+              >
+                <img
+                  :src="images.homeLoadingImage"
+                  :key="loadingKey"
+                  alt="loading image"
+                  class="random-image"
+                  width="150"
+                  height="150"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="footer" :style="{ backgroundImage: `url(${images.homePatternMarImage})` }"></div>
+    <figure class="welcome-image image">
+      <img :src="displayedImage" alt="welcome image" />
+    </figure>
   </div>
 </template>
 
@@ -120,9 +125,17 @@ import type {
   IHomeCrewRanking,
   IHomePlayerRanking
 } from '@/interface/IHomeRanking';
-import { computed, onMounted, ref, type Ref } from 'vue';
+import { computed, ref } from 'vue';
 import { formatNumber } from '@/utils/utils';
 
+const imagesArray: string[] = [
+  images.homeCaesarClownImage,
+  images.homeLawImage,
+  images.homeLuffyImage,
+  images.homeLuffy2Image,
+  images.homeNeptuneImage,
+  images.homeSmokerImage
+];
 const rankingCrewList: IHomeCrewRanking[] = [
   { name: 'Pirates Rocks', captain: 'King Pirate', level: 10, members: 12, type: 'pirate' },
   { name: 'Marine Squad', captain: 'Admiral', level: 15, members: 20, type: 'marine' },
@@ -151,29 +164,10 @@ const rankingPlayerList: IHomePlayerRanking[] = [
 ];
 const showCrews = ref(true);
 const showPlayers = ref(false);
-const playersKey = ref(0);
-const crewsKey = ref(0);
 const loading = ref(false);
 const loadingKey = ref(0);
 const userName = ref('');
 const userPassword = ref('');
-
-const imagesArray: string[] = [
-  images.homeCaesarClownImage,
-  images.homeLawImage,
-  images.homeLuffyImage,
-  images.homeLuffy2Image,
-  images.homeNeptuneImage,
-  images.homeSmokerImage
-];
-
-const userNameRef: Ref<HTMLElement | null> = ref(null);
-
-onMounted(() => {
-  if (userNameRef.value) {
-    userNameRef.value.focus();
-  }
-});
 
 const displayedImage = computed(() => {
   const randomIndex = Math.floor(Math.random() * imagesArray.length);
@@ -194,16 +188,24 @@ function getBackgroundImage(type: HomeRankingType): string {
   return `url(${images.homeRankingPirateImage})`;
 }
 
+function getColor(type: HomeRankingType): string {
+  if (type === 'marine') {
+    return '#082f4f';
+  }
+  if (type === 'revolutionary') {
+    return '#357735';
+  }
+  return '#cb1b03';
+}
+
 function togglePlayers(): void {
   showPlayers.value = true;
   showCrews.value = false;
-  playersKey.value += 1;
 }
 
 function toggleCrews(): void {
   showPlayers.value = false;
   showCrews.value = true;
-  crewsKey.value += 1;
 }
 
 function showLoading(): void {
@@ -228,44 +230,49 @@ function login(): void {
   background-color: #1eb5f0;
   background-position: top center;
   background-repeat: no-repeat;
-  height: 100vh;
-  min-height: 100%;
-}
-
-.footer {
-  width: 100%;
-  height: 295px;
-  background-repeat: repeat-x;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
 }
 
 .container {
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-top: 2%;
+  padding-bottom: 160px;
+  width: 100%;
 }
 
-.random-image {
+.footer {
+  background-color: #1eb5f0;
+  width: 100%;
+  height: 60px;
   position: absolute;
-  top: 50%;
+  bottom: 0;
+}
+
+.welcome-image {
+  position: absolute;
+  top: 5vh;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+}
+
+.welcome-image img {
+  max-width: 100%;
+  max-height: calc(100vh - 10vh);
 }
 
 .position {
   width: 313px;
 }
 
-.card {
+.ranking-card {
   width: 313px;
   height: 44px;
   position: relative;
   margin-top: 5px;
 }
 
-.card .position {
+.ranking-card .position {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 1px;
@@ -273,12 +280,13 @@ function login(): void {
   font-size: 36px;
   width: 35px;
   height: 40px;
+  line-height: 40px;
   text-align: center;
   color: white;
   text-shadow: 0px 1px 1px #000;
 }
 
-.card .data-1 {
+.ranking-card .data-1 {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 1px;
@@ -286,16 +294,17 @@ function login(): void {
   font-size: 24px;
   width: 117px;
   height: 25px;
+  line-height: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.card .pirate {
+.ranking-card .pirate {
   color: #cb1b03;
 }
 
-.card .data-2 {
+.ranking-card .data-2 {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 27px;
@@ -303,13 +312,14 @@ function login(): void {
   font-size: 13px;
   width: 114px;
   height: 16px;
+  line-height: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: white;
 }
 
-.card .data-3 {
+.ranking-card .data-3 {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 8px;
@@ -317,18 +327,19 @@ function login(): void {
   font-size: 14px;
   width: 55px;
   height: 16px;
+  line-height: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #988f43;
 }
 
-.card .data-3 span {
+.ranking-card .data-3 span {
   font-family: yanone_kaffeesatzregular;
   font-size: 16px;
 }
 
-.card .data-4 {
+.ranking-card .data-4 {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 1px;
@@ -336,13 +347,14 @@ function login(): void {
   font-size: 20px;
   width: 55px;
   height: 20px;
+  line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #988f43;
 }
 
-.card .data-5 {
+.ranking-card .data-5 {
   font-family: yanone_kaffeesatzregular;
   position: absolute;
   top: 17px;
@@ -350,6 +362,7 @@ function login(): void {
   font-size: 14px;
   width: 55px;
   height: 16px;
+  line-height: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -378,7 +391,7 @@ function login(): void {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.9s ease;
+  transition: opacity 0.2s ease-in;
 }
 
 .fade-enter-from,
@@ -457,5 +470,12 @@ function login(): void {
   width: 282px;
   height: 173px;
   position: relative;
+}
+
+.bg-login-box img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

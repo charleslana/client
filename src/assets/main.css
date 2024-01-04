@@ -1,3 +1,11 @@
 @import './fonts/styles.css';
-@import './reset.css';
-@import './base.css';
+@import './lib/bulma.min.css';
+
+* {
+  font-family: 'myriad_pro_regular';
+}
+
+.columns {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}

@@ -1,130 +1,145 @@
 <template>
-  <div>
-    <div
-      class="bg"
-      :style="{
-        backgroundImage: `url(${images.layoutBgGrainImage}), url(${images.layoutBgCharacterImage}), linear-gradient(
+  <div
+    class="bg"
+    :style="{
+      backgroundImage: `url(${images.layoutBgGrainImage}), url(${images.layoutBgCharacterImage}), linear-gradient(
           180deg,
           rgba(15, 23, 42, 1) 0%,
           rgba(30, 41, 59, 1) 35%,
           rgba(51, 65, 85, 1) 100%
         )`
-      }"
+    }"
+  >
+    <div
+      class="register-container"
+      :style="{ backgroundImage: `url(${images.layoutBgContentImage})` }"
     >
-      <div class="container" :style="{ backgroundImage: `url(${images.layoutBgContentImage})` }">
-        <div
-          class="container-top"
-          :style="{ backgroundImage: `url(${images.layoutContentTopImage})` }"
-        ></div>
-        <div class="container-register">
-          <div class="register" :style="{ backgroundImage: `url(${images.layoutRegisterImage})` }">
-            <form @submit.prevent="register">
-              <div class="card">
-                <div class="title">Informações de Login /////////////////</div>
-                <div class="flex space-between align-item-center mt-10">
-                  <label for="user" :class="{ 'error-label': userError !== '' }">Usuário:</label>
-                  <img
-                    :src="existUser ? images.layoutIconErrorImage : images.layoutIconOkImage"
-                    alt="error icon image"
-                    v-show="user !== ''"
-                  />
-                  <input type="text" name="user" v-model="user" />
-                </div>
-                <div class="error flex justify-end mt-10" v-show="userError !== ''">
-                  {{ userError }}
-                </div>
-                <div class="flex space-between align-item-center mt-10">
-                  <label for="password" :class="{ 'error-label': passwordError !== '' }"
-                    >Senha:</label
-                  >
-                  <input type="password" name="password" v-model="password" />
-                </div>
-                <div class="error flex justify-end mt-10" v-show="passwordError !== ''">
-                  {{ passwordError }}
-                </div>
-                <div class="flex mt-10 space-between">
-                  <span>{{ passwordStrengthText }}</span>
-                  <div class="bar">
-                    <div
-                      class="fill"
-                      :style="{ width: passwordStrength + '%', backgroundColor: progressBarColor }"
-                    ></div>
-                  </div>
-                </div>
-                <div class="flex space-between align-item-center mt-10">
-                  <label for="email" :class="{ 'error-label': emailError !== '' }">E-mail:</label>
-                  <img
-                    :src="existEmail ? images.layoutIconErrorImage : images.layoutIconOkImage"
-                    alt="error icon image"
-                    v-show="email !== ''"
-                  />
-                  <input type="email" name="email" v-model="email" />
-                </div>
-                <div class="error flex justify-end mt-10" v-show="emailError !== ''">
-                  {{ emailError }}
+      <div
+        class="container-top"
+        :style="{ backgroundImage: `url(${images.layoutContentTopImage})` }"
+      ></div>
+      <div class="register-padding">
+        <div class="register" :style="{ backgroundImage: `url(${images.layoutRegisterImage})` }">
+          <form @submit.prevent="register">
+            <div class="register-card">
+              <div class="register-title">Informações de Login /////////////////</div>
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="user" :class="{ 'error-label': userError !== '' }">Usuário:</label>
+                <img
+                  :src="existUser ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                  alt="error icon image"
+                  v-show="user !== ''"
+                />
+                <input type="text" id="user" v-model="user" />
+              </div>
+              <div class="error is-flex is-justify-content-flex-end mt-2" v-show="userError !== ''">
+                {{ userError }}
+              </div>
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="password" :class="{ 'error-label': passwordError !== '' }"
+                  >Senha:</label
+                >
+                <input type="password" id="password" v-model="password" />
+              </div>
+              <div
+                class="error is-flex is-justify-content-flex-end mt-2"
+                v-show="passwordError !== ''"
+              >
+                {{ passwordError }}
+              </div>
+              <div class="is-flex is-justify-content-space-between mt-2">
+                <span>{{ passwordStrengthText }}</span>
+                <div class="bar">
+                  <div
+                    class="fill"
+                    :style="{ width: passwordStrength + '%', backgroundColor: progressBarColor }"
+                  ></div>
                 </div>
               </div>
-              <div class="card text-center">
-                <div class="title blue">Informações Adicionais /////////////</div>
-                <div class="flex space-between align-item-center mt-10">
-                  <label for="fullName" :class="{ 'error-label': fullNameError !== '' }"
-                    >Nome completo:</label
-                  >
-                  <input type="text" name="fullName" v-model="fullName" />
-                </div>
-                <div class="error flex justify-end mt-10" v-show="fullNameError !== ''">
-                  {{ fullNameError }}
-                </div>
-                <div class="flex space-between align-item-center mt-10">
-                  <label for="gender">Gênero:</label>
-                  <div>
-                    <div class="flex space-between align-item-center mt-10">
-                      <label for="maleGender">
-                        <input
-                          type="radio"
-                          id="maleGender"
-                          name="gender"
-                          value="male"
-                          v-model="selectedGender"
-                        />
-                        Masculino
-                      </label>
-                      <label for="femaleGender" class="ml-10">
-                        <input
-                          type="radio"
-                          id="femaleGender"
-                          name="gender"
-                          value="female"
-                          v-model="selectedGender"
-                        />
-                        Feminino
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-10">
-                  <label for="tos" class="fw-n">
-                    <input type="checkbox" id="tos" v-model="tos" />
-                    Li e concordo com os
-                    <RouterLink to="/tos" class="f-bold">Termos de Uso</RouterLink> do jogo.
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="email" :class="{ 'error-label': emailError !== '' }">E-mail:</label>
+                <img
+                  :src="existEmail ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                  alt="error icon image"
+                  v-show="email !== ''"
+                />
+                <input type="email" id="email" v-model="email" autocomplete="false" />
+              </div>
+              <div
+                class="error is-flex is-justify-content-flex-end mt-2"
+                v-show="emailError !== ''"
+              >
+                {{ emailError }}
+              </div>
+            </div>
+            <div class="register-card text-center">
+              <div class="register-title blue">Informações Adicionais /////////////</div>
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="fullName" :class="{ 'error-label': fullNameError !== '' }"
+                  >Nome completo:</label
+                >
+                <input type="text" id="fullName" v-model="fullName" />
+              </div>
+              <div
+                class="error is-flex is-justify-content-flex-end mt-2"
+                v-show="fullNameError !== ''"
+              >
+                {{ fullNameError }}
+              </div>
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="gender">Gênero:</label>
+                <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                  <label for="maleGender">
+                    <input
+                      type="radio"
+                      id="maleGender"
+                      name="gender"
+                      value="male"
+                      v-model="selectedGender"
+                    />
+                    Masculino
                   </label>
-                  <div class="error text-center mt-10" v-show="tosError !== ''">
-                    {{ tosError }}
-                  </div>
+                  <label for="femaleGender" class="ml-2">
+                    <input
+                      type="radio"
+                      id="femaleGender"
+                      name="gender"
+                      value="female"
+                      v-model="selectedGender"
+                    />
+                    Feminino
+                  </label>
                 </div>
-                <button class="register-button mt-10">Continuar registro</button>
               </div>
-            </form>
-          </div>
+              <div class="has-text-centered mt-2">
+                <label for="tos" class="has-text-weight-normal">
+                  <input type="checkbox" id="tos" v-model="tos" />
+                  Li e concordo com os
+                  <RouterLink to="/tos" class="has-text-weight-bold">Termos de Uso</RouterLink> do
+                  jogo.
+                </label>
+                <div class="error has-text-centered mt-2" v-show="tosError !== ''">
+                  {{ tosError }}
+                </div>
+              </div>
+              <div class="has-text-centered">
+                <button class="register-button mt-2">Continuar registro</button>
+              </div>
+            </div>
+          </form>
         </div>
+        <!-- <h1 v-for="index in 100" :key="index">Lista</h1> -->
       </div>
-      <div class="flex flex-column footer-flex">
-        <div class="footer" :style="{ backgroundImage: `url(${images.layoutFooterImage})` }"></div>
-        <p class="flex justify-end">
-          <RouterLink to="/pp">Politica de Privacidade</RouterLink>&nbsp;|&nbsp;
-          <RouterLink to="/tos">Termos de Uso</RouterLink>
-        </p>
-      </div>
+    </div>
+    <div class="footer-flex">
+      <div
+        class="register-footer"
+        :style="{ backgroundImage: `url(${images.layoutFooterImage})` }"
+      ></div>
+      <p class="is-flex is-justify-content-end">
+        <RouterLink to="/pp">Politica de Privacidade</RouterLink>&nbsp;|&nbsp;
+        <RouterLink to="/tos">Termos de Uso</RouterLink>
+      </p>
     </div>
   </div>
 </template>
@@ -264,12 +279,15 @@ function clearValidateRegister(): void {
 <style scoped>
 .bg {
   background-position: top center;
-  background-repeat: repeat, no-repeat;
-  height: 100vh;
-  min-height: 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
 }
 
-.container {
+.register-container {
   background-repeat: repeat-y;
   margin: 0 auto;
   width: 743px;
@@ -282,7 +300,7 @@ function clearValidateRegister(): void {
   background-repeat: no-repeat;
 }
 
-.container-register {
+.register-padding {
   padding: 8px 15px;
 }
 
@@ -298,7 +316,7 @@ form {
   width: 353px;
 }
 
-.card {
+.register-card {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
   float: left;
   padding: 20px;
@@ -309,7 +327,7 @@ form {
   color: #666;
 }
 
-.title {
+.register-title {
   font-size: 16px;
   font-family: 'lithos_pro_regular';
   text-transform: uppercase;
@@ -368,10 +386,9 @@ input {
 .footer-flex {
   width: 939px;
   margin: 0 auto;
-  height: 157px;
 }
 
-.footer {
+.register-footer {
   width: 939px;
   height: 160px;
   background-position: top center;
