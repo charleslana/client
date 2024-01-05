@@ -89,7 +89,7 @@
                 <button
                   class="login-new-password"
                   :style="{ backgroundImage: `url(${images.homeNewPasswordButtonImage})` }"
-                  @click="$router.push({ name: 'new-password' })"
+                  @click="$router.push({ name: 'forgot-password' })"
                 ></button>
               </div>
               <div

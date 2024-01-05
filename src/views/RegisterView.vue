@@ -1,151 +1,142 @@
 <template>
-  <div
-    class="bg"
-    :style="{
-      backgroundImage: `url(${images.layoutBgGrainImage}), url(${images.layoutBgCharacterImage}), linear-gradient(
-          180deg,
-          rgba(15, 23, 42, 1) 0%,
-          rgba(30, 41, 59, 1) 35%,
-          rgba(51, 65, 85, 1) 100%
-        )`
-    }"
-  >
-    <div
-      class="register-container"
-      :style="{ backgroundImage: `url(${images.layoutBgContentImage})` }"
-    >
-      <div
-        class="container-top"
-        :style="{ backgroundImage: `url(${images.layoutContentTopImage})` }"
-      ></div>
-      <div class="register-padding">
-        <div class="register" :style="{ backgroundImage: `url(${images.layoutRegisterImage})` }">
-          <form @submit.prevent="register">
-            <div class="register-card">
-              <div class="register-title">Informações de Login /////////////////</div>
-              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                <label for="user" :class="{ 'error-label': userError !== '' }">Usuário:</label>
-                <img
-                  :src="existUser ? images.layoutIconErrorImage : images.layoutIconOkImage"
-                  alt="error icon image"
-                  v-show="user !== ''"
-                />
-                <input type="text" id="user" v-model="user" />
-              </div>
-              <div class="error is-flex is-justify-content-flex-end mt-2" v-show="userError !== ''">
-                {{ userError }}
-              </div>
-              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                <label for="password" :class="{ 'error-label': passwordError !== '' }"
-                  >Senha:</label
-                >
-                <input type="password" id="password" v-model="password" />
-              </div>
-              <div
-                class="error is-flex is-justify-content-flex-end mt-2"
-                v-show="passwordError !== ''"
-              >
-                {{ passwordError }}
-              </div>
-              <div class="is-flex is-justify-content-space-between mt-2">
-                <span>{{ passwordStrengthText }}</span>
-                <div class="bar">
-                  <div
-                    class="fill"
-                    :style="{ width: passwordStrength + '%', backgroundColor: progressBarColor }"
-                  ></div>
-                </div>
-              </div>
-              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                <label for="email" :class="{ 'error-label': emailError !== '' }">E-mail:</label>
-                <img
-                  :src="existEmail ? images.layoutIconErrorImage : images.layoutIconOkImage"
-                  alt="error icon image"
-                  v-show="email !== ''"
-                />
-                <input type="email" id="email" v-model="email" autocomplete="false" />
-              </div>
-              <div
-                class="error is-flex is-justify-content-flex-end mt-2"
-                v-show="emailError !== ''"
-              >
-                {{ emailError }}
-              </div>
-            </div>
-            <div class="register-card text-center">
-              <div class="register-title blue">Informações Adicionais /////////////</div>
-              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                <label for="fullName" :class="{ 'error-label': fullNameError !== '' }"
-                  >Nome completo:</label
-                >
-                <input type="text" id="fullName" v-model="fullName" />
-              </div>
-              <div
-                class="error is-flex is-justify-content-flex-end mt-2"
-                v-show="fullNameError !== ''"
-              >
-                {{ fullNameError }}
-              </div>
-              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                <label for="gender">Gênero:</label>
-                <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
-                  <label for="maleGender">
-                    <input
-                      type="radio"
-                      id="maleGender"
-                      name="gender"
-                      value="male"
-                      v-model="selectedGender"
-                    />
-                    Masculino
-                  </label>
-                  <label for="femaleGender" class="ml-2">
-                    <input
-                      type="radio"
-                      id="femaleGender"
-                      name="gender"
-                      value="female"
-                      v-model="selectedGender"
-                    />
-                    Feminino
-                  </label>
-                </div>
-              </div>
-              <div class="has-text-centered mt-2">
-                <label for="tos" class="has-text-weight-normal">
-                  <input type="checkbox" id="tos" v-model="tos" />
-                  Li e concordo com os
-                  <RouterLink to="/tos" class="has-text-weight-bold">Termos de Uso</RouterLink> do
-                  jogo.
-                </label>
-                <div class="error has-text-centered mt-2" v-show="tosError !== ''">
-                  {{ tosError }}
-                </div>
-              </div>
-              <div class="has-text-centered">
-                <button class="register-button mt-2">Continuar registro</button>
-              </div>
-            </div>
-          </form>
+  <ContainerHomeComponent>
+    <template v-slot:content>
+      <div v-if="success">
+        <div
+          class="details-info"
+          :style="{ backgroundImage: `url(${images.layoutDetailsInfoImage})` }"
+        >
+          <div
+            class="register-info"
+            :style="{ backgroundImage: `url(${images.layoutRegisterInfoImage})` }"
+          ></div>
+          <div class="register-message">
+            <h3>Registrar</h3>
+            <RouterLink to="/" class="link">
+              Seu cadastro foi realizado no <b>{{ projectName }}</b
+              >. Entre agora e crie seu personagem.
+            </RouterLink>
+          </div>
         </div>
-        <!-- <h1 v-for="index in 100" :key="index">Lista</h1> -->
       </div>
-    </div>
-    <div class="footer-flex">
       <div
-        class="register-footer"
-        :style="{ backgroundImage: `url(${images.layoutFooterImage})` }"
-      ></div>
-      <p class="is-flex is-justify-content-end">
-        <RouterLink to="/pp">Politica de Privacidade</RouterLink>&nbsp;|&nbsp;
-        <RouterLink to="/tos">Termos de Uso</RouterLink>
-      </p>
-    </div>
-  </div>
+        v-else
+        class="register"
+        :style="{ backgroundImage: `url(${images.layoutRegisterImage})` }"
+      >
+        <form @submit.prevent="register">
+          <div class="register-card">
+            <div class="register-title">Informações de Login /////////////////</div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+              <label for="user" :class="{ 'error-label': userError !== '' }">Usuário:</label>
+              <img
+                :src="existUser ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                alt="error icon image"
+                v-show="user !== ''"
+              />
+              <input type="text" id="user" v-model="user" />
+            </div>
+            <div class="error is-flex is-justify-content-flex-end mt-2" v-show="userError !== ''">
+              {{ userError }}
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+              <label for="password" :class="{ 'error-label': passwordError !== '' }">Senha:</label>
+              <input type="password" id="password" v-model="password" />
+            </div>
+            <div
+              class="error is-flex is-justify-content-flex-end mt-2"
+              v-show="passwordError !== ''"
+            >
+              {{ passwordError }}
+            </div>
+            <div class="is-flex is-justify-content-space-between mt-2">
+              <span>{{ passwordStrengthText }}</span>
+              <div class="bar">
+                <div
+                  class="fill"
+                  :style="{ width: passwordStrength + '%', backgroundColor: progressBarColor }"
+                ></div>
+              </div>
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+              <label for="email" :class="{ 'error-label': emailError !== '' }">E-mail:</label>
+              <img
+                :src="existEmail ? images.layoutIconErrorImage : images.layoutIconOkImage"
+                alt="error icon image"
+                v-show="email !== ''"
+              />
+              <input type="email" id="email" v-model="email" autocomplete="false" />
+            </div>
+            <div class="error is-flex is-justify-content-flex-end mt-2" v-show="emailError !== ''">
+              {{ emailError }}
+            </div>
+          </div>
+          <div class="register-card text-center">
+            <div class="register-title blue">Informações Adicionais /////////////</div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+              <label for="fullName" :class="{ 'error-label': fullNameError !== '' }"
+                >Nome completo:</label
+              >
+              <input type="text" id="fullName" v-model="fullName" />
+            </div>
+            <div
+              class="error is-flex is-justify-content-flex-end mt-2"
+              v-show="fullNameError !== ''"
+            >
+              {{ fullNameError }}
+            </div>
+            <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+              <label for="gender">Gênero:</label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center mt-2">
+                <label for="maleGender">
+                  <input
+                    type="radio"
+                    id="maleGender"
+                    name="gender"
+                    value="male"
+                    v-model="selectedGender"
+                  />
+                  Masculino
+                </label>
+                <label for="femaleGender" class="ml-2">
+                  <input
+                    type="radio"
+                    id="femaleGender"
+                    name="gender"
+                    value="female"
+                    v-model="selectedGender"
+                  />
+                  Feminino
+                </label>
+              </div>
+            </div>
+            <div class="has-text-centered mt-2">
+              <label for="tos" class="has-text-weight-normal">
+                <input type="checkbox" id="tos" v-model="tos" />
+                Li e concordo com os
+                <RouterLink to="/tos" class="has-text-weight-bold">Termos de Uso</RouterLink> do
+                jogo.
+              </label>
+              <div class="error has-text-centered mt-2" v-show="tosError !== ''">
+                {{ tosError }}
+              </div>
+            </div>
+            <div class="has-text-centered">
+              <p v-if="loading" class="mt-2">Validando...</p>
+              <button v-else class="register-button mt-2">Continuar registro</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- <h1 v-for="index in 100" :key="index">Lista</h1> -->
+    </template>
+  </ContainerHomeComponent>
 </template>
 
 <script setup lang="ts">
+import ContainerHomeComponent from '@/components/ContainerHomeComponent.vue';
 import images from '@/data/imageData';
+import { projectName } from '@/utils/const';
 import { computed, ref, watch } from 'vue';
 
 const user = ref('');
@@ -162,6 +153,8 @@ const fullNameError = ref('');
 const selectedGender = ref<'male' | 'female'>('male');
 const tos = ref(false);
 const tosError = ref('');
+const loading = ref(false);
+const success = ref(false);
 
 const passwordStrength = computed(() => {
   return calculatePasswordStrength(password.value);
@@ -235,7 +228,11 @@ function register(): void {
   if (validateRegister()) {
     return;
   }
-  alert('register');
+  loading.value = true;
+  setTimeout(() => {
+    loading.value = false;
+    success.value = true;
+  }, 2000);
 }
 
 function validateRegister(): boolean {
@@ -277,33 +274,6 @@ function clearValidateRegister(): void {
 </script>
 
 <style scoped>
-.bg {
-  background-position: top center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  position: relative;
-}
-
-.register-container {
-  background-repeat: repeat-y;
-  margin: 0 auto;
-  width: 743px;
-  position: relative;
-}
-
-.container-top {
-  width: 743px;
-  height: 56px;
-  background-repeat: no-repeat;
-}
-
-.register-padding {
-  padding: 8px 15px;
-}
-
 .register {
   width: 716px;
   height: auto;
@@ -383,30 +353,6 @@ input {
   );
 }
 
-.footer-flex {
-  width: 939px;
-  margin: 0 auto;
-}
-
-.register-footer {
-  width: 939px;
-  height: 160px;
-  background-position: top center;
-  background-repeat: no-repeat;
-  margin: 0 auto;
-}
-
-.footer-flex p {
-  color: #a1a1a1;
-  font-size: 11px;
-  margin: 10px 25px 0 0;
-}
-
-.footer-flex a {
-  text-decoration: underline;
-  color: white;
-}
-
 .error {
   font-size: 9px;
   color: #ff0000;
@@ -415,5 +361,42 @@ input {
 
 .error-label {
   color: #ff0000;
+}
+
+.details-info {
+  width: 686px;
+  height: 172px;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.register-info {
+  width: 149px;
+  height: 163px;
+  position: absolute;
+}
+
+.register-message {
+  position: absolute;
+  width: 410px;
+  right: 60px;
+  bottom: 19px;
+  height: 70px;
+}
+
+h3 {
+  color: #ff9900;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link {
+  color: #ff9900;
+  font-size: 11px !important;
+}
+
+.link:hover {
+  color: #ff9900;
+  text-decoration: underline;
 }
 </style>

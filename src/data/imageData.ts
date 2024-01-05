@@ -21,10 +21,13 @@ import layoutBgCharacterImage from '@/assets/images/layout/bg-character.png';
 import layoutBgGrainImage from '@/assets/images/layout/bg-grain.png';
 import layoutBgContentImage from '@/assets/images/layout/content-bg.png';
 import layoutContentTopImage from '@/assets/images/layout/content-top.png';
+import layoutContentBottomImage from '@/assets/images/layout/content-bottom.png';
 import layoutRegisterImage from '@/assets/images/layout/register.jpg';
 import layoutFooterImage from '@/assets/images/layout/footer.png';
 import layoutIconErrorImage from '@/assets/images/icon/error.png';
 import layoutIconOkImage from '@/assets/images/icon/ok.png';
+import layoutDetailsInfoImage from '@/assets/images/layout/details-info.png';
+import layoutRegisterInfoImage from '@/assets/images/layout/register-info.png';
 
 const images = {
   homeCloudsImage,
@@ -50,10 +53,13 @@ const images = {
   layoutBgGrainImage,
   layoutBgContentImage,
   layoutContentTopImage,
+  layoutContentBottomImage,
   layoutRegisterImage,
   layoutFooterImage,
   layoutIconErrorImage,
-  layoutIconOkImage
+  layoutIconOkImage,
+  layoutDetailsInfoImage,
+  layoutRegisterInfoImage
 };
 
 export default images;

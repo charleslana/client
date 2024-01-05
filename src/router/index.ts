@@ -1,3 +1,4 @@
+import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import HomeView from '@/views/HomeView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -16,6 +17,12 @@ const router = createRouter({
       name: 'register',
       component: RegisterView,
       meta: { title: 'One Piece RPG - Cadastre-se' }
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: ForgotPasswordView,
+      meta: { title: 'One Piece RPG - Recuperar senha' }
     },
     {
       path: '/model',
