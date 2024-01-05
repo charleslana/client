@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="has-text-centered">
-              <p v-if="loading" class="mt-2">Validando...</p>
+              <p v-if="loading" class="mt-2 has-text-weight-bold">Validando...</p>
               <button v-else class="register-button mt-2">Continuar registro</button>
             </div>
           </div>

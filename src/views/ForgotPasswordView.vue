@@ -16,7 +16,7 @@
               <input type="email" id="email" v-model="email" autocomplete="false" />
             </div>
           </div>
-          <p v-if="loading">Validando...</p>
+          <p v-if="loading" class="has-text-weight-bold">Validando...</p>
           <button v-else class="forgot-button">Enviar Senha</button>
         </form>
       </div>
