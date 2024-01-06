@@ -3,12 +3,15 @@
     <div class="container">
       <!-- <h1 v-for="index in 10" :key="index">Lista</h1> -->
       <!-- <div class="is-flex is-justify-content-space-between mt-5"> -->
-      <div class="columns mt-5">
+      <figure class="welcome-image image">
+        <img :src="displayedImage" alt="welcome image" />
+      </figure>
+      <div class="columns mt-5 is-relative">
         <div class="column">
           <transition name="fade" mode="out-in">
             <div class="position" key="1" v-if="showCrews">
               <figure>
-                <img src="../assets/images/home/ranking-crew.png" alt="ranking crew image" />
+                <img :src="images.homeRankingCrewImage" alt="ranking crew image" />
               </figure>
               <div
                 v-for="(crew, index) in rankingCrewList"
@@ -29,7 +32,7 @@
             </div>
             <div class="position" key="2" v-else>
               <figure>
-                <img src="../assets/images/home/ranking-player.png" alt="ranking player image" />
+                <img :src="images.homeRankingPlayerImage" alt="ranking player image" />
               </figure>
               <div
                 v-for="(player, index) in rankingPlayerList"
@@ -61,7 +64,7 @@
               <div
                 class="login-box"
                 :style="{ backgroundImage: `url(${images.homeLoginBoxImage})` }"
-                v-if="!loading"
+                v-if="!loading && !logged"
               >
                 <form @submit.prevent="login">
                   <input
@@ -92,6 +95,7 @@
                   @click="$router.push({ name: 'forgot-password' })"
                 ></button>
               </div>
+              <HomeLoggedComponent v-if="logged" />
               <div
                 class="bg-login-box"
                 :style="{ backgroundImage: `url(${images.homeBgLoginBoxImage})` }"
@@ -112,9 +116,9 @@
       </div>
     </div>
     <div class="footer" :style="{ backgroundImage: `url(${images.homePatternMarImage})` }"></div>
-    <figure class="welcome-image image">
+    <!-- <figure class="welcome-image image">
       <img :src="displayedImage" alt="welcome image" />
-    </figure>
+    </figure> -->
   </div>
 </template>
 
@@ -127,6 +131,7 @@ import type {
 } from '@/interface/IHomeRanking';
 import { computed, ref } from 'vue';
 import { formatNumber } from '@/utils/utils';
+import HomeLoggedComponent from '@/components/HomeLoggedComponent.vue';
 
 const imagesArray: string[] = [
   images.homeCaesarClownImage,
@@ -168,6 +173,7 @@ const loading = ref(false);
 const loadingKey = ref(0);
 const userName = ref('');
 const userPassword = ref('');
+const logged = ref(true);
 
 const displayedImage = computed(() => {
   const randomIndex = Math.floor(Math.random() * imagesArray.length);

@@ -28,6 +28,8 @@ import layoutIconErrorImage from '@/assets/images/icon/error.png';
 import layoutIconOkImage from '@/assets/images/icon/ok.png';
 import layoutDetailsInfoImage from '@/assets/images/layout/details-info.png';
 import layoutRegisterInfoImage from '@/assets/images/layout/register-info.png';
+import layoutManageAccountBoxImage from '@/assets/images/layout/manage-account-box.png';
+import layoutCreateCharacterImage from '@/assets/images/layout/create-character.png';
 
 const images = {
   homeCloudsImage,
@@ -59,7 +61,9 @@ const images = {
   layoutIconErrorImage,
   layoutIconOkImage,
   layoutDetailsInfoImage,
-  layoutRegisterInfoImage
+  layoutRegisterInfoImage,
+  layoutManageAccountBoxImage,
+  layoutCreateCharacterImage
 };
 
 export default images;
