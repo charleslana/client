@@ -30,6 +30,14 @@ import layoutDetailsInfoImage from '@/assets/images/layout/details-info.png';
 import layoutRegisterInfoImage from '@/assets/images/layout/register-info.png';
 import layoutManageAccountBoxImage from '@/assets/images/layout/manage-account-box.png';
 import layoutCreateCharacterImage from '@/assets/images/layout/create-character.png';
+import layoutManageAccountBoxLargeImage from '@/assets/images/layout/manage-account-box-large.png';
+import layoutRedButtonImage from '@/assets/images/layout/red-button.png';
+import layoutDragonSelectedImage from '@/assets/images/layout/dragon-selected.png';
+import layoutDragonUnselectedImage from '@/assets/images/layout/dragon-unselected.png';
+import layoutAkainuSelectedImage from '@/assets/images/layout/akainu-selected.png';
+import layoutAkainuUnselectedImage from '@/assets/images/layout/akainu-unselected.png';
+import layoutLuffySelectedImage from '@/assets/images/layout/luffy-selected.png';
+import layoutLuffyUnselectedImage from '@/assets/images/layout/luffy-unselected.png';
 
 const images = {
   homeCloudsImage,
@@ -63,7 +71,15 @@ const images = {
   layoutDetailsInfoImage,
   layoutRegisterInfoImage,
   layoutManageAccountBoxImage,
-  layoutCreateCharacterImage
+  layoutCreateCharacterImage,
+  layoutManageAccountBoxLargeImage,
+  layoutRedButtonImage,
+  layoutDragonSelectedImage,
+  layoutDragonUnselectedImage,
+  layoutAkainuSelectedImage,
+  layoutAkainuUnselectedImage,
+  layoutLuffySelectedImage,
+  layoutLuffyUnselectedImage
 };
 
 export default images;
