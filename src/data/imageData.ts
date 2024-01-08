@@ -39,9 +39,24 @@ import layoutAkainuSelectedImage from '@/assets/images/layout/akainu-selected.pn
 import layoutAkainuUnselectedImage from '@/assets/images/layout/akainu-unselected.png';
 import layoutLuffySelectedImage from '@/assets/images/layout/luffy-selected.png';
 import layoutLuffyUnselectedImage from '@/assets/images/layout/luffy-unselected.png';
-import avatarHannyabalMiniImage from '@/assets/images/avatar/Hannyabal/1-mini.png';
-import avatarHannyabalStatusImage from '@/assets/images/avatar/Hannyabal/1-status.png';
-import avatarHannyabalBattleImage from '@/assets/images/avatar/Hannyabal/1-battle.png';
+import avatarHannyabalMini1Image from '@/assets/images/avatar/Hannyabal/1-mini.png';
+import avatarHannyabalStatus1Image from '@/assets/images/avatar/Hannyabal/1-status.png';
+import avatarHannyabalBattle1Image from '@/assets/images/avatar/Hannyabal/1-battle.png';
+import avatarHannyabalMini2Image from '@/assets/images/avatar/Hannyabal/2-mini.png';
+import avatarHannyabalStatus2Image from '@/assets/images/avatar/Hannyabal/2-status.png';
+import avatarHannyabalBattle2Image from '@/assets/images/avatar/Hannyabal/2-battle.png';
+import avatarAokijiMini1Image from '@/assets/images/avatar/Aokiji/1-mini.png';
+import avatarAokijiStatus1Image from '@/assets/images/avatar/Aokiji/1-status.png';
+import avatarAokijiBattle1Image from '@/assets/images/avatar/Aokiji/1-battle.png';
+import avatarBennBeckmanMini1Image from '@/assets/images/avatar/Benn-Beckman/1-mini.png';
+import avatarBennBeckmanStatus1Image from '@/assets/images/avatar/Benn-Beckman/1-status.png';
+import avatarBennBeckmanBattle1Image from '@/assets/images/avatar/Benn-Beckman/1-battle.png';
+import avatarCharlottePerosperoMini1Image from '@/assets/images/avatar/Charlotte-Perospero/1-mini.png';
+import avatarCharlottePerosperoStatus1Image from '@/assets/images/avatar/Charlotte-Perospero/1-status.png';
+import avatarCharlottePerosperoBattle1Image from '@/assets/images/avatar/Charlotte-Perospero/1-battle.png';
+import avatarZephyrMini1Image from '@/assets/images/avatar/Zephyr/1-mini.png';
+import avatarZephyrStatus1Image from '@/assets/images/avatar/Zephyr/1-status.png';
+import avatarZephyrBattle1Image from '@/assets/images/avatar/Zephyr/1-battle.png';
 
 const images = {
   homeCloudsImage,
@@ -85,9 +100,24 @@ const images = {
   layoutAkainuUnselectedImage,
   layoutLuffySelectedImage,
   layoutLuffyUnselectedImage,
-  avatarHannyabalMiniImage,
-  avatarHannyabalStatusImage,
-  avatarHannyabalBattleImage
+  avatarHannyabalMini1Image,
+  avatarHannyabalStatus1Image,
+  avatarHannyabalBattle1Image,
+  avatarHannyabalMini2Image,
+  avatarHannyabalStatus2Image,
+  avatarHannyabalBattle2Image,
+  avatarAokijiMini1Image,
+  avatarAokijiStatus1Image,
+  avatarAokijiBattle1Image,
+  avatarBennBeckmanMini1Image,
+  avatarBennBeckmanStatus1Image,
+  avatarBennBeckmanBattle1Image,
+  avatarCharlottePerosperoMini1Image,
+  avatarCharlottePerosperoStatus1Image,
+  avatarCharlottePerosperoBattle1Image,
+  avatarZephyrMini1Image,
+  avatarZephyrStatus1Image,
+  avatarZephyrBattle1Image
 };
 
 export default images;
