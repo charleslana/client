@@ -15,10 +15,10 @@ import { onMounted, onUnmounted, ref } from 'vue';
 const showNotification = ref(false);
 
 const checkDevice = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const isTabletOrMobile = width < 768 || height < 500;
-  showNotification.value = isTabletOrMobile;
+  // const width = window.innerWidth;
+  // const height = window.innerHeight;
+  // const isTabletOrMobile = width < 768 || height < 500;
+  // showNotification.value = isTabletOrMobile;
 };
 
 onMounted(() => {

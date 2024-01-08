@@ -4,16 +4,18 @@
     class="manage-account-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxImage})` }"
   >
-    <div class="columns is-multiline">
+    <div class="columns is-multiline is-flex">
       <div
         class="column character-box is-flex is-align-items-center"
         v-for="index in 12"
         :key="index"
-        @click="goToStep(2)"
+        @click="index <= 6 ? goToStep(2) : null"
       >
         <img
           class="create-character"
-          :src="images.layoutCreateCharacterImage"
+          :src="
+            index <= 6 ? images.layoutCreateCharacterImage : images.layoutCreateCharacterVipImage
+          "
           alt="create character image"
         />
       </div>
@@ -24,7 +26,7 @@
     class="manage-account-large-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
   >
-    <h2 class="faction mb-2">Escolha sua facção</h2>
+    <h2 class="title-box mb-2">Escolha sua facção</h2>
     <div>
       <img
         class="faction-image"
@@ -36,7 +38,7 @@
         alt="pirate faction image"
         @mouseover="factionSelected = 'pirate'"
         @mouseleave="factionSelected = null"
-        @click="faction = 'pirate'"
+        @click="chooseFaction('pirate')"
       />
       <img
         class="faction-image"
@@ -48,7 +50,7 @@
         alt="marine faction image"
         @mouseover="factionSelected = 'marine'"
         @mouseleave="factionSelected = null"
-        @click="faction = 'marine'"
+        @click="chooseFaction('marine')"
       />
       <img
         class="faction-image"
@@ -60,28 +62,231 @@
         alt="revolutionary faction image"
         @mouseover="factionSelected = 'revolutionary'"
         @mouseleave="factionSelected = null"
-        @click="faction = 'revolutionary'"
+        @click="chooseFaction('revolutionary')"
       />
     </div>
     <div class="has-text-centered mt-5">
-      <button
-        class="cancel-button"
-        :style="{ backgroundImage: `url(${images.layoutRedButtonImage})` }"
-        @click="goToStep(1)"
-      >
-        Cancelar
-      </button>
+      <RedButtonComponent text="Cancelar" :func="() => goToStep(1)" />
+    </div>
+  </div>
+  <div
+    v-if="step === 3"
+    class="manage-account-large-bg"
+    :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
+  >
+    <h2 class="title-box mb-2">Escolha seu avatar</h2>
+    <div class="avatar-box has-text-centered">
+      <img
+        v-for="avatar in avatars"
+        :key="avatar.id"
+        @click="goToStep(4)"
+        class="avatar-image"
+        :src="getAvatarImageMini(avatar.id)"
+        alt="avatar image"
+      />
+    </div>
+    <div class="has-text-centered">
+      <RedButtonComponent text="Cancelar" :func="() => goToStep(2)" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import images from '@/data/imageData';
+import type { IAvatar } from '@/interface/IAvatar';
 import { ref } from 'vue';
+import { getAvatarImageMini } from '@/utils/avatar-utils';
+import RedButtonComponent from './RedButtonComponent.vue';
 
-const step = ref(2);
+const step = ref(3);
 const factionSelected = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
 const faction = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
+const avatars = ref<IAvatar[]>([
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' },
+  { id: 1, name: 'Hannyabal' }
+]);
 
 function goToStep(number: number): void {
   switch (number) {
@@ -92,9 +297,20 @@ function goToStep(number: number): void {
     case 2:
       step.value = 2;
       break;
+    case 3:
+      step.value = 3;
+      break;
+    case 4:
+      step.value = 4;
+      break;
     default:
       break;
   }
+}
+
+function chooseFaction(selectFaction: 'pirate' | 'marine' | 'revolutionary'): void {
+  faction.value = selectFaction;
+  goToStep(3);
 }
 </script>
 
@@ -103,6 +319,7 @@ function goToStep(number: number): void {
   width: 418px;
   height: 672px;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .character-box {
@@ -133,7 +350,7 @@ function goToStep(number: number): void {
   padding: 20px 15px;
 }
 
-.faction {
+.title-box {
   font-family: yanone_kaffeesatzregular;
   font-size: 32px;
   color: #928470;
@@ -144,8 +361,7 @@ function goToStep(number: number): void {
 }
 
 .faction-image {
-  width: 114px;
-  height: 355px;
+  height: 361px;
   max-width: none;
   padding: 3px;
   cursor: pointer;
@@ -157,17 +373,28 @@ function goToStep(number: number): void {
   box-shadow: 5px 5px 10px #ccc;
 }
 
-.cancel-button {
-  padding: 5px;
-  font-family: yanone_kaffeesatzregular;
-  font-size: 22px;
-  color: #fff;
-  text-transform: uppercase;
-  text-shadow: 0px 2px #111;
-  width: 105px;
-  text-align: center;
-  background-repeat: no-repeat;
-  border: none;
+.avatar-box {
+  height: 530px;
+  overflow-y: auto;
+  margin-bottom: 7px;
+}
+
+.avatar-image {
+  padding: 3px;
+  opacity: 0.5;
   cursor: pointer;
+  border-radius: 2px;
+  border: 2px solid #dedede;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  width: 70px;
+  height: 70px;
+  vertical-align: top;
+}
+
+.avatar-image:hover {
+  background: #c9b695;
+  border-radius: 2px;
+  box-shadow: 5px 5px 10px #ccc;
+  opacity: 1;
 }
 </style>

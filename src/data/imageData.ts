@@ -30,6 +30,7 @@ import layoutDetailsInfoImage from '@/assets/images/layout/details-info.png';
 import layoutRegisterInfoImage from '@/assets/images/layout/register-info.png';
 import layoutManageAccountBoxImage from '@/assets/images/layout/manage-account-box.png';
 import layoutCreateCharacterImage from '@/assets/images/layout/create-character.png';
+import layoutCreateCharacterVipImage from '@/assets/images/layout/create-character-vip.png';
 import layoutManageAccountBoxLargeImage from '@/assets/images/layout/manage-account-box-large.png';
 import layoutRedButtonImage from '@/assets/images/layout/red-button.png';
 import layoutDragonSelectedImage from '@/assets/images/layout/dragon-selected.png';
@@ -38,6 +39,9 @@ import layoutAkainuSelectedImage from '@/assets/images/layout/akainu-selected.pn
 import layoutAkainuUnselectedImage from '@/assets/images/layout/akainu-unselected.png';
 import layoutLuffySelectedImage from '@/assets/images/layout/luffy-selected.png';
 import layoutLuffyUnselectedImage from '@/assets/images/layout/luffy-unselected.png';
+import avatarHannyabalMiniImage from '@/assets/images/avatar/Hannyabal/1-mini.png';
+import avatarHannyabalStatusImage from '@/assets/images/avatar/Hannyabal/1-status.png';
+import avatarHannyabalBattleImage from '@/assets/images/avatar/Hannyabal/1-battle.png';
 
 const images = {
   homeCloudsImage,
@@ -72,6 +76,7 @@ const images = {
   layoutRegisterInfoImage,
   layoutManageAccountBoxImage,
   layoutCreateCharacterImage,
+  layoutCreateCharacterVipImage,
   layoutManageAccountBoxLargeImage,
   layoutRedButtonImage,
   layoutDragonSelectedImage,
@@ -79,7 +84,10 @@ const images = {
   layoutAkainuSelectedImage,
   layoutAkainuUnselectedImage,
   layoutLuffySelectedImage,
-  layoutLuffyUnselectedImage
+  layoutLuffyUnselectedImage,
+  avatarHannyabalMiniImage,
+  avatarHannyabalStatusImage,
+  avatarHannyabalBattleImage
 };
 
 export default images;
