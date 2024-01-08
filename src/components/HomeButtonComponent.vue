@@ -1,16 +1,16 @@
 <template>
   <button
-    class="red-button"
-    :style="{ backgroundImage: `url(${images.layoutRedButtonImage})` }"
+    class="home-button"
+    :style="{ backgroundImage: `url(${getColorImage()})` }"
     @click="handleClick"
   >
-    Cancelar
+    {{ text }}
   </button>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import images from '@/data/imageData';
+import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
 
 const props = defineProps({
   text: {
@@ -20,8 +20,16 @@ const props = defineProps({
   func: {
     type: Function as (arg?: any) => any,
     required: true
+  },
+  color: {
+    type: String as () => ButtonColorEnum,
+    default: ButtonColorEnum.Green
   }
 });
+
+const getColorImage = () => {
+  return props.color === 'green' ? images.layoutGreenButtonImage : images.layoutRedButtonImage;
+};
 
 const handleClick = () => {
   if (props.func) {
@@ -31,7 +39,7 @@ const handleClick = () => {
 </script>
 
 <style scoped>
-.red-button {
+.home-button {
   padding: 5px;
   font-family: yanone_kaffeesatzregular;
   font-size: 22px;

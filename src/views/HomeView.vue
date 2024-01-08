@@ -61,6 +61,9 @@
               <RouterLink to="/register">
                 <img :src="images.homeRegisterImage" alt="register image" />
               </RouterLink>
+              <transition name="fade">
+                <div v-if="showAlert" class="custom-alert error">{{ errorMessage }}</div>
+              </transition>
               <div
                 class="login-box"
                 :style="{ backgroundImage: `url(${images.homeLoginBoxImage})` }"
@@ -95,7 +98,7 @@
                   @click="$router.push({ name: 'forgot-password' })"
                 ></button>
               </div>
-              <HomeLoggedComponent v-if="logged" />
+              <HomeLoggedComponent v-if="logged" @send-message="receiveMessageFromChild" />
               <div
                 class="bg-login-box"
                 :style="{ backgroundImage: `url(${images.homeBgLoginBoxImage})` }"
@@ -174,6 +177,9 @@ const loadingKey = ref(0);
 const userName = ref('');
 const userPassword = ref('');
 const logged = ref(true);
+const showAlert = ref(false);
+const errorMessage = ref('');
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
 const displayedImage = computed(() => {
   const randomIndex = Math.floor(Math.random() * imagesArray.length);
@@ -229,6 +235,17 @@ function login(): void {
     hideLoading();
   }, 2000);
 }
+
+const receiveMessageFromChild = (message: string) => {
+  errorMessage.value = message;
+  showAlert.value = true;
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+  timeoutId = setTimeout(() => {
+    showAlert.value = false;
+  }, 4000);
+};
 </script>
 
 <style scoped>
@@ -407,6 +424,7 @@ function login(): void {
 
 .register {
   margin-top: 20px;
+  position: relative;
 }
 
 .login-box {
@@ -483,5 +501,30 @@ function login(): void {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.custom-alert {
+  background-color: #fcf8e3;
+  border: 1px solid #fbeed5;
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 0 1px 1px 0 rgba(180, 180, 180, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 8px 35px 8px 14px;
+  position: absolute;
+  top: 5vh;
+  left: 35%;
+  transform: translateX(-50%);
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  max-width: 392px;
+  min-width: 200px;
+}
+
+.custom-alert.error {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
 }
 </style>

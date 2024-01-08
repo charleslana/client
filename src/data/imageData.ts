@@ -33,6 +33,7 @@ import layoutCreateCharacterImage from '@/assets/images/layout/create-character.
 import layoutCreateCharacterVipImage from '@/assets/images/layout/create-character-vip.png';
 import layoutManageAccountBoxLargeImage from '@/assets/images/layout/manage-account-box-large.png';
 import layoutRedButtonImage from '@/assets/images/layout/red-button.png';
+import layoutGreenButtonImage from '@/assets/images/layout/green-button.png';
 import layoutDragonSelectedImage from '@/assets/images/layout/dragon-selected.png';
 import layoutDragonUnselectedImage from '@/assets/images/layout/dragon-unselected.png';
 import layoutAkainuSelectedImage from '@/assets/images/layout/akainu-selected.png';
@@ -94,6 +95,7 @@ const images = {
   layoutCreateCharacterVipImage,
   layoutManageAccountBoxLargeImage,
   layoutRedButtonImage,
+  layoutGreenButtonImage,
   layoutDragonSelectedImage,
   layoutDragonUnselectedImage,
   layoutAkainuSelectedImage,

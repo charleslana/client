@@ -26,7 +26,7 @@
     class="manage-account-large-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
   >
-    <h2 class="title-box mb-2">Escolha sua facção</h2>
+    <h2 class="title-box has-text-centered mb-2">Escolha sua facção</h2>
     <div>
       <img
         class="faction-image"
@@ -66,7 +66,7 @@
       />
     </div>
     <div class="has-text-centered mt-5">
-      <RedButtonComponent text="Cancelar" :func="() => goToStep(1)" />
+      <HomeButtonComponent text="Cancelar" :color="ButtonColorEnum.Red" :func="() => goToStep(1)" />
     </div>
   </div>
   <div
@@ -74,7 +74,7 @@
     class="manage-account-large-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
   >
-    <h2 class="title-box mb-2">Escolha seu avatar</h2>
+    <h2 class="title-box has-text-centered mb-2">Escolha seu avatar</h2>
     <div class="avatar-box has-text-centered">
       <img
         v-for="avatar in avatars"
@@ -86,8 +86,50 @@
       />
     </div>
     <div class="has-text-centered">
-      <RedButtonComponent text="Cancelar" :func="() => goToStep(2)" />
+      <HomeButtonComponent text="Cancelar" :color="ButtonColorEnum.Red" :func="() => goToStep(2)" />
     </div>
+  </div>
+  <div
+    v-if="step === 4"
+    class="manage-account-large-bg"
+    :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
+  >
+    <h2 class="title-box mb-2">Preencha os dados</h2>
+    <form @submit.prevent="registerForm">
+      <h1 class="label mb-0">Nome do personagem</h1>
+      <input type="text" name="nome" class="input-text" v-model="characterName" />
+      <h1 class="label mt-5 mb-0">Mar</h1>
+      <select class="input-select" v-model="sea">
+        <option value="1" selected>North Blue</option>
+        <option value="2">East Blue</option>
+        <option value="3">South Blue</option>
+        <option value="4">West Blue</option>
+      </select>
+      <h1 class="label mt-5 mb-0">Raça</h1>
+      <select class="input-select" v-model="breed">
+        <option value="1">Humano</option>
+        <option value="2">Anão</option>
+        <option value="3">Gigante</option>
+        <option value="4">Tritão (VIP)</option>
+        <option value="5">Ciborgue (VIP)</option>
+      </select>
+      <h1 class="label mt-5 mb-0">Classe</h1>
+      <select class="input-select" v-model="_class">
+        <option value="1">Espadachim</option>
+        <option value="2">Atirador</option>
+        <option value="3">Lutador</option>
+      </select>
+      <div class="mt-5">
+        <HomeButtonComponent
+          text="Cancelar"
+          :color="ButtonColorEnum.Red"
+          :func="() => clearFormCharacter()"
+          class="mr-4"
+          type="button"
+        />
+        <HomeButtonComponent text="Criar" :func="() => {}" />
+      </div>
+    </form>
   </div>
 </template>
 
@@ -96,9 +138,10 @@ import images from '@/data/imageData';
 import type { IAvatar } from '@/interface/IAvatar';
 import { ref } from 'vue';
 import { getAvatarImageMini } from '@/utils/avatar-utils';
-import RedButtonComponent from './RedButtonComponent.vue';
+import HomeButtonComponent from './HomeButtonComponent.vue';
+import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
 
-const step = ref(3);
+const step = ref(4);
 const factionSelected = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
 const faction = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
 const avatars: IAvatar[] = Array(184).fill({ id: 1, name: 'Hannyabal', avatar: 1 });
@@ -107,6 +150,12 @@ avatars[2] = { id: 3, name: 'Benn-Beckman', avatar: 1 };
 avatars[3] = { id: 4, name: 'Zephyr', avatar: 1 };
 avatars[4] = { id: 5, name: 'Charlotte-Perospero', avatar: 1 };
 const avatar = ref<number | null>(null);
+const characterName = ref('');
+const sea = ref('1');
+const breed = ref('1');
+const _class = ref('1');
+
+const emit = defineEmits(['send-message']);
 
 function goToStep(number: number): void {
   switch (number) {
@@ -126,6 +175,7 @@ function goToStep(number: number): void {
     default:
       break;
   }
+  scrollToTop();
 }
 
 function chooseFaction(selectFaction: 'pirate' | 'marine' | 'revolutionary'): void {
@@ -136,6 +186,20 @@ function chooseFaction(selectFaction: 'pirate' | 'marine' | 'revolutionary'): vo
 function chooseAvatar(selectAvatar: number): void {
   avatar.value = selectAvatar;
   goToStep(4);
+}
+
+function clearFormCharacter(): void {
+  goToStep(3);
+}
+
+function registerForm(): void {
+  // alert(`${characterName.value} | ${sea.value} | ${breed.value} | ${_class.value}`);
+  emit('send-message', 'O nome escolhido já está em uso');
+  scrollToTop();
+}
+
+function scrollToTop(): void {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 
@@ -181,7 +245,6 @@ function chooseAvatar(selectAvatar: number): void {
   color: #928470;
   text-transform: uppercase;
   text-shadow: 0px 2px #b3a898;
-  text-align: center;
   font-weight: bold;
 }
 
@@ -221,5 +284,37 @@ function chooseAvatar(selectAvatar: number): void {
   border-radius: 2px;
   box-shadow: 5px 5px 10px #ccc;
   opacity: 1;
+}
+
+.label {
+  font-size: 18px;
+}
+
+.input-text {
+  background-color: #f2ebe0;
+  border-radius: 5px;
+  padding: 4px;
+  font-family: yanone_kaffeesatzregular;
+  width: 223px;
+  box-shadow: -1px 2px 5px #c1a985;
+  border-bottom: 1px solid #c1a985;
+  height: 38px;
+  border: none;
+  font-size: 22px;
+  color: #8d7a66;
+}
+
+.input-select {
+  background-color: #f2ebe0;
+  border-radius: 5px;
+  padding: 4px;
+  font-family: yanone_kaffeesatzregular;
+  width: 223px;
+  box-shadow: -1px 2px 5px #c1a985;
+  border-bottom: 1px solid #c1a985;
+  height: 38px;
+  border: none;
+  font-size: 22px;
+  color: #8d7a66;
 }
 </style>
