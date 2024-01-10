@@ -34,6 +34,10 @@ import layoutCreateCharacterVipImage from '@/assets/images/layout/create-charact
 import layoutManageAccountBoxLargeImage from '@/assets/images/layout/manage-account-box-large.png';
 import layoutRedButtonImage from '@/assets/images/layout/red-button.png';
 import layoutGreenButtonImage from '@/assets/images/layout/green-button.png';
+import layoutBlueButtonImage from '@/assets/images/layout/blue-button.png';
+import layoutCharacterSelectMarineImage from '@/assets/images/layout/character-select-marine.png';
+import layoutCharacterSelectPirateImage from '@/assets/images/layout/character-select-pirate.png';
+import layoutCharacterSelectRevolutionaryImage from '@/assets/images/layout/character-select-revolutionary.png';
 import layoutDragonSelectedImage from '@/assets/images/layout/dragon-selected.png';
 import layoutDragonUnselectedImage from '@/assets/images/layout/dragon-unselected.png';
 import layoutAkainuSelectedImage from '@/assets/images/layout/akainu-selected.png';
@@ -96,6 +100,10 @@ const images = {
   layoutManageAccountBoxLargeImage,
   layoutRedButtonImage,
   layoutGreenButtonImage,
+  layoutBlueButtonImage,
+  layoutCharacterSelectMarineImage,
+  layoutCharacterSelectPirateImage,
+  layoutCharacterSelectRevolutionaryImage,
   layoutDragonSelectedImage,
   layoutDragonUnselectedImage,
   layoutAkainuSelectedImage,

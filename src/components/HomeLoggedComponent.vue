@@ -6,15 +6,44 @@
   >
     <div class="columns is-multiline is-flex">
       <div
-        class="column character-box is-flex is-align-items-center"
-        v-for="index in 12"
+        v-for="(character, index) in myCharacters"
         :key="index"
-        @click="index <= 6 ? goToStep(2) : null"
+        class="column character-box is-flex is-align-items-start"
+        @click="selectCharacter(character.id)"
+      >
+        <div
+          class="character-select"
+          :style="{ backgroundImage: `url(${getFactionBox(character.faction)})` }"
+        >
+          <img
+            class="create-character"
+            :src="getAvatarImageMini(character.id, 1)"
+            alt="my character image"
+          />
+          <div
+            class="character-name"
+            :style="{ backgroundImage: `url(${getFactionButton(character.faction)})` }"
+          >
+            Teste
+          </div>
+          <div class="character-level" :class="character.faction">Nível 1</div>
+          <button class="character-delete" @click.stop="confirmDeletion(character.id)">
+            deletar
+          </button>
+        </div>
+      </div>
+      <div
+        class="column character-box is-flex is-align-items-center"
+        v-for="index in 12 - myCharacters.length"
+        :key="index"
+        @click="index <= 6 - myCharacters.length || isVip ? goToStep(2) : null"
       >
         <img
           class="create-character"
           :src="
-            index <= 6 ? images.layoutCreateCharacterImage : images.layoutCreateCharacterVipImage
+            index <= 6 - myCharacters.length || isVip
+              ? images.layoutCreateCharacterImage
+              : images.layoutCreateCharacterVipImage
           "
           alt="create character image"
         />
@@ -141,7 +170,7 @@ import { getAvatarImageMini } from '@/utils/avatar-utils';
 import HomeButtonComponent from './HomeButtonComponent.vue';
 import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
 
-const step = ref(4);
+const step = ref(1);
 const factionSelected = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
 const faction = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
 const avatars: IAvatar[] = Array(184).fill({ id: 1, name: 'Hannyabal', avatar: 1 });
@@ -154,6 +183,13 @@ const characterName = ref('');
 const sea = ref('1');
 const breed = ref('1');
 const _class = ref('1');
+const isVip = ref(false);
+const myCharacters = ref([
+  { id: 1, nome: 'Personagem 1', characterId: 1, faction: 'pirate' },
+  { id: 2, nome: 'Personagem 2', characterId: 2, faction: 'marine' },
+  { id: 3, nome: 'Personagem 3', characterId: 3, faction: 'revolutionary' },
+  { id: 4, nome: 'Personagem 4', characterId: 4, faction: 'marine' }
+]);
 
 const emit = defineEmits(['send-message']);
 
@@ -200,6 +236,45 @@ function registerForm(): void {
 
 function scrollToTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectCharacter(character: number): void {
+  alert(character);
+}
+
+function getFactionBox(faction: string): string {
+  switch (faction) {
+    case 'marine':
+      return images.layoutCharacterSelectMarineImage;
+    case 'pirate':
+      return images.layoutCharacterSelectPirateImage;
+    case 'revolutionary':
+      return images.layoutCharacterSelectRevolutionaryImage;
+    default:
+      return '';
+  }
+}
+
+function getFactionButton(faction: string): string {
+  switch (faction) {
+    case 'marine':
+      return images.layoutBlueButtonImage;
+    case 'pirate':
+      return images.layoutRedButtonImage;
+    case 'revolutionary':
+      return images.layoutGreenButtonImage;
+    default:
+      return '';
+  }
+}
+
+function confirmDeletion(id: number) {
+  const confirmMessage =
+    'Você tem certeza de que deseja deletar este personagem? O processo é irreversível!';
+  const isConfirmed = window.confirm(confirmMessage);
+  if (isConfirmed) {
+    alert(`Personagem deletado com sucesso! ${id}`);
+  }
 }
 </script>
 
@@ -316,5 +391,87 @@ function scrollToTop(): void {
   border: none;
   font-size: 22px;
   color: #8d7a66;
+}
+
+.character-select {
+  width: 113px;
+  height: 114px;
+  position: relative;
+}
+
+.character-select img {
+  width: 107px;
+  height: 108px;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-radius: 2px;
+  border: 2px solid #dedede;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.character-name {
+  font-family: yanone_kaffeesatzregular;
+  font-size: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0px 2px #111;
+  width: 105px;
+  height: 32px;
+  text-align: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 79px;
+  left: 4px;
+  line-height: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.character-level {
+  border-radius: 3px;
+  width: 100px;
+  font-size: 11px;
+  font-family: Arial;
+  color: #fff;
+  text-shadow: 0px 1px 0 #000;
+  text-align: center;
+  margin: 0px 0 0 7px;
+  height: 14px;
+  line-height: 14px;
+}
+
+.character-level.marine {
+  background-color: #688ba2;
+  box-shadow: 0 1px 0 #335374;
+}
+
+.character-level.pirate {
+  background-color: #c61316;
+  box-shadow: 0 1px 0 #970303;
+}
+
+.character-level.revolutionary {
+  background-color: #56ad56;
+  box-shadow: 0 1px 0 #117a11;
+}
+
+.character-delete {
+  border-radius: 4px;
+  box-shadow: 0 1px 0 #756040;
+  font-family: yanone_kaffeesatzregular;
+  font-size: 11px;
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+  padding: 2px 8px 1px;
+  margin: 4px 0 0 34px;
+  float: left;
+  background-color: #b22426;
+  border: none;
+  cursor: pointer;
+  height: 14px;
+  line-height: 14px;
 }
 </style>
