@@ -62,6 +62,7 @@ import avatarCharlottePerosperoBattle1Image from '@/assets/images/avatar/Charlot
 import avatarZephyrMini1Image from '@/assets/images/avatar/Zephyr/1-mini.png';
 import avatarZephyrStatus1Image from '@/assets/images/avatar/Zephyr/1-status.png';
 import avatarZephyrBattle1Image from '@/assets/images/avatar/Zephyr/1-battle.png';
+import errorImage from '@/assets/images/layout/error.jpg';
 
 const images = {
   homeCloudsImage,
@@ -127,7 +128,8 @@ const images = {
   avatarCharlottePerosperoBattle1Image,
   avatarZephyrMini1Image,
   avatarZephyrStatus1Image,
-  avatarZephyrBattle1Image
+  avatarZephyrBattle1Image,
+  errorImage
 };
 
 export default images;
