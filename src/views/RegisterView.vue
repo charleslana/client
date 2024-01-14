@@ -138,6 +138,8 @@ import ContainerHomeComponent from '@/components/ContainerHomeComponent.vue';
 import images from '@/data/imageData';
 import { projectName } from '@/utils/const';
 import { computed, ref, watch } from 'vue';
+import UserService from '@/service/UserService';
+import { isValidEmail } from '@/utils/utils';
 
 const user = ref('');
 const existUser = ref(false);
@@ -169,21 +171,19 @@ const passwordStrengthText = computed(() => {
 });
 
 watch(user, (newValue: string) => {
-  if (newValue.trim() !== '') {
-    existUser.value = true;
+  if (newValue.trim() !== '' && newValue.length >= 3) {
+    validateUsernameAPI();
+    return;
   }
-  if (newValue.trim() === 'aaa') {
-    existUser.value = false;
-  }
+  existUser.value = true;
 });
 
 watch(email, (newValue: string) => {
-  if (newValue.trim() !== '') {
-    existEmail.value = true;
+  if (newValue.trim() !== '' && isValidEmail(email.value)) {
+    validateEmailAPI();
+    return;
   }
-  if (newValue.trim() === 'aaa@aaa.com') {
-    existEmail.value = false;
-  }
+  existEmail.value = true;
 });
 
 function calculatePasswordStrength(password: string): number {
@@ -270,6 +270,24 @@ function clearValidateRegister(): void {
   emailError.value = '';
   fullNameError.value = '';
   tosError.value = '';
+}
+
+async function validateUsernameAPI(): Promise<void> {
+  try {
+    const exists = await UserService.validateUsername(user.value);
+    existUser.value = exists.exists;
+  } catch (err: unknown) {
+    existUser.value = true;
+  }
+}
+
+async function validateEmailAPI(): Promise<void> {
+  try {
+    const exists = await UserService.validateEmail(email.value);
+    existEmail.value = exists.exists;
+  } catch (err: unknown) {
+    existEmail.value = true;
+  }
 }
 </script>
 
