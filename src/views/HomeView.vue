@@ -6,7 +6,7 @@
       <figure class="welcome-image image">
         <img :src="displayedImage" alt="welcome image" />
       </figure>
-      <div class="columns mt-5 is-relative">
+      <div class="columns mt-5 is-relative z-2">
         <div class="column">
           <transition name="fade" mode="out-in">
             <div class="position" key="1" v-if="showCrews">
@@ -176,7 +176,7 @@ const loading = ref(false);
 const loadingKey = ref(0);
 const userName = ref('');
 const userPassword = ref('');
-const logged = ref(true);
+const logged = ref(false);
 const showAlert = ref(false);
 const errorMessage = ref('');
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -277,6 +277,7 @@ const receiveMessageFromChild = (message: string) => {
   top: 5vh;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 .welcome-image img {
@@ -526,5 +527,9 @@ const receiveMessageFromChild = (message: string) => {
   background-color: #f2dede;
   border-color: #eed3d7;
   color: #b94a48;
+}
+
+.z-2 {
+  z-index: 2;
 }
 </style>

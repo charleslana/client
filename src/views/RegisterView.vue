@@ -93,7 +93,7 @@
                     type="radio"
                     id="maleGender"
                     name="gender"
-                    value="male"
+                    :value="UserGenderEnum.Male"
                     v-model="selectedGender"
                   />
                   Masculino
@@ -103,7 +103,7 @@
                     type="radio"
                     id="femaleGender"
                     name="gender"
-                    value="female"
+                    :value="UserGenderEnum.Female"
                     v-model="selectedGender"
                   />
                   Feminino
@@ -139,7 +139,10 @@ import images from '@/data/imageData';
 import { projectName } from '@/utils/const';
 import { computed, ref, watch } from 'vue';
 import UserService from '@/service/UserService';
-import { isValidEmail } from '@/utils/utils';
+import { isValidEmail, showAlert } from '@/utils/utils';
+import UserGenderEnum from '@/enum/UserGenderEnum';
+import type { AxiosError } from 'axios';
+import type ICelebrateError from '@/interface/ICelebrateError';
 
 const user = ref('');
 const existUser = ref(false);
@@ -152,7 +155,7 @@ const existEmail = ref(false);
 const emailError = ref('');
 const fullName = ref('');
 const fullNameError = ref('');
-const selectedGender = ref<'male' | 'female'>('male');
+const selectedGender = ref<UserGenderEnum>(UserGenderEnum.Male);
 const tos = ref(false);
 const tosError = ref('');
 const loading = ref(false);
@@ -229,10 +232,7 @@ function register(): void {
     return;
   }
   loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-    success.value = true;
-  }, 2000);
+  registerAPI();
 }
 
 function validateRegister(): boolean {
@@ -261,6 +261,12 @@ function validateRegister(): boolean {
     tosError.value = 'Você deve aceitar os termos de uso';
     error = true;
   }
+  if (existUser.value) {
+    userError.value = 'Já existe o nome cadastrado';
+  }
+  if (existEmail.value) {
+    emailError.value = 'Já existe o e-mail cadastrado';
+  }
   return error;
 }
 
@@ -287,6 +293,26 @@ async function validateEmailAPI(): Promise<void> {
     existEmail.value = exists.exists;
   } catch (err: unknown) {
     existEmail.value = true;
+  }
+}
+
+async function registerAPI(): Promise<void> {
+  try {
+    await UserService.register({
+      username: user.value,
+      password: password.value,
+      email: email.value,
+      gender: selectedGender.value,
+      fullName: fullName.value
+    });
+    success.value = true;
+  } catch (err: unknown) {
+    const error = err as AxiosError<ICelebrateError>;
+    if (error.response && error.response.data) {
+      showAlert(error.response.data.validation.body.message);
+    }
+  } finally {
+    loading.value = false;
   }
 }
 </script>
