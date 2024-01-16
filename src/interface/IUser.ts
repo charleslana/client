@@ -15,3 +15,7 @@ export interface ICheckUsername {
 export interface ICheckEmail {
   email: string;
 }
+
+export interface IUserVip {
+  vip: null | string;
+}

@@ -3,7 +3,7 @@ import type IExists from '@/interface/IExists';
 import type ILogin from '@/interface/ILogin';
 import type IResponse from '@/interface/IResponse';
 import type IToken from '@/interface/IToken';
-import type { ICreateUser } from '@/interface/IUser';
+import type { ICreateUser, IUserVip } from '@/interface/IUser';
 
 export default class UserService {
   private static baseUrl = '/user';
@@ -25,6 +25,11 @@ export default class UserService {
 
   static async login(login: ILogin): Promise<IToken> {
     const response = await api.post<IToken>(`${this.baseUrl}/auth`, login);
+    return response.data;
+  }
+
+  static async getVIP(): Promise<IUserVip> {
+    const response = await api.get<IUserVip>(`${this.baseUrl}/vip`);
     return response.data;
   }
 }

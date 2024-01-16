@@ -62,7 +62,7 @@
                 <img :src="images.homeRegisterImage" alt="register image" />
               </RouterLink>
               <transition name="fade">
-                <div v-if="showAlert" class="custom-alert error">{{ errorMessage }}</div>
+                <div v-if="showAlert" class="custom-alert error z-2">{{ errorMessage }}</div>
               </transition>
               <div
                 class="login-box"
@@ -76,7 +76,7 @@
                     class="name"
                     id="name"
                     ref="userNameRef"
-                    v-model="userName"
+                    v-model="username"
                     autocomplete="false"
                   />
                   <input
@@ -132,9 +132,13 @@ import type {
   IHomeCrewRanking,
   IHomePlayerRanking
 } from '@/interface/IHomeRanking';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { formatNumber } from '@/utils/utils';
 import HomeLoggedComponent from '@/components/HomeLoggedComponent.vue';
+import { isAuthenticated, saveToken } from '@/utils/localStorageUtils';
+import UserService from '@/service/UserService';
+import type { AxiosError } from 'axios';
+import type ICelebrateError from '@/interface/ICelebrateError';
 
 const imagesArray: string[] = [
   images.homeCaesarClownImage,
@@ -174,12 +178,16 @@ const showCrews = ref(true);
 const showPlayers = ref(false);
 const loading = ref(false);
 const loadingKey = ref(0);
-const userName = ref('');
+const username = ref('');
 const userPassword = ref('');
 const logged = ref(false);
 const showAlert = ref(false);
 const errorMessage = ref('');
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+onMounted(() => {
+  logged.value = isAuthenticated();
+});
 
 const displayedImage = computed(() => {
   const randomIndex = Math.floor(Math.random() * imagesArray.length);
@@ -187,7 +195,7 @@ const displayedImage = computed(() => {
 });
 
 const isLoginDisabled = computed(() => {
-  return userName.value === '' || userPassword.value === '';
+  return username.value === '' || userPassword.value === '';
 });
 
 function getBackgroundImage(type: HomeRankingType): string {
@@ -221,6 +229,7 @@ function toggleCrews(): void {
 }
 
 function showLoading(): void {
+  showAlert.value = false;
   loading.value = true;
   loadingKey.value += 1;
 }
@@ -231,13 +240,15 @@ function hideLoading(): void {
 
 function login(): void {
   showLoading();
-  setTimeout(() => {
-    hideLoading();
-  }, 2000);
+  authAPI();
 }
 
 const receiveMessageFromChild = (message: string) => {
   errorMessage.value = message;
+  showMessage();
+};
+
+const showMessage = (): void => {
   showAlert.value = true;
   if (timeoutId) {
     clearTimeout(timeoutId);
@@ -246,6 +257,25 @@ const receiveMessageFromChild = (message: string) => {
     showAlert.value = false;
   }, 4000);
 };
+
+async function authAPI(): Promise<void> {
+  try {
+    const token = await UserService.login({
+      username: username.value,
+      password: userPassword.value
+    });
+    saveToken(token.token);
+    logged.value = true;
+  } catch (err: unknown) {
+    const error = err as AxiosError<ICelebrateError>;
+    if (error.response && error.response.data) {
+      errorMessage.value = error.response.data.message;
+      showMessage();
+    }
+  } finally {
+    hideLoading();
+  }
+}
 </script>
 
 <style scoped>

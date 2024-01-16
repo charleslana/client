@@ -17,14 +17,14 @@
         >
           <img
             class="create-character"
-            :src="getAvatarImageMini(character.id, 1)"
+            :src="getAvatarImageMini(character.characterId, 1)"
             alt="my character image"
           />
           <div
             class="character-name"
             :style="{ backgroundImage: `url(${getFactionButton(character.faction)})` }"
           >
-            Teste
+            {{ character.name }}
           </div>
           <div class="character-level" :class="character.faction">Nível 1</div>
           <button class="character-delete" @click.stop="confirmDeletion(character.id)">
@@ -165,10 +165,13 @@
 <script setup lang="ts">
 import images from '@/data/imageData';
 import type { IAvatar } from '@/interface/IAvatar';
-import { ref } from 'vue';
-import { getAvatarImageMini } from '@/utils/avatar-utils';
+import { onMounted, ref } from 'vue';
+import { getAvatarImageMini } from '@/utils/avatarUtils';
 import HomeButtonComponent from './HomeButtonComponent.vue';
 import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
+import UserCharacterService from '@/service/UserCharacterService';
+import type { IUserCharacter } from '@/interface/IUserCharacter';
+import UserService from '@/service/UserService';
 
 const step = ref(1);
 const factionSelected = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
@@ -184,14 +187,14 @@ const sea = ref('1');
 const breed = ref('1');
 const _class = ref('1');
 const isVip = ref(false);
-const myCharacters = ref([
-  { id: 1, nome: 'Personagem 1', characterId: 1, faction: 'pirate' },
-  { id: 2, nome: 'Personagem 2', characterId: 2, faction: 'marine' },
-  { id: 3, nome: 'Personagem 3', characterId: 3, faction: 'revolutionary' },
-  { id: 4, nome: 'Personagem 4', characterId: 4, faction: 'marine' }
-]);
+const myCharacters = ref<IUserCharacter[]>([]);
 
 const emit = defineEmits(['send-message']);
+
+onMounted(async () => {
+  await getAllAPI();
+  await getUserVIP();
+});
 
 function goToStep(number: number): void {
   switch (number) {
@@ -238,8 +241,8 @@ function scrollToTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function selectCharacter(character: number): void {
-  alert(character);
+function selectCharacter(id: string): void {
+  alert(id);
 }
 
 function getFactionBox(faction: string): string {
@@ -268,12 +271,41 @@ function getFactionButton(faction: string): string {
   }
 }
 
-function confirmDeletion(id: number) {
+function confirmDeletion(id: string) {
   const confirmMessage =
     'Você tem certeza de que deseja deletar este personagem? O processo é irreversível!';
   const isConfirmed = window.confirm(confirmMessage);
   if (isConfirmed) {
     alert(`Personagem deletado com sucesso! ${id}`);
+  }
+}
+
+async function getAllAPI(): Promise<void> {
+  try {
+    const userCharacters = await UserCharacterService.getAll();
+    myCharacters.value = userCharacters;
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
+
+async function getUserVIP(): Promise<void> {
+  try {
+    const vip = await UserService.getVIP();
+    if (vip.vip == null) {
+      isVip.value = false;
+      return;
+    }
+    const vipDate = new Date(vip.vip);
+    if (vipDate > new Date()) {
+      isVip.value = true;
+    }
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
   }
 }
 </script>
@@ -475,3 +507,4 @@ function confirmDeletion(id: number) {
   line-height: 14px;
 }
 </style>
+@/utils/avatarUtils
