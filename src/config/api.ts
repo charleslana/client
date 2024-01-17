@@ -18,23 +18,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    const token = getToken();
     if (error.response) {
-      const excludedRoutes = ['home'];
-      if (
-        error.response.status === 401 ||
-        error.response.status === 429 ||
-        (!token && !excludedRoutes.includes(router.currentRoute.value.name as string))
-      ) {
+      if (error.response.status === 401 || error.response.status === 429) {
         removeToken();
         router.push({ name: 'home' });
         location.reload();
       }
-      if (
-        (!excludedRoutes.includes(router.currentRoute.value.name as string) &&
-          error.response.status === 403) ||
-        error.response.status === 422
-      ) {
+      if (error.response.status === 403 || error.response.status === 422) {
         router.push({ name: 'home' });
       }
     }
