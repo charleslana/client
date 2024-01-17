@@ -308,7 +308,7 @@ async function registerAPI(): Promise<void> {
     success.value = true;
   } catch (err: unknown) {
     const error = err as AxiosError<ICelebrateError>;
-    if (error.response && error.response.data) {
+    if (error.response && error.response.data.validation) {
       showAlert(error.response.data.validation.body.message);
     }
   } finally {

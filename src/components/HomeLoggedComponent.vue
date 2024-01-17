@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="step === 1"
+    v-if="step === 1 && !loading"
     class="manage-account-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxImage})` }"
   >
@@ -65,9 +65,9 @@
             : images.layoutLuffyUnselectedImage
         "
         alt="pirate faction image"
-        @mouseover="factionSelected = 'pirate'"
+        @mouseover="factionSelected = UserCharacterFactionEnum.Pirate"
         @mouseleave="factionSelected = null"
-        @click="chooseFaction('pirate')"
+        @click="chooseFaction(UserCharacterFactionEnum.Pirate)"
       />
       <img
         class="faction-image"
@@ -77,9 +77,9 @@
             : images.layoutAkainuUnselectedImage
         "
         alt="marine faction image"
-        @mouseover="factionSelected = 'marine'"
+        @mouseover="factionSelected = UserCharacterFactionEnum.Marine"
         @mouseleave="factionSelected = null"
-        @click="chooseFaction('marine')"
+        @click="chooseFaction(UserCharacterFactionEnum.Marine)"
       />
       <img
         class="faction-image"
@@ -89,9 +89,9 @@
             : images.layoutDragonUnselectedImage
         "
         alt="revolutionary faction image"
-        @mouseover="factionSelected = 'revolutionary'"
+        @mouseover="factionSelected = UserCharacterFactionEnum.Revolutionary"
         @mouseleave="factionSelected = null"
-        @click="chooseFaction('revolutionary')"
+        @click="chooseFaction(UserCharacterFactionEnum.Revolutionary)"
       />
     </div>
     <div class="has-text-centered mt-5">
@@ -106,11 +106,11 @@
     <h2 class="title-box has-text-centered mb-2">Escolha seu avatar</h2>
     <div class="avatar-box has-text-centered">
       <img
-        v-for="avatar in avatars"
-        :key="avatar.id"
-        @click="chooseAvatar(avatar.id)"
+        v-for="character in characters"
+        :key="character.id"
+        @click="chooseAvatar(character.id)"
         class="avatar-image"
-        :src="getAvatarImageMini(avatar.id, avatar.avatar)"
+        :src="getAvatarImageMini(character.id, 1)"
         alt="avatar image"
       />
     </div>
@@ -119,7 +119,7 @@
     </div>
   </div>
   <div
-    v-if="step === 4"
+    v-if="step === 4 && !loading"
     class="manage-account-large-bg"
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
   >
@@ -129,24 +129,28 @@
       <input type="text" name="nome" class="input-text" v-model="characterName" />
       <h1 class="label mt-5 mb-0">Mar</h1>
       <select class="input-select" v-model="sea">
-        <option value="1" selected>North Blue</option>
-        <option value="2">East Blue</option>
-        <option value="3">South Blue</option>
-        <option value="4">West Blue</option>
+        <option :value="UserCharacterSeaEnum.North" selected>North Blue</option>
+        <option :value="UserCharacterSeaEnum.East">East Blue</option>
+        <option :value="UserCharacterSeaEnum.South">South Blue</option>
+        <option :value="UserCharacterSeaEnum.West">West Blue</option>
       </select>
       <h1 class="label mt-5 mb-0">Raça</h1>
       <select class="input-select" v-model="breed">
-        <option value="1">Humano</option>
-        <option value="2">Anão</option>
-        <option value="3">Gigante</option>
-        <option value="4">Tritão (VIP)</option>
-        <option value="5">Ciborgue (VIP)</option>
+        <option :value="UserCharacterBreedEnum.Human">Humano</option>
+        <option :value="UserCharacterBreedEnum.Dwarf">Anão</option>
+        <option :value="UserCharacterBreedEnum.Giant">Gigante</option>
+        <option :value="UserCharacterBreedEnum.Triton" :disabled="isVip === false">
+          Tritão (VIP)
+        </option>
+        <option :value="UserCharacterBreedEnum.Cyborg" :disabled="isVip === false">
+          Ciborgue (VIP)
+        </option>
       </select>
       <h1 class="label mt-5 mb-0">Classe</h1>
       <select class="input-select" v-model="_class">
-        <option value="1">Espadachim</option>
-        <option value="2">Atirador</option>
-        <option value="3">Lutador</option>
+        <option :value="UserCharacterClassEnum.Swordsman">Espadachim</option>
+        <option :value="UserCharacterClassEnum.Shooter">Atirador</option>
+        <option :value="UserCharacterClassEnum.Fighter">Lutador</option>
       </select>
       <div class="mt-5">
         <HomeButtonComponent
@@ -156,7 +160,7 @@
           class="mr-4"
           type="button"
         />
-        <HomeButtonComponent text="Criar" :func="() => {}" />
+        <HomeButtonComponent text="Criar" />
       </div>
     </form>
   </div>
@@ -164,7 +168,6 @@
 
 <script setup lang="ts">
 import images from '@/data/imageData';
-import type { IAvatar } from '@/interface/IAvatar';
 import { onMounted, ref } from 'vue';
 import { getAvatarImageMini } from '@/utils/avatarUtils';
 import HomeButtonComponent from './HomeButtonComponent.vue';
@@ -172,28 +175,34 @@ import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
 import UserCharacterService from '@/service/UserCharacterService';
 import type { IUserCharacter } from '@/interface/IUserCharacter';
 import UserService from '@/service/UserService';
+import UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
+import CharacterService from '@/service/CharacterService';
+import type { ICharacter } from '@/interface/ICharacter';
+import UserCharacterSeaEnum from '@/enum/UserCharacterSeaEnum';
+import UserCharacterBreedEnum from '@/enum/UserCharacterBreedEnum';
+import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
+import type { AxiosError } from 'axios';
+import type ICelebrateError from '@/interface/ICelebrateError';
 
 const step = ref(1);
-const factionSelected = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
-const faction = ref<'pirate' | 'marine' | 'revolutionary' | null>(null);
-const avatars: IAvatar[] = Array(184).fill({ id: 1, name: 'Hannyabal', avatar: 1 });
-avatars[1] = { id: 2, name: 'Aokiji', avatar: 1 };
-avatars[2] = { id: 3, name: 'Benn-Beckman', avatar: 1 };
-avatars[3] = { id: 4, name: 'Zephyr', avatar: 1 };
-avatars[4] = { id: 5, name: 'Charlotte-Perospero', avatar: 1 };
-const avatar = ref<number | null>(null);
+const factionSelected = ref<UserCharacterFactionEnum | null>(null);
+const faction = ref<UserCharacterFactionEnum | null>(null);
+const characters = ref<ICharacter[]>([]);
+const characterId = ref<number | null>(null);
 const characterName = ref('');
-const sea = ref('1');
-const breed = ref('1');
-const _class = ref('1');
+const sea = ref<UserCharacterSeaEnum>(UserCharacterSeaEnum.North);
+const breed = ref<UserCharacterBreedEnum>(UserCharacterBreedEnum.Human);
+const _class = ref<UserCharacterClassEnum>(UserCharacterClassEnum.Swordsman);
 const isVip = ref(false);
 const myCharacters = ref<IUserCharacter[]>([]);
+const loading = ref(false);
 
-const emit = defineEmits(['send-message']);
+const emit = defineEmits(['send-message', 'toggle-loading']);
 
 onMounted(async () => {
-  await getAllAPI();
+  await getAllUserCharactersAPI();
   await getUserVIP();
+  await getAllCharacterAPI();
 });
 
 function goToStep(number: number): void {
@@ -217,13 +226,13 @@ function goToStep(number: number): void {
   scrollToTop();
 }
 
-function chooseFaction(selectFaction: 'pirate' | 'marine' | 'revolutionary'): void {
+function chooseFaction(selectFaction: UserCharacterFactionEnum): void {
   faction.value = selectFaction;
   goToStep(3);
 }
 
-function chooseAvatar(selectAvatar: number): void {
-  avatar.value = selectAvatar;
+function chooseAvatar(selectCharacter: number): void {
+  characterId.value = selectCharacter;
   goToStep(4);
 }
 
@@ -231,10 +240,12 @@ function clearFormCharacter(): void {
   goToStep(3);
 }
 
-function registerForm(): void {
-  // alert(`${characterName.value} | ${sea.value} | ${breed.value} | ${_class.value}`);
-  emit('send-message', 'O nome escolhido já está em uso');
-  scrollToTop();
+async function registerForm(): Promise<void> {
+  if (characterName.value.trim() !== '') {
+    loading.value = true;
+    emit('toggle-loading', true);
+    await createUserCharacterAPI();
+  }
 }
 
 function scrollToTop(): void {
@@ -276,11 +287,13 @@ function confirmDeletion(id: string) {
     'Você tem certeza de que deseja deletar este personagem? O processo é irreversível!';
   const isConfirmed = window.confirm(confirmMessage);
   if (isConfirmed) {
-    alert(`Personagem deletado com sucesso! ${id}`);
+    loading.value = true;
+    emit('toggle-loading', true);
+    deleteUserCharacterAPI(id);
   }
 }
 
-async function getAllAPI(): Promise<void> {
+async function getAllUserCharactersAPI(): Promise<void> {
   try {
     const userCharacters = await UserCharacterService.getAll();
     myCharacters.value = userCharacters;
@@ -306,6 +319,62 @@ async function getUserVIP(): Promise<void> {
     //
   } finally {
     //
+  }
+}
+
+async function getAllCharacterAPI(): Promise<void> {
+  try {
+    const getAll = await CharacterService.getAll();
+    characters.value = getAll;
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
+
+async function createUserCharacterAPI(): Promise<void> {
+  try {
+    await UserCharacterService.create({
+      characterId: characterId.value!,
+      name: characterName.value,
+      faction: faction.value!,
+      sea: sea.value,
+      breed: breed.value,
+      class: _class.value
+    });
+    await getAllUserCharactersAPI();
+    characterName.value = '';
+    faction.value = null;
+    sea.value = UserCharacterSeaEnum.North;
+    breed.value = UserCharacterBreedEnum.Human;
+    _class.value = UserCharacterClassEnum.Swordsman;
+    goToStep(1);
+  } catch (err: unknown) {
+    const error = err as AxiosError<ICelebrateError>;
+    if (error.response && error.response.data) {
+      if (error.response.data.validation) {
+        emit('send-message', error.response.data.validation.body.message);
+        return;
+      }
+      emit('send-message', error.response.data.message);
+    }
+  } finally {
+    loading.value = false;
+    emit('toggle-loading', false);
+    scrollToTop();
+  }
+}
+
+async function deleteUserCharacterAPI(id: string): Promise<void> {
+  try {
+    await UserCharacterService.delete(id);
+    await getAllUserCharactersAPI();
+  } catch (err: unknown) {
+    //
+  } finally {
+    loading.value = false;
+    emit('toggle-loading', false);
   }
 }
 </script>

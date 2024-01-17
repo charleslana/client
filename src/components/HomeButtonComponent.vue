@@ -18,8 +18,7 @@ const props = defineProps({
     required: true
   },
   func: {
-    type: Function as (arg?: any) => any,
-    required: true
+    type: Function as (arg?: any) => any
   },
   color: {
     type: String as () => ButtonColorEnum,

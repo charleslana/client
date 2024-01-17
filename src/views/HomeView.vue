@@ -98,7 +98,11 @@
                   @click="$router.push({ name: 'forgot-password' })"
                 ></button>
               </div>
-              <HomeLoggedComponent v-if="logged" @send-message="receiveMessageFromChild" />
+              <HomeLoggedComponent
+                v-if="logged"
+                @send-message="receiveMessageFromChild"
+                @toggle-loading="handleLoadingToggle"
+              />
               <div
                 class="bg-login-box"
                 :style="{ backgroundImage: `url(${images.homeBgLoginBoxImage})` }"
@@ -119,9 +123,6 @@
       </div>
     </div>
     <div class="footer" :style="{ backgroundImage: `url(${images.homePatternMarImage})` }"></div>
-    <!-- <figure class="welcome-image image">
-      <img :src="displayedImage" alt="welcome image" />
-    </figure> -->
   </div>
 </template>
 
@@ -256,6 +257,14 @@ const showMessage = (): void => {
   timeoutId = setTimeout(() => {
     showAlert.value = false;
   }, 4000);
+};
+
+const handleLoadingToggle = (value: boolean) => {
+  if (value) {
+    showLoading();
+    return;
+  }
+  hideLoading();
 };
 
 async function authAPI(): Promise<void> {

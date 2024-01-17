@@ -2,7 +2,7 @@ export default interface ICelebrateError {
   error: string;
   message: string;
   statusCode: number;
-  validation: {
+  validation?: {
     body: {
       keys: string[];
       message: string;
