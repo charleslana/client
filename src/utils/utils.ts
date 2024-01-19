@@ -16,3 +16,14 @@ export function showAlert(message: string, icon: SweetAlertIcon = 'error'): void
     confirmButtonText: 'OK'
   });
 }
+
+export function formatNumberWithZero(number: number): string {
+  const formarNumber = number.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+  return formarNumber + ',00';
+}
+
+export function calculateWidthForPercentage(percentage: number, fixedSize: number): number {
+  const clampedPercentage = Math.min(Math.max(percentage, 0), 100);
+  const width = (clampedPercentage / 100) * fixedSize;
+  return parseFloat(width.toFixed(2));
+}

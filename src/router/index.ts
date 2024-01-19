@@ -1,5 +1,6 @@
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import HomeView from '@/views/HomeView.vue';
+import NewspaperView from '@/views/NewspaperView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -23,6 +24,12 @@ const router = createRouter({
       name: 'forgot-password',
       component: ForgotPasswordView,
       meta: { title: 'One Piece RPG - Recuperar senha' }
+    },
+    {
+      path: '/newspaper',
+      name: 'newspaper',
+      component: NewspaperView,
+      meta: { title: 'One Piece RPG - Jornal' }
     },
     {
       path: '/model',

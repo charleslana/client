@@ -128,7 +128,6 @@
           </div>
         </form>
       </div>
-      <!-- <h1 v-for="index in 100" :key="index">Lista</h1> -->
     </template>
   </ContainerHomeComponent>
 </template>

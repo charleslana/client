@@ -5,6 +5,11 @@
   font-family: 'myriad_pro_regular';
 }
 
+html {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
 .columns {
   margin-left: 0rem;
   margin-right: 0rem;

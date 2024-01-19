@@ -63,6 +63,12 @@ import avatarZephyrMini1Image from '@/assets/images/avatar/Zephyr/1-mini.png';
 import avatarZephyrStatus1Image from '@/assets/images/avatar/Zephyr/1-status.png';
 import avatarZephyrBattle1Image from '@/assets/images/avatar/Zephyr/1-battle.png';
 import errorImage from '@/assets/images/layout/error.jpg';
+import headerImage from '@/assets/images/layout/header.png';
+import userHeaderBgImage from '@/assets/images/layout/user-header-bg.png';
+import coinImage from '@/assets/images/icon/coin.png';
+import userInfoBarImage from '@/assets/images/layout/user-info-bar.png';
+import userInfoLevelImage from '@/assets/images/layout/user-info-level.png';
+import creditImage from '@/assets/images/icon/credit.png';
 
 const images = {
   homeCloudsImage,
@@ -129,7 +135,13 @@ const images = {
   avatarZephyrMini1Image,
   avatarZephyrStatus1Image,
   avatarZephyrBattle1Image,
-  errorImage
+  errorImage,
+  headerImage,
+  userHeaderBgImage,
+  coinImage,
+  userInfoBarImage,
+  userInfoLevelImage,
+  creditImage
 };
 
 export default images;
