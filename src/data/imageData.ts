@@ -84,6 +84,7 @@ import crewNavBarImage from '@/assets/images/icon/crew.png';
 import menuOnlineImage from '@/assets/images/layout/menu-online.png';
 import changeCharacterImage from '@/assets/images/icon/change-character.png';
 import vipImage from '@/assets/images/icon/vip.png';
+import maxIconImage from '@/assets/images/icon/max.png';
 
 const images = {
   homeCloudsImage,
@@ -171,7 +172,8 @@ const images = {
   crewNavBarImage,
   menuOnlineImage,
   changeCharacterImage,
-  vipImage
+  vipImage,
+  maxIconImage
 };
 
 export default images;

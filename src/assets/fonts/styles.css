@@ -22,3 +22,8 @@
   font-family: 'jollylodger';
   src: url(./jollylodger.woff2) format('woff2');
 }
+
+@font-face {
+  font-family: 'myriadpro_cond';
+  src: url(./myriadpro-cond-webfont.woff) format('woff');
+}
