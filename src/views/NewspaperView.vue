@@ -18,25 +18,40 @@
         >
           <div class="coin-icon is-flex">
             <img :src="images.coinImage" alt="coin image" class="mr-2" />
-            <p>B {{ formatNumberWithZero(5500) }}</p>
+            <p>Belly: {{ formatNumberWithZero(5500) }}</p>
           </div>
           <div class="avatar">
-            <img :src="getAvatarImageBattle(1, 1)" alt="avatar image" />
+            <PopperComponent
+              arrow
+              content="Clique aqui pra trocar de avatar"
+              hover="true"
+              placement="right"
+            >
+              <img
+                :src="getAvatarImageBattle(1, 1)"
+                alt="avatar image"
+                class="is-clickable"
+                @click="null"
+              />
+            </PopperComponent>
           </div>
           <div class="user-info">
             <div class="user-name">Test</div>
             <div class="user-class">{{ getClass(UserCharacterClassEnum.Swordsman) }}</div>
-            <div class="user-info-bar">
-              <div class="fill" :style="{ width: `${calculateWidthForPercentage(50, 123)}px` }">
-                <div
-                  class="user-info-bar-mask"
-                  :style="{ backgroundImage: `url(${images.userInfoBarImage})` }"
-                >
-                  50.00%
+            <PopperComponent arrow hover="true" placement="right">
+              <div class="user-info-bar">
+                <div class="fill" :style="{ width: `${calculateWidthForPercentage(50, 123)}px` }">
+                  <div
+                    class="user-info-bar-mask"
+                    :style="{ backgroundImage: `url(${images.userInfoBarImage})` }"
+                  >
+                    50.00%
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="is-flex is-align-items-center">
+              <template #content><b>EXPERIÊNCIA:</b> 0 de 5</template>
+            </PopperComponent>
+            <div class="user-credit-box is-flex is-align-items-center">
               <img :src="images.creditImage" alt="credit image" class="mr-1" />
               <div class="user-credit-text mr-1">Créditos:</div>
               <div class="user-credit">{{ formatNumber(0) }}</div>
@@ -50,6 +65,54 @@
             <div class="user-level">1</div>
           </div>
         </div>
+        <div class="nav-bar" :style="{ backgroundImage: `url(${images.navBarImage})` }">
+          <img :src="images.logoHeaderImage" alt="logo image" class="logo-header" />
+          <div class="nav-bar-item is-flex">
+            <div
+              v-for="(navItem, index) in navItems"
+              :key="index"
+              class="nav-bar-item-info is-flex is-flex-direction-column is-justify-content-center is-align-items-center"
+              :style="{
+                borderImageSource: navItem.isBorderEnabled
+                  ? `url(${images.navBorderImage})`
+                  : 'none'
+              }"
+              @mouseover="enableBorder(index)"
+              @mouseleave="disableBorder(index)"
+              @click="handleNavigation(navItem.route)"
+            >
+              <img :src="navItem.image" :alt="navItem.alt" height="22" />
+              <p class="nav-bar-item-text">{{ navItem.text }}</p>
+            </div>
+          </div>
+          <div class="menu-online" :style="{ backgroundImage: `url(${images.menuOnlineImage})` }">
+            <div class="menu-online-icon">
+              <PopperComponent arrow content="Trocar de personagem" hover="true" placement="bottom">
+                <RouterLink to="/">
+                  <img
+                    :src="images.changeCharacterImage"
+                    alt="change character image"
+                    class="mr-1 is-clickable"
+                  />
+                </RouterLink>
+              </PopperComponent>
+              <PopperComponent arrow hover="true" placement="bottom">
+                <img :src="images.vipImage" alt="vip image" />
+                <template #content>
+                  <p>
+                    VIP<br />Seu vip acaba em 20/01/2024 16:09<br />Restam <b>31:36:22</b> até o fim
+                    do seu VIP
+                  </p>
+                </template>
+              </PopperComponent>
+            </div>
+            <div class="menu-online-link">
+              <RouterLink to="/support">Suporte</RouterLink>
+              <RouterLink to="/profile">Perfil</RouterLink>
+              <a href="#" onclick="null">Desconectar</a>
+            </div>
+          </div>
+        </div>
       </header>
     </div>
   </div>
@@ -58,9 +121,93 @@
 <script setup lang="ts">
 import images from '@/data/imageData';
 import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
+import router from '@/router';
 import { getAvatarImageBattle } from '@/utils/avatarUtils';
 import { getClass } from '@/utils/userCharacterUtils';
 import { formatNumberWithZero, calculateWidthForPercentage, formatNumber } from '@/utils/utils';
+import { ref } from 'vue';
+
+const navItems = ref([
+  {
+    image: images.chatNavBarImage,
+    alt: 'chat image',
+    text: 'Chat',
+    isBorderEnabled: false,
+    route: 'https://discord.com'
+  },
+  {
+    image: images.islandNavBarImage,
+    alt: 'island image',
+    text: 'Ilha',
+    isBorderEnabled: false,
+    route: 'island'
+  },
+  {
+    image: images.hospitalNavBarImage,
+    alt: 'hospital image',
+    text: 'Hospital',
+    isBorderEnabled: false,
+    route: 'hospital'
+  },
+  {
+    image: images.marketplaceNavBarImage,
+    alt: 'marketplace image',
+    text: 'Mercado',
+    isBorderEnabled: false,
+    route: 'marketplace'
+  },
+  {
+    image: images.backpackNavBarImage,
+    alt: 'backpack image',
+    text: 'Mochila',
+    isBorderEnabled: false,
+    route: 'backpack'
+  },
+  {
+    image: images.shopNavBarImage,
+    alt: 'shop image',
+    text: 'Shop',
+    isBorderEnabled: false,
+    route: 'shop'
+  },
+  {
+    image: images.workNavBarImage,
+    alt: 'work image',
+    text: 'Trabalhos',
+    isBorderEnabled: false,
+    route: 'work'
+  },
+  {
+    image: images.trainingNavBarImage,
+    alt: 'training image',
+    text: 'Treino',
+    isBorderEnabled: false,
+    route: 'training'
+  },
+  {
+    image: images.crewNavBarImage,
+    alt: 'crew image',
+    text: 'Trip',
+    isBorderEnabled: false,
+    route: 'crew'
+  }
+]);
+
+const enableBorder = (index: number): void => {
+  navItems.value[index].isBorderEnabled = true;
+};
+
+const disableBorder = (index: number): void => {
+  navItems.value[index].isBorderEnabled = false;
+};
+
+const handleNavigation = (destination: string) => {
+  if (destination.startsWith('http')) {
+    window.open(destination, '_blank');
+  } else {
+    router.push({ name: destination });
+  }
+};
 </script>
 
 <style scoped>
@@ -150,6 +297,7 @@ import { formatNumberWithZero, calculateWidthForPercentage, formatNumber } from 
   color: #fff;
   text-shadow: 0px 1px 0px #021d38;
   font-size: 14px;
+  line-height: 17px;
 }
 
 .user-info-bar {
@@ -205,6 +353,10 @@ import { formatNumberWithZero, calculateWidthForPercentage, formatNumber } from 
   text-align: center;
 }
 
+.user-credit-box {
+  height: 17px;
+}
+
 .user-credit-text {
   font-family: 'yanone_kaffeesatzregular';
   font-size: 12px;
@@ -215,5 +367,94 @@ import { formatNumberWithZero, calculateWidthForPercentage, formatNumber } from 
   font-family: 'yanone_kaffeesatzregular';
   color: #ffffff;
   font-size: 16px;
+}
+
+.nav-bar {
+  width: 777px;
+  height: 87px;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 127px;
+}
+
+.logo-header {
+  position: absolute;
+  top: -71px;
+}
+
+.nav-bar-item {
+  width: 500px;
+  height: 57px;
+  position: absolute;
+  top: 8px;
+  left: 209px;
+}
+
+.nav-bar-item-text {
+  text-shadow: 1px 1px 0px #0b4769;
+  font-family: 'mousememoirs';
+  color: #ffc66a;
+  font-size: 18px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.nav-bar-item-info {
+  padding: 10px 8px;
+  border-image-slice: 1;
+  border-image-width: 1;
+  border-image-repeat: repeat;
+  border-style: solid;
+  border-width: 0px 1px;
+  border-color: transparent;
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+.nav-bar-item-info:hover {
+  border-style: solid;
+  border-width: 0px 1px;
+  border-color: #ffc66a;
+  box-shadow: inset 0px 0px 18px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-bar-item-info img {
+  max-width: none;
+}
+
+.menu-online {
+  position: absolute;
+  background-repeat: no-repeat;
+  width: 260px;
+  height: 84px;
+  right: -215px;
+  top: 3px;
+}
+
+.menu-online-icon {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.menu-online-link {
+  position: absolute;
+  width: 150px;
+  height: 15px;
+  bottom: 10px;
+  left: 71px;
+}
+
+.menu-online-link a {
+  color: #1e1e1e;
+  text-shadow: 1px 1px 0px #dcdcdc;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.menu-online-link a:hover {
+  text-decoration: underline;
 }
 </style>

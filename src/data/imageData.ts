@@ -69,6 +69,21 @@ import coinImage from '@/assets/images/icon/coin.png';
 import userInfoBarImage from '@/assets/images/layout/user-info-bar.png';
 import userInfoLevelImage from '@/assets/images/layout/user-info-level.png';
 import creditImage from '@/assets/images/icon/credit.png';
+import logoHeaderImage from '@/assets/images/layout/logo-header.png';
+import navBarImage from '@/assets/images/layout/nav-bar.png';
+import chatNavBarImage from '@/assets/images/icon/chat.png';
+import navBorderImage from '@/assets/images/layout/nav-border.png';
+import islandNavBarImage from '@/assets/images/icon/island.png';
+import hospitalNavBarImage from '@/assets/images/icon/hospital.png';
+import marketplaceNavBarImage from '@/assets/images/icon/marketplace.png';
+import backpackNavBarImage from '@/assets/images/icon/backpack.png';
+import shopNavBarImage from '@/assets/images/icon/shop.png';
+import workNavBarImage from '@/assets/images/icon/work.png';
+import trainingNavBarImage from '@/assets/images/icon/training.png';
+import crewNavBarImage from '@/assets/images/icon/crew.png';
+import menuOnlineImage from '@/assets/images/layout/menu-online.png';
+import changeCharacterImage from '@/assets/images/icon/change-character.png';
+import vipImage from '@/assets/images/icon/vip.png';
 
 const images = {
   homeCloudsImage,
@@ -141,7 +156,22 @@ const images = {
   coinImage,
   userInfoBarImage,
   userInfoLevelImage,
-  creditImage
+  creditImage,
+  logoHeaderImage,
+  navBarImage,
+  chatNavBarImage,
+  navBorderImage,
+  islandNavBarImage,
+  hospitalNavBarImage,
+  marketplaceNavBarImage,
+  backpackNavBarImage,
+  shopNavBarImage,
+  workNavBarImage,
+  trainingNavBarImage,
+  crewNavBarImage,
+  menuOnlineImage,
+  changeCharacterImage,
+  vipImage
 };
 
 export default images;

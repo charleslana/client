@@ -12,3 +12,13 @@
   font-family: 'myriad_pro_regular';
   src: url(./myriadpro-regular_0-webfont.woff) format('woff');
 }
+
+@font-face {
+  font-family: 'mousememoirs';
+  src: url(./mousememoirs.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'jollylodger';
+  src: url(./jollylodger.woff2) format('woff2');
+}
