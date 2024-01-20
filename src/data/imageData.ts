@@ -85,6 +85,20 @@ import menuOnlineImage from '@/assets/images/layout/menu-online.png';
 import changeCharacterImage from '@/assets/images/icon/change-character.png';
 import vipImage from '@/assets/images/icon/vip.png';
 import maxIconImage from '@/assets/images/icon/max.png';
+import sidebarContentImage from '@/assets/images/sidebar/sidebar-content.png';
+import sidebarTitleImage from '@/assets/images/sidebar/sidebar-title.png';
+import sidebarTopImage from '@/assets/images/sidebar/sidebar-top.png';
+import sidebarStatsImage from '@/assets/images/sidebar/sidebar-stats.png';
+import sidebarStatsBarImage from '@/assets/images/sidebar/stats-bar.png';
+import iconStatsHpImage from '@/assets/images/icon/stats-hp.png';
+import iconStatsMpImage from '@/assets/images/icon/stats-mp.png';
+import iconStatsStaminaImage from '@/assets/images/icon/stats-stamina.png';
+import sidebarMenuBgImage from '@/assets/images/sidebar/sidebar-menu-bg.png';
+import sidebarMenuTopImage from '@/assets/images/sidebar/sidebar-menu-top.png';
+import sidebarMenuBottomImage from '@/assets/images/sidebar/sidebar-menu-bottom.png';
+import iconNewGifImage from '@/assets/images/icon/new.gif';
+import layoutBlueButton2Image from '@/assets/images/layout/blue-button-2.png';
+import sidebarBottomImage from '@/assets/images/sidebar/sidebar-bottom.png';
 
 const images = {
   homeCloudsImage,
@@ -173,7 +187,21 @@ const images = {
   menuOnlineImage,
   changeCharacterImage,
   vipImage,
-  maxIconImage
+  maxIconImage,
+  sidebarContentImage,
+  sidebarTitleImage,
+  sidebarTopImage,
+  sidebarStatsImage,
+  sidebarStatsBarImage,
+  iconStatsHpImage,
+  iconStatsMpImage,
+  iconStatsStaminaImage,
+  sidebarMenuBgImage,
+  sidebarMenuTopImage,
+  sidebarMenuBottomImage,
+  iconNewGifImage,
+  layoutBlueButton2Image,
+  sidebarBottomImage
 };
 
 export default images;

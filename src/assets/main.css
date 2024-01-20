@@ -32,4 +32,9 @@ html {
 
 .popper {
   font-size: 10px;
+  max-width: 268px;
+}
+
+.is-grid {
+  display: grid;
 }

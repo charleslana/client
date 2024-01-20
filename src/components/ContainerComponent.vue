@@ -1,15 +1,5 @@
 <template>
-  <div
-    class="bg"
-    :style="{
-      backgroundImage: `url(${images.layoutBgGrainImage}), url(${images.layoutBgCharacterImage}), linear-gradient(
-          180deg,
-          rgba(15, 23, 42, 1) 0%,
-          rgba(30, 41, 59, 1) 35%,
-          rgba(51, 65, 85, 1) 100%
-        )`
-    }"
-  >
+  <div class="content">
     <div
       class="container-wrapper"
       :style="{ backgroundImage: `url(${images.layoutBgContentImage})` }"
@@ -26,20 +16,15 @@
         :style="{ backgroundImage: `url(${images.layoutContentBottomImage})` }"
       ></div>
     </div>
-    <FooterComponent />
   </div>
 </template>
 
 <script setup lang="ts">
 import images from '@/data/imageData';
-import FooterComponent from './FooterComponent.vue';
 </script>
 
 <style scoped>
-.bg {
-  background-position: top center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
+.content {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -48,7 +33,7 @@ import FooterComponent from './FooterComponent.vue';
 
 .container-wrapper {
   background-repeat: repeat-y;
-  margin: 0 auto;
+  margin-left: 5px;
   width: 743px;
   position: relative;
 }

@@ -27,3 +27,9 @@ export function calculateWidthForPercentage(percentage: number, fixedSize: numbe
   const width = (clampedPercentage / 100) * fixedSize;
   return parseFloat(width.toFixed(2));
 }
+
+export function calculatePercentage(minValue: number, maxValue: number): number {
+  const clampedPercentage = Math.min(Math.max(minValue, 0), maxValue);
+  const width = (clampedPercentage / maxValue) * 100;
+  return parseFloat(width.toFixed(2));
+}
