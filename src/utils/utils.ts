@@ -1,3 +1,5 @@
+import router from '@/router';
+import { removeToken } from './localStorageUtils';
 import Swal, { type SweetAlertIcon } from 'sweetalert2';
 
 export function formatNumber(number: number): string {
@@ -33,3 +35,14 @@ export function calculatePercentage(minValue: number, maxValue: number): number 
   const width = (clampedPercentage / maxValue) * 100;
   return parseFloat(width.toFixed(2));
 }
+
+export const handleNavigation = (destination: string): void => {
+  if (destination.startsWith('http') || destination.startsWith('https')) {
+    window.open(destination, '_blank');
+  } else if (destination.includes('logout')) {
+    removeToken();
+    router.push({ name: 'home' });
+  } else {
+    router.push({ name: destination });
+  }
+};
