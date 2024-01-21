@@ -26,12 +26,18 @@ export function formatNumberWithZero(number: number): string {
 }
 
 export function calculateWidthForPercentage(percentage: number, fixedSize: number): number {
+  if (fixedSize === 0) {
+    return 0;
+  }
   const clampedPercentage = Math.min(Math.max(percentage, 0), 100);
   const width = (clampedPercentage / 100) * fixedSize;
   return parseFloat(width.toFixed(2));
 }
 
 export function calculatePercentage(minValue: number, maxValue: number): number {
+  if (maxValue === 0) {
+    return 0;
+  }
   const clampedPercentage = Math.min(Math.max(minValue, 0), maxValue);
   const width = (clampedPercentage / maxValue) * 100;
   return parseFloat(width.toFixed(2));
@@ -64,6 +70,33 @@ export function formatDateToDateOnly(dateString: string): string {
   const year = date.getFullYear().toString().slice(2);
   const formattedDate = `${day}/${month}/${year}`;
   return formattedDate;
+}
+
+export function formatDateToDateTime(dateString: string): string {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+  return formattedDate;
+}
+
+export function calculateTimeRemaining(endTimeString: string): string {
+  const endTime = new Date(endTimeString);
+  const currentTime = new Date();
+  const timeDifference = endTime.getTime() - currentTime.getTime();
+  if (timeDifference > 24 * 60 * 60 * 1000) {
+    const days = Math.ceil(timeDifference / (24 * 60 * 60 * 1000));
+    return `${days} dia${days > 1 ? 's' : ''}`;
+  }
+  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+  const minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}`;
 }
 
 async function logoutAPI(): Promise<void> {

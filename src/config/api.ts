@@ -22,7 +22,6 @@ api.interceptors.response.use(
       if (error.response.status === 401 || error.response.status === 429) {
         removeToken();
         router.replace({ name: 'home' });
-        location.reload();
       }
       if (error.response.status === 403 || error.response.status === 422) {
         router.replace({ name: 'home' });

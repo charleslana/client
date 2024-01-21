@@ -4,12 +4,12 @@
       <div class="user-header-bg" :style="{ backgroundImage: `url(${images.userHeaderBgImage})` }">
         <div class="coin-icon is-flex">
           <img :src="images.coinImage" alt="coin image" class="mr-2" />
-          <p>Belly: {{ formatNumberWithZero(5500) }}</p>
+          <p>Belly: {{ formatNumberWithZero(userCharacter.coin) }}</p>
         </div>
         <div class="avatar">
           <PopperComponent arrow content="Clique aqui pra trocar de avatar" hover placement="right">
             <img
-              :src="getAvatarImageBattle(1, 1)"
+              :src="getAvatarImageBattle(userCharacter.characterId, userCharacter.avatar)"
               alt="avatar image"
               class="is-clickable"
               @click="null"
@@ -17,30 +17,36 @@
           </PopperComponent>
         </div>
         <div class="user-info">
-          <div class="user-name">Test</div>
-          <div class="user-class">{{ getClass(UserCharacterClassEnum.Swordsman) }}</div>
+          <div class="user-name">{{ userCharacter.name }}</div>
+          <div class="user-class">{{ getClass(userCharacter.class) }}</div>
           <PopperComponent arrow hover placement="right">
             <div class="user-info-bar">
               <div
                 class="fill"
                 :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(2.5, 5), 123)}px`
+                  width: `${calculateWidthForPercentage(
+                    calculatePercentage(userCharacter.experience, userCharacter.experienceMax),
+                    123
+                  )}px`
                 }"
               >
                 <div
                   class="user-info-bar-mask"
                   :style="{ backgroundImage: `url(${images.userInfoBarImage})` }"
                 >
-                  {{ calculatePercentage(2.5, 5) }}%
+                  {{ calculatePercentage(userCharacter.experience, userCharacter.experienceMax) }}%
                 </div>
               </div>
             </div>
-            <template #content><b>EXPERIÊNCIA:</b> 0 de 5</template>
+            <template #content
+              ><b>EXPERIÊNCIA:</b> {{ userCharacter.experience }} de
+              {{ userCharacter.experienceMax }}</template
+            >
           </PopperComponent>
           <div class="user-credit-box is-flex is-align-items-center">
             <img :src="images.creditImage" alt="credit image" class="mr-1" />
             <div class="user-credit-text mr-1">Créditos:</div>
-            <div class="user-credit">{{ formatNumber(0) }}</div>
+            <div class="user-credit">{{ formatNumber(userCharacter.user.credit) }}</div>
           </div>
         </div>
         <div
@@ -48,7 +54,7 @@
           :style="{ backgroundImage: `url(${images.userInfoLevelImage})` }"
         >
           <div class="user-level-text">Nível</div>
-          <div class="user-level">1</div>
+          <div class="user-level">{{ userCharacter.level }}</div>
         </div>
       </div>
       <div class="nav-bar" :style="{ backgroundImage: `url(${images.navBarImage})` }">
@@ -80,12 +86,12 @@
                 />
               </a>
             </PopperComponent>
-            <PopperComponent arrow hover placement="right">
+            <PopperComponent arrow hover placement="right" v-if="userCharacter.user.vip">
               <img :src="images.vipImage" alt="vip image" />
               <template #content>
                 <p>
-                  VIP<br />Seu vip acaba em 20/01/2024 16:09<br />Restam <b>31:36:22</b> até o fim
-                  do seu VIP
+                  VIP<br />Seu vip acaba em {{ formatDateToDateTime(userCharacter.user.vip)
+                  }}<br />Restam <b>{{ timeRemaining }}</b> até o fim do seu VIP
                 </p>
               </template>
             </PopperComponent>
@@ -99,12 +105,12 @@
       </div>
     </header>
     <SidebarComponent
-      :hp="65"
-      :hp-max="130"
-      :mp="160"
-      :mp-max="160"
-      :stamina="60"
-      :stamina-max="60"
+      :hp="userCharacter.hp"
+      :hp-max="userCharacter.hpMax"
+      :mp="userCharacter.mp"
+      :mp-max="userCharacter.mpMax"
+      :stamina="userCharacter.stamina"
+      :stamina-max="userCharacter.staminaMax"
     />
   </div>
 </template>
@@ -112,7 +118,6 @@
 <script setup lang="ts">
 import images from '@/data/imageData';
 import SidebarComponent from '@/components/SidebarComponent.vue';
-import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
 import { getAvatarImageBattle } from '@/utils/avatarUtils';
 import { getClass } from '@/utils/userCharacterUtils';
 import {
@@ -120,9 +125,17 @@ import {
   calculateWidthForPercentage,
   calculatePercentage,
   formatNumber,
-  handleNavigation
+  handleNavigation,
+  formatDateToDateTime,
+  calculateTimeRemaining
 } from '@/utils/utils';
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import type { IUserCharacter } from '@/interface/IUserCharacter';
+import UserCharacterService from '@/service/UserCharacterService';
+import UserCharacterBreedEnum from '@/enum/UserCharacterBreedEnum';
+import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
+import UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
+import UserCharacterSeaEnum from '@/enum/UserCharacterSeaEnum';
 
 const navItems = ref([
   {
@@ -189,6 +202,44 @@ const navItems = ref([
     route: 'crew'
   }
 ]);
+const userCharacter = ref<IUserCharacter>({
+  avatar: 1,
+  breed: UserCharacterBreedEnum.Human,
+  characterId: 1,
+  class: UserCharacterClassEnum.Swordsman,
+  coin: 0,
+  experience: 0,
+  experienceMax: 0,
+  faction: UserCharacterFactionEnum.Pirate,
+  hp: 0,
+  hpMax: 0,
+  id: '',
+  level: 1,
+  mp: 0,
+  mpMax: 0,
+  name: 'Test',
+  score: 0,
+  sea: UserCharacterSeaEnum.East,
+  stamina: 0,
+  staminaMax: 0,
+  user: {
+    credit: 0,
+    vip: null,
+    fullName: ''
+  }
+});
+const timeRemaining = ref(calculateTimeRemaining(new Date().toISOString()));
+let timerId: ReturnType<typeof setInterval> | null = null;
+
+onMounted(() => {
+  getUserCharacterAPI();
+});
+
+onBeforeUnmount(() => {
+  if (timerId) {
+    clearInterval(timerId);
+  }
+});
 
 const enableBorder = (index: number): void => {
   navItems.value[index].isBorderEnabled = true;
@@ -201,6 +252,26 @@ const disableBorder = (index: number): void => {
 const logout = (): void => {
   handleNavigation('logout');
 };
+
+async function getUserCharacterAPI(): Promise<void> {
+  try {
+    const getUserCharacter = await UserCharacterService.getMe();
+    userCharacter.value = getUserCharacter;
+    if (userCharacter.value.user.vip) {
+      countdown(userCharacter.value.user.vip);
+    }
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
+
+function countdown(vip: string): void {
+  timerId = setInterval(() => {
+    timeRemaining.value = calculateTimeRemaining(vip!);
+  }, 1000);
+}
 </script>
 
 <style scoped>

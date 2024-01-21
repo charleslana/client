@@ -18,19 +18,19 @@
             class="newspaper-box"
             :style="{ backgroundImage: `url(${images.newspaperBoxImage})` }"
           >
-            <ul>
+            <ul v-if="newsList">
               <RouterLink
-                v-for="(news, index) in newsList"
+                v-for="(news, index) in newsList.results"
                 :key="index"
                 :to="`/newspaper/${news.id}`"
                 class="news-link"
               >
                 <li :style="{ backgroundImage: `url(${images.newspaperListImage})` }">
-                  <div class="newspaper-box-date">{{ formatDateToDateOnly(news.date) }}</div>
+                  <div class="newspaper-box-date">{{ formatDateToDateOnly(news.createdAt) }}</div>
                   <div class="newspaper-box-title">{{ news.title }}</div>
                 </li>
               </RouterLink>
-              <RouterLink to="/newspaper?page=2">
+              <RouterLink :to="newsList.hasNextPage ? '/newspaper?page=2' : '/newspaper'">
                 <li :style="{ backgroundImage: `url(${images.newspaperListImage})` }">
                   <div class="newspaper-box-date">[+]</div>
                   <div class="newspaper-box-title">Ver mais notícias.</div>
@@ -185,47 +185,42 @@ import FooterComponent from '@/components/FooterComponent.vue';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import { formatDateToDateOnly, formatNumber } from '@/utils/utils';
 import { getAvatarImageMini } from '@/utils/avatarUtils';
-import { ref } from 'vue';
+import { onMounted, ref, type Ref, watchEffect } from 'vue';
 import type { INewspaper } from '@/interface/INewspaper';
-import type { ITopPlayer } from '@/interface/IUserCharacter';
+import type { IUserCharacter } from '@/interface/IUserCharacter';
+import type IResultPaginated from '@/interface/IResultPaginated';
+import NewspaperService from '@/service/NewspaperService';
+import { useRoute } from 'vue-router';
+import UserCharacterService from '@/service/UserCharacterService';
+import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
+import UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
 
-const newsList = ref<INewspaper[]>([
-  { id: 1, date: '2024-01-20 23:37:59.20081-03', title: 'Alterações nos Preços do Shop' },
-  { id: 1, date: '2024-01-20 23:37:59.20081-03', title: 'Alterações nos Preços do Shop' },
-  { id: 1, date: '2024-01-20 23:37:59.20081-03', title: 'Alterações nos Preços do Shop' },
-  { id: 1, date: '2024-01-20 23:37:59.20081-03', title: 'Alterações nos Preços do Shop' },
-  { id: 1, date: '2024-01-20 23:37:59.20081-03', title: 'Alterações nos Preços do Shop' }
-]);
-const topPirates = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 0, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 0, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 0, characterId: 3, avatar: 1 }
-]);
-const topRevolutionaries = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 0, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 0, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 0, characterId: 3, avatar: 1 }
-]);
-const topMarines = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 0, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 0, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 0, characterId: 3, avatar: 1 }
-]);
-const topSwordsman = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 500, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 1000, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 10000, characterId: 3, avatar: 1 }
-]);
-const topFighters = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 150000, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 25, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 3986, characterId: 3, avatar: 1 }
-]);
-const topShooters = ref<ITopPlayer[]>([
-  { name: 'Test', level: 1, score: 0, characterId: 1, avatar: 2 },
-  { name: 'Test', level: 1, score: 0, characterId: 2, avatar: 1 },
-  { name: 'Test', level: 1, score: 0, characterId: 3, avatar: 1 }
-]);
+const route = useRoute();
+const page = ref<number>(1);
+const newsList: Ref<IResultPaginated<INewspaper> | null> = ref(null);
+
+const topPirates = ref<IUserCharacter[]>([]);
+const topRevolutionaries = ref<IUserCharacter[]>([]);
+const topMarines = ref<IUserCharacter[]>([]);
+const topSwordsman = ref<IUserCharacter[]>([]);
+const topFighters = ref<IUserCharacter[]>([]);
+const topShooters = ref<IUserCharacter[]>([]);
+
+onMounted(() => {
+  getPage();
+  getNewspaperPaginatedAPI();
+  getTopFactionAPI();
+  getTopClassAPI();
+});
+
+watchEffect(() => {
+  if (route.query.page) {
+    page.value = parseInt(route.query.page as string, 10);
+  } else {
+    page.value = 1;
+  }
+  getNewspaperPaginatedAPI();
+});
 
 const getTopIcon = (index: number) => {
   switch (index) {
@@ -239,6 +234,49 @@ const getTopIcon = (index: number) => {
       return '';
   }
 };
+
+function getPage(): void {
+  if (route.query.page) {
+    page.value = parseInt(route.query.page as string, 10);
+  }
+}
+
+async function getNewspaperPaginatedAPI(): Promise<void> {
+  try {
+    const newspaperList = await NewspaperService.getPaginated(page.value);
+    newsList.value = newspaperList;
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
+
+async function getTopFactionAPI(): Promise<void> {
+  try {
+    topPirates.value = await UserCharacterService.getTopFaction(UserCharacterFactionEnum.Pirate);
+    topRevolutionaries.value = await UserCharacterService.getTopFaction(
+      UserCharacterFactionEnum.Revolutionary
+    );
+    topMarines.value = await UserCharacterService.getTopFaction(UserCharacterFactionEnum.Marine);
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
+
+async function getTopClassAPI(): Promise<void> {
+  try {
+    topFighters.value = await UserCharacterService.getTopClass(UserCharacterClassEnum.Fighter);
+    topSwordsman.value = await UserCharacterService.getTopClass(UserCharacterClassEnum.Swordsman);
+    topShooters.value = await UserCharacterService.getTopClass(UserCharacterClassEnum.Shooter);
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
+}
 </script>
 
 <style scoped>

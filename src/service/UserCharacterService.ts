@@ -1,4 +1,6 @@
 import api from '@/config/api';
+import type UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
+import type UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
 import type IResponse from '@/interface/IResponse';
 import type { ICreateUserCharacter, IUserCharacter } from '@/interface/IUserCharacter';
 
@@ -26,5 +28,22 @@ export default class UserCharacterService {
 
   static async logout(): Promise<void> {
     await api.get<void>(`${this.baseUrl}/logout`);
+  }
+
+  static async getMe(): Promise<IUserCharacter> {
+    const response = await api.get<IUserCharacter>(`${this.baseUrl}/me`);
+    return response.data;
+  }
+
+  static async getTopFaction(faction: UserCharacterFactionEnum): Promise<IUserCharacter[]> {
+    const response = await api.get<IUserCharacter[]>(
+      `${this.baseUrl}/top/faction?faction=${faction}`
+    );
+    return response.data;
+  }
+
+  static async getTopClass(_class: UserCharacterClassEnum): Promise<IUserCharacter[]> {
+    const response = await api.get<IUserCharacter[]>(`${this.baseUrl}/top/class?class=${_class}`);
+    return response.data;
   }
 }

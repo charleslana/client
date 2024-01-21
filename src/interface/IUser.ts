@@ -22,5 +22,6 @@ export interface IUserVip {
 
 export interface IUser {
   credit: number;
-  vip: string;
+  vip: string | null;
+  fullName: string;
 }
