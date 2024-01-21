@@ -12,7 +12,6 @@
   >
     <div class="container-wrapper">
       <HeaderComponent />
-      <SidebarComponent />
       <ContainerComponent>
         <template v-slot:content>
           <div
@@ -184,7 +183,6 @@ import images from '@/data/imageData';
 import ContainerComponent from '@/components/ContainerComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import HeaderComponent from '@/components/HeaderComponent.vue';
-import SidebarComponent from '@/components/SidebarComponent.vue';
 import { formatDateToDateOnly, formatNumber } from '@/utils/utils';
 import { getAvatarImageMini } from '@/utils/avatarUtils';
 import { ref } from 'vue';

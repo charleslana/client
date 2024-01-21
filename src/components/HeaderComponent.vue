@@ -1,106 +1,117 @@
 <template>
-  <header class="header" :style="{ backgroundImage: `url(${images.headerImage})` }">
-    <div class="user-header-bg" :style="{ backgroundImage: `url(${images.userHeaderBgImage})` }">
-      <div class="coin-icon is-flex">
-        <img :src="images.coinImage" alt="coin image" class="mr-2" />
-        <p>Belly: {{ formatNumberWithZero(5500) }}</p>
-      </div>
-      <div class="avatar">
-        <PopperComponent arrow content="Clique aqui pra trocar de avatar" hover placement="right">
-          <img
-            :src="getAvatarImageBattle(1, 1)"
-            alt="avatar image"
-            class="is-clickable"
-            @click="null"
-          />
-        </PopperComponent>
-      </div>
-      <div class="user-info">
-        <div class="user-name">Test</div>
-        <div class="user-class">{{ getClass(UserCharacterClassEnum.Swordsman) }}</div>
-        <PopperComponent arrow hover placement="right">
-          <div class="user-info-bar">
-            <div
-              class="fill"
-              :style="{
-                width: `${calculateWidthForPercentage(calculatePercentage(2.5, 5), 123)}px`
-              }"
-            >
+  <div>
+    <header class="header" :style="{ backgroundImage: `url(${images.headerImage})` }">
+      <div class="user-header-bg" :style="{ backgroundImage: `url(${images.userHeaderBgImage})` }">
+        <div class="coin-icon is-flex">
+          <img :src="images.coinImage" alt="coin image" class="mr-2" />
+          <p>Belly: {{ formatNumberWithZero(5500) }}</p>
+        </div>
+        <div class="avatar">
+          <PopperComponent arrow content="Clique aqui pra trocar de avatar" hover placement="right">
+            <img
+              :src="getAvatarImageBattle(1, 1)"
+              alt="avatar image"
+              class="is-clickable"
+              @click="null"
+            />
+          </PopperComponent>
+        </div>
+        <div class="user-info">
+          <div class="user-name">Test</div>
+          <div class="user-class">{{ getClass(UserCharacterClassEnum.Swordsman) }}</div>
+          <PopperComponent arrow hover placement="right">
+            <div class="user-info-bar">
               <div
-                class="user-info-bar-mask"
-                :style="{ backgroundImage: `url(${images.userInfoBarImage})` }"
+                class="fill"
+                :style="{
+                  width: `${calculateWidthForPercentage(calculatePercentage(2.5, 5), 123)}px`
+                }"
               >
-                {{ calculatePercentage(2.5, 5) }}%
+                <div
+                  class="user-info-bar-mask"
+                  :style="{ backgroundImage: `url(${images.userInfoBarImage})` }"
+                >
+                  {{ calculatePercentage(2.5, 5) }}%
+                </div>
               </div>
             </div>
+            <template #content><b>EXPERIÊNCIA:</b> 0 de 5</template>
+          </PopperComponent>
+          <div class="user-credit-box is-flex is-align-items-center">
+            <img :src="images.creditImage" alt="credit image" class="mr-1" />
+            <div class="user-credit-text mr-1">Créditos:</div>
+            <div class="user-credit">{{ formatNumber(0) }}</div>
           </div>
-          <template #content><b>EXPERIÊNCIA:</b> 0 de 5</template>
-        </PopperComponent>
-        <div class="user-credit-box is-flex is-align-items-center">
-          <img :src="images.creditImage" alt="credit image" class="mr-1" />
-          <div class="user-credit-text mr-1">Créditos:</div>
-          <div class="user-credit">{{ formatNumber(0) }}</div>
         </div>
-      </div>
-      <div
-        class="user-level-info"
-        :style="{ backgroundImage: `url(${images.userInfoLevelImage})` }"
-      >
-        <div class="user-level-text">Nível</div>
-        <div class="user-level">1</div>
-      </div>
-    </div>
-    <div class="nav-bar" :style="{ backgroundImage: `url(${images.navBarImage})` }">
-      <img :src="images.logoHeaderImage" alt="logo image" class="logo-header" />
-      <div class="nav-bar-item is-flex">
         <div
-          v-for="(navItem, index) in navItems"
-          :key="index"
-          class="nav-bar-item-info is-flex is-flex-direction-column is-justify-content-center is-align-items-center"
-          :style="{
-            borderImageSource: navItem.isBorderEnabled ? `url(${images.navBorderImage})` : 'none'
-          }"
-          @mouseover="enableBorder(index)"
-          @mouseleave="disableBorder(index)"
-          @click="handleNavigation(navItem.route)"
+          class="user-level-info"
+          :style="{ backgroundImage: `url(${images.userInfoLevelImage})` }"
         >
-          <img :src="navItem.image" :alt="navItem.alt" height="22" />
-          <p class="nav-bar-item-text">{{ navItem.text }}</p>
+          <div class="user-level-text">Nível</div>
+          <div class="user-level">1</div>
         </div>
       </div>
-      <div class="menu-online" :style="{ backgroundImage: `url(${images.menuOnlineImage})` }">
-        <div class="menu-online-icon">
-          <PopperComponent arrow content="Trocar de personagem" hover placement="top">
-            <RouterLink to="/">
-              <img
-                :src="images.changeCharacterImage"
-                alt="change character image"
-                class="mr-1 is-clickable"
-              />
-            </RouterLink>
-          </PopperComponent>
-          <PopperComponent arrow hover placement="right">
-            <img :src="images.vipImage" alt="vip image" />
-            <template #content>
-              <p>
-                VIP<br />Seu vip acaba em 20/01/2024 16:09<br />Restam <b>31:36:22</b> até o fim do
-                seu VIP
-              </p>
-            </template>
-          </PopperComponent>
+      <div class="nav-bar" :style="{ backgroundImage: `url(${images.navBarImage})` }">
+        <img :src="images.logoHeaderImage" alt="logo image" class="logo-header" />
+        <div class="nav-bar-item is-flex">
+          <div
+            v-for="(navItem, index) in navItems"
+            :key="index"
+            class="nav-bar-item-info is-flex is-flex-direction-column is-justify-content-center is-align-items-center"
+            :style="{
+              borderImageSource: navItem.isBorderEnabled ? `url(${images.navBorderImage})` : 'none'
+            }"
+            @mouseover="enableBorder(index)"
+            @mouseleave="disableBorder(index)"
+            @click="handleNavigation(navItem.route)"
+          >
+            <img :src="navItem.image" :alt="navItem.alt" height="22" />
+            <p class="nav-bar-item-text">{{ navItem.text }}</p>
+          </div>
         </div>
-        <div class="menu-online-link">
-          <RouterLink to="/support">Suporte</RouterLink>
-          <RouterLink to="/profile">Perfil</RouterLink>
-          <a @click="logout">Desconectar</a>
+        <div class="menu-online" :style="{ backgroundImage: `url(${images.menuOnlineImage})` }">
+          <div class="menu-online-icon">
+            <PopperComponent arrow content="Trocar de personagem" hover placement="top">
+              <RouterLink to="/">
+                <img
+                  :src="images.changeCharacterImage"
+                  alt="change character image"
+                  class="mr-1 is-clickable"
+                />
+              </RouterLink>
+            </PopperComponent>
+            <PopperComponent arrow hover placement="right">
+              <img :src="images.vipImage" alt="vip image" />
+              <template #content>
+                <p>
+                  VIP<br />Seu vip acaba em 20/01/2024 16:09<br />Restam <b>31:36:22</b> até o fim
+                  do seu VIP
+                </p>
+              </template>
+            </PopperComponent>
+          </div>
+          <div class="menu-online-link">
+            <RouterLink to="/support">Suporte</RouterLink>
+            <RouterLink to="/profile">Perfil</RouterLink>
+            <a @click="logout">Desconectar</a>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+    <SidebarComponent
+      :hp="65"
+      :hp-max="130"
+      :mp="160"
+      :mp-max="160"
+      :stamina="60"
+      :stamina-max="60"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
 import images from '@/data/imageData';
+import SidebarComponent from '@/components/SidebarComponent.vue';
 import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
 import { getAvatarImageBattle } from '@/utils/avatarUtils';
 import { getClass } from '@/utils/userCharacterUtils';

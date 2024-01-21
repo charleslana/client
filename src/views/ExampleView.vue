@@ -12,7 +12,6 @@
   >
     <div class="container-wrapper">
       <HeaderComponent />
-      <SidebarComponent />
       <ContainerComponent>
         <template v-slot:content>
           <h1 v-for="index in 10" :key="index">Lista</h1>
@@ -28,7 +27,6 @@ import images from '@/data/imageData';
 import ContainerComponent from '@/components/ContainerComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import HeaderComponent from '@/components/HeaderComponent.vue';
-import SidebarComponent from '@/components/SidebarComponent.vue';
 </script>
 
 <style scoped>

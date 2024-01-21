@@ -14,7 +14,7 @@
               <div
                 class="sidebar-stats-hp"
                 :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(65, 130), 123)}px`
+                  width: `${calculateWidthForPercentage(calculatePercentage(hp, hpMax), 123)}px`
                 }"
               >
                 <div
@@ -24,9 +24,9 @@
               </div>
             </div>
             <img :src="images.iconStatsHpImage" alt="stats hp image" height="12" />
-            <span>{{ calculatePercentage(65, 130) }}%</span>
+            <span>{{ calculatePercentage(hp, hpMax) }}%</span>
           </div>
-          <template #content><b>HP:</b> 65 de 130</template>
+          <template #content><b>HP:</b> {{ hp }} de {{ hpMax }}</template>
         </PopperComponent>
         <PopperComponent arrow hover placement="right">
           <div
@@ -36,7 +36,7 @@
               <div
                 class="sidebar-stats-mp"
                 :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(160, 160), 123)}px`
+                  width: `${calculateWidthForPercentage(calculatePercentage(mp, mpMax), 123)}px`
                 }"
               >
                 <div
@@ -46,9 +46,9 @@
               </div>
             </div>
             <img :src="images.iconStatsMpImage" alt="stats hp image" height="12" />
-            <span>{{ calculatePercentage(160, 160) }}%</span>
+            <span>{{ calculatePercentage(mp, mpMax) }}%</span>
           </div>
-          <template #content><b>MP:</b> 160 de 160</template>
+          <template #content><b>MP:</b> {{ mp }} de {{ mpMax }}</template>
         </PopperComponent>
         <PopperComponent arrow hover placement="right">
           <div
@@ -58,7 +58,10 @@
               <div
                 class="sidebar-stats-stamina"
                 :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(60, 60), 123)}px`
+                  width: `${calculateWidthForPercentage(
+                    calculatePercentage(stamina, staminaMax),
+                    123
+                  )}px`
                 }"
               >
                 <div
@@ -68,7 +71,7 @@
               </div>
             </div>
             <img :src="images.iconStatsStaminaImage" alt="stats hp image" height="12" />
-            <span>60/60</span>
+            <span>{{ stamina }}/{{ staminaMax }}</span>
           </div>
           <template #content
             >STAMINA<br />Seus pontos de stamina são utilizados toda vez que se inicia uma batalha,
@@ -250,6 +253,33 @@ const menus = ref([
     ]
   }
 ]);
+
+defineProps({
+  hp: {
+    type: Number,
+    required: true
+  },
+  hpMax: {
+    type: Number,
+    required: true
+  },
+  mp: {
+    type: Number,
+    required: true
+  },
+  mpMax: {
+    type: Number,
+    required: true
+  },
+  stamina: {
+    type: Number,
+    required: true
+  },
+  staminaMax: {
+    type: Number,
+    required: true
+  }
+});
 </script>
 
 <style scoped>
