@@ -174,7 +174,7 @@ const menus = ref([
       { title: 'Chat', route: 'http://discord.com', new: false },
       { title: 'Comprar Créditos', route: 'route', new: false },
       { title: 'Shopping', route: 'route', new: false },
-      { title: 'Trocar de Personagem', route: 'route', new: false },
+      { title: 'Trocar de Personagem', route: 'change-character', new: false },
       { title: 'Vantagens VIP', route: 'route', new: false },
       { title: 'Desconectar', route: 'logout', new: false }
     ]

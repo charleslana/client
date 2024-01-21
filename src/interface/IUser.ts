@@ -19,3 +19,8 @@ export interface ICheckEmail {
 export interface IUserVip {
   vip: null | string;
 }
+
+export interface IUser {
+  credit: number;
+  vip: string;
+}

@@ -72,13 +72,13 @@
         <div class="menu-online" :style="{ backgroundImage: `url(${images.menuOnlineImage})` }">
           <div class="menu-online-icon">
             <PopperComponent arrow content="Trocar de personagem" hover placement="top">
-              <RouterLink to="/">
+              <a @click="handleNavigation('change-character')">
                 <img
                   :src="images.changeCharacterImage"
                   alt="change character image"
                   class="mr-1 is-clickable"
                 />
-              </RouterLink>
+              </a>
             </PopperComponent>
             <PopperComponent arrow hover placement="right">
               <img :src="images.vipImage" alt="vip image" />

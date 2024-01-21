@@ -19,4 +19,12 @@ export default class UserCharacterService {
     const response = await api.delete<IResponse>(`${this.baseUrl}/${id}`);
     return response.data;
   }
+
+  static async select(id: string): Promise<void> {
+    await api.get<void>(`${this.baseUrl}/select/${id}`);
+  }
+
+  static async logout(): Promise<void> {
+    await api.get<void>(`${this.baseUrl}/logout`);
+  }
 }

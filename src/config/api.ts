@@ -4,7 +4,7 @@ import { getToken, removeToken } from '@/utils/localStorageUtils';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL as string,
-  withCredentials: false
+  withCredentials: true
 });
 
 api.interceptors.request.use((config) => {
@@ -21,11 +21,11 @@ api.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401 || error.response.status === 429) {
         removeToken();
-        router.push({ name: 'home' });
+        router.replace({ name: 'home' });
         location.reload();
       }
       if (error.response.status === 403 || error.response.status === 422) {
-        router.push({ name: 'home' });
+        router.replace({ name: 'home' });
       }
     }
     return Promise.reject(error);

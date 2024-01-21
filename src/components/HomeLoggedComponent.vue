@@ -183,6 +183,7 @@ import UserCharacterBreedEnum from '@/enum/UserCharacterBreedEnum';
 import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
 import type { AxiosError } from 'axios';
 import type ICelebrateError from '@/interface/ICelebrateError';
+import router from '@/router';
 
 const step = ref(1);
 const factionSelected = ref<UserCharacterFactionEnum | null>(null);
@@ -253,7 +254,9 @@ function scrollToTop(): void {
 }
 
 function selectCharacter(id: string): void {
-  alert(id);
+  loading.value = true;
+  emit('toggle-loading', true);
+  selectUserCharacterAPI(id);
 }
 
 function getFactionBox(faction: string): string {
@@ -370,6 +373,18 @@ async function deleteUserCharacterAPI(id: string): Promise<void> {
   try {
     await UserCharacterService.delete(id);
     await getAllUserCharactersAPI();
+  } catch (err: unknown) {
+    //
+  } finally {
+    loading.value = false;
+    emit('toggle-loading', false);
+  }
+}
+
+async function selectUserCharacterAPI(id: string): Promise<void> {
+  try {
+    await UserCharacterService.select(id);
+    router.push({ name: 'newspaper' });
   } catch (err: unknown) {
     //
   } finally {

@@ -1,4 +1,5 @@
 import router from '@/router';
+import UserCharacterService from '@/service/UserCharacterService';
 import { removeToken } from './localStorageUtils';
 import Swal, { type SweetAlertIcon } from 'sweetalert2';
 
@@ -39,11 +40,20 @@ export function calculatePercentage(minValue: number, maxValue: number): number 
 export function handleNavigation(destination: string): void {
   if (destination.startsWith('http') || destination.startsWith('https')) {
     window.open(destination, '_blank');
-  } else if (destination.includes('logout')) {
-    removeToken();
-    router.push({ name: 'home' });
-  } else {
-    router.push({ name: destination });
+    return;
+  }
+  switch (destination) {
+    case 'logout':
+      removeToken();
+      router.push({ name: 'home' });
+      break;
+    case 'change-character':
+      logoutAPI();
+      router.push({ name: 'home' });
+      break;
+    default:
+      router.push({ name: destination });
+      break;
   }
 }
 
@@ -54,4 +64,14 @@ export function formatDateToDateOnly(dateString: string): string {
   const year = date.getFullYear().toString().slice(2);
   const formattedDate = `${day}/${month}/${year}`;
   return formattedDate;
+}
+
+async function logoutAPI(): Promise<void> {
+  try {
+    await UserCharacterService.logout();
+  } catch (err: unknown) {
+    //
+  } finally {
+    //
+  }
 }
