@@ -19,3 +19,11 @@ export interface ICreateUserCharacter {
   breed: UserCharacterBreedEnum;
   class: UserCharacterClassEnum;
 }
+
+export interface ITopPlayer {
+  name: string;
+  level: number;
+  score: number;
+  characterId: number;
+  avatar: number;
+}

@@ -1,7 +1,6 @@
 <template>
   <div class="bg" :style="{ backgroundImage: `url(${images.homeCloudsImage})` }">
     <div class="container">
-      <!-- <h1 v-for="index in 10" :key="index">Lista</h1> -->
       <figure class="welcome-image image">
         <img :src="displayedImage" alt="welcome image" />
       </figure>

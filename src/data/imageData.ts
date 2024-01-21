@@ -99,6 +99,14 @@ import sidebarMenuBottomImage from '@/assets/images/sidebar/sidebar-menu-bottom.
 import iconNewGifImage from '@/assets/images/icon/new.gif';
 import layoutBlueButton2Image from '@/assets/images/layout/blue-button-2.png';
 import sidebarBottomImage from '@/assets/images/sidebar/sidebar-bottom.png';
+import newspaperBoxImage from '@/assets/images/layout/newspaper-box.png';
+import newspaperListImage from '@/assets/images/layout/newspaper-list.png';
+import titleBgImage from '@/assets/images/layout/title-bg.png';
+import topPlayersFactionImage from '@/assets/images/layout/top-players-faction.png';
+import topPlayersClassImage from '@/assets/images/layout/top-players-class.png';
+import topGoldImage from '@/assets/images/icon/top-gold.png';
+import topSilverImage from '@/assets/images/icon/top-silver.png';
+import topBronzeImage from '@/assets/images/icon/top-bronze.png';
 
 const images = {
   homeCloudsImage,
@@ -201,7 +209,15 @@ const images = {
   sidebarMenuBottomImage,
   iconNewGifImage,
   layoutBlueButton2Image,
-  sidebarBottomImage
+  sidebarBottomImage,
+  newspaperBoxImage,
+  newspaperListImage,
+  titleBgImage,
+  topPlayersFactionImage,
+  topPlayersClassImage,
+  topGoldImage,
+  topSilverImage,
+  topBronzeImage
 };
 
 export default images;

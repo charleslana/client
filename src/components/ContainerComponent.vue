@@ -40,7 +40,7 @@ import images from '@/data/imageData';
 
 .container-top {
   width: 743px;
-  height: 56px;
+  height: 42px;
   background-repeat: no-repeat;
 }
 

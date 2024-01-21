@@ -27,3 +27,8 @@
   font-family: 'myriadpro_cond';
   src: url(./myriadpro-cond-webfont.woff) format('woff');
 }
+
+@font-face {
+  font-family: 'tradewinds';
+  src: url(./tradewinds.woff2) format('woff2');
+}

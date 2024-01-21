@@ -36,7 +36,7 @@ export function calculatePercentage(minValue: number, maxValue: number): number 
   return parseFloat(width.toFixed(2));
 }
 
-export const handleNavigation = (destination: string): void => {
+export function handleNavigation(destination: string): void {
   if (destination.startsWith('http') || destination.startsWith('https')) {
     window.open(destination, '_blank');
   } else if (destination.includes('logout')) {
@@ -45,4 +45,13 @@ export const handleNavigation = (destination: string): void => {
   } else {
     router.push({ name: destination });
   }
-};
+}
+
+export function formatDateToDateOnly(dateString: string): string {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString().slice(2);
+  const formattedDate = `${day}/${month}/${year}`;
+  return formattedDate;
+}
