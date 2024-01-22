@@ -17,7 +17,7 @@
         >
           <img
             class="create-character"
-            :src="getAvatarImageMini(character.characterId, 1)"
+            :src="getAvatarImageMini(character.characterId, character.avatar)"
             alt="my character image"
           />
           <div
@@ -591,4 +591,3 @@ async function selectUserCharacterAPI(id: string): Promise<void> {
   line-height: 14px;
 }
 </style>
-@/utils/avatarUtils

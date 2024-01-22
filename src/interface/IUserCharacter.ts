@@ -3,6 +3,7 @@ import type UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
 import type UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
 import type UserCharacterSeaEnum from '@/enum/UserCharacterSeaEnum';
 import type { IUser } from './IUser';
+import type { ICharacter } from './ICharacter';
 
 export interface IUserCharacter {
   id: string;
@@ -24,6 +25,7 @@ export interface IUserCharacter {
   mp: number;
   stamina: number;
   score: number;
+  character: ICharacter;
   user: IUser;
 }
 
