@@ -107,6 +107,8 @@ import topPlayersClassImage from '@/assets/images/layout/top-players-class.png';
 import topGoldImage from '@/assets/images/icon/top-gold.png';
 import topSilverImage from '@/assets/images/icon/top-silver.png';
 import topBronzeImage from '@/assets/images/icon/top-bronze.png';
+import newspaperBgImage from '@/assets/images/layout/newspaper-bg.jpg';
+import swordIconImage from '@/assets/images/icon/sword.png';
 
 const images = {
   homeCloudsImage,
@@ -217,7 +219,9 @@ const images = {
   topPlayersClassImage,
   topGoldImage,
   topSilverImage,
-  topBronzeImage
+  topBronzeImage,
+  newspaperBgImage,
+  swordIconImage
 };
 
 export default images;

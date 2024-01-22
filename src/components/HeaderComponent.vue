@@ -86,11 +86,11 @@
                 />
               </a>
             </PopperComponent>
-            <PopperComponent arrow hover placement="right" v-if="userCharacter.user.vip">
+            <PopperComponent arrow hover placement="right" v-if="isVip(userCharacter.user.vip)">
               <img :src="images.vipImage" alt="vip image" />
               <template #content>
                 <p>
-                  VIP<br />Seu vip acaba em {{ formatDateToDateTime(userCharacter.user.vip)
+                  VIP<br />Seu vip acaba em {{ formatDateToDateTime(userCharacter.user.vip!)
                   }}<br />Restam <b>{{ timeRemaining }}</b> até o fim do seu VIP
                 </p>
               </template>
@@ -127,7 +127,8 @@ import {
   formatNumber,
   handleNavigation,
   formatDateToDateTime,
-  calculateTimeRemaining
+  calculateTimeRemaining,
+  isVip
 } from '@/utils/utils';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { IUserCharacter } from '@/interface/IUserCharacter';
@@ -257,8 +258,8 @@ async function getUserCharacterAPI(): Promise<void> {
   try {
     const getUserCharacter = await UserCharacterService.getMe();
     userCharacter.value = getUserCharacter;
-    if (userCharacter.value.user.vip) {
-      countdown(userCharacter.value.user.vip);
+    if (isVip(userCharacter.value.user.vip)) {
+      countdown(userCharacter.value.user.vip!);
     }
   } catch (err: unknown) {
     //

@@ -1,5 +1,7 @@
+import { projectName } from '@/utils/const';
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import HomeView from '@/views/HomeView.vue';
+import NewspaperDetailsView from '@/views/NewspaperDetailsView.vue';
 import NewspaperView from '@/views/NewspaperView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -11,25 +13,31 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: 'One Piece RPG - Aventuras sem limites!' }
+      meta: { title: `${projectName} - Aventuras sem limites!` }
     },
     {
       path: '/register',
       name: 'register',
       component: RegisterView,
-      meta: { title: 'One Piece RPG - Cadastre-se' }
+      meta: { title: `${projectName} - Cadastre-se` }
     },
     {
       path: '/forgot-password',
       name: 'forgot-password',
       component: ForgotPasswordView,
-      meta: { title: 'One Piece RPG - Recuperar senha' }
+      meta: { title: `${projectName} - Recuperar senha` }
     },
     {
       path: '/newspaper',
       name: 'newspaper',
       component: NewspaperView,
-      meta: { title: 'One Piece RPG - Jornal' }
+      meta: { title: `${projectName} - Jornal` }
+    },
+    {
+      path: '/newspaper/:id',
+      name: 'newspaper-details',
+      component: NewspaperDetailsView,
+      meta: { title: `${projectName} - Detalhes do jornal` }
     },
     {
       path: '/model',
@@ -40,7 +48,7 @@ const router = createRouter({
       path: '/:catchAll(.*)',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue'),
-      meta: { title: 'One Piece RPG - Nada por aqui' }
+      meta: { title: `${projectName} - Nada por aqui` }
     }
   ]
 });
@@ -54,7 +62,7 @@ router.beforeEach((to, _from, next) => {
   if (meta && meta.title) {
     document.title = meta.title;
   } else {
-    document.title = 'App';
+    document.title = projectName;
   }
   next();
 });

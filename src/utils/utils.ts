@@ -72,14 +72,18 @@ export function formatDateToDateOnly(dateString: string): string {
   return formattedDate;
 }
 
-export function formatDateToDateTime(dateString: string): string {
+export function formatDateToDateTime(dateString: string, isSecond: boolean = false): string {
   const date = new Date(dateString);
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear().toString();
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
-  const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+  const seconds = date.getSeconds().toString().padStart(2, '0');
+  let formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+  if (isSecond) {
+    formattedDate += `:${seconds}`;
+  }
   return formattedDate;
 }
 
@@ -97,6 +101,18 @@ export function calculateTimeRemaining(endTimeString: string): string {
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
     .toString()
     .padStart(2, '0')}`;
+}
+
+export function formatBreakLines(text: string): string {
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
+export function isVip(userVipExpiration: string | null): boolean {
+  if (userVipExpiration && new Date(userVipExpiration) > new Date()) {
+    return true;
+  }
+  return false;
 }
 
 async function logoutAPI(): Promise<void> {

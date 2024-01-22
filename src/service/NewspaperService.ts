@@ -9,4 +9,9 @@ export default class NewspaperService {
     const response = await api.get<IResultPaginated<INewspaper>>(`${this.baseUrl}?page=${page}`);
     return response.data;
   }
+
+  static async get(id: number): Promise<INewspaper> {
+    const response = await api.get<INewspaper>(`${this.baseUrl}/${id}`);
+    return response.data;
+  }
 }
