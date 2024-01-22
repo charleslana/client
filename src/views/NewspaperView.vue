@@ -30,7 +30,7 @@
                   <div class="newspaper-box-title">{{ news.title }}</div>
                 </li>
               </RouterLink>
-              <RouterLink :to="newsList.hasNextPage ? '/newspaper?page=2' : '/newspaper'">
+              <RouterLink :to="newsList.hasNextPage ? `/newspaper?page=${page + 1}` : '/newspaper'">
                 <li :style="{ backgroundImage: `url(${images.newspaperListImage})` }">
                   <div class="newspaper-box-date">[+]</div>
                   <div class="newspaper-box-title">Ver mais notícias.</div>
