@@ -1,10 +1,11 @@
-import { projectName } from '@/utils/const';
+import AvatarView from '@/views/AvatarView.vue';
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import HomeView from '@/views/HomeView.vue';
 import NewspaperDetailsView from '@/views/NewspaperDetailsView.vue';
 import NewspaperView from '@/views/NewspaperView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { projectName } from '@/utils/const';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,12 @@ const router = createRouter({
       name: 'newspaper-details',
       component: NewspaperDetailsView,
       meta: { title: `${projectName} - Detalhes do jornal` }
+    },
+    {
+      path: '/avatar',
+      name: 'avatar',
+      component: AvatarView,
+      meta: { title: `${projectName} - Avatar` }
     },
     {
       path: '/model',

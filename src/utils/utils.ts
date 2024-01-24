@@ -2,6 +2,8 @@ import router from '@/router';
 import UserCharacterService from '@/service/UserCharacterService';
 import { removeToken } from './localStorageUtils';
 import Swal, { type SweetAlertIcon } from 'sweetalert2';
+import type { AxiosError } from 'axios';
+import type ICelebrateError from '@/interface/ICelebrateError';
 
 export function formatNumber(number: number): string {
   return number.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
@@ -18,6 +20,13 @@ export function showAlert(message: string, icon: SweetAlertIcon = 'error'): void
     icon: icon,
     confirmButtonText: 'OK'
   });
+}
+
+export function showError(err: unknown): void {
+  const error = err as AxiosError<ICelebrateError>;
+  if (error.response && error.response.data) {
+    showAlert(error.response.data.message, 'error');
+  }
 }
 
 export function formatNumberWithZero(number: number): string {

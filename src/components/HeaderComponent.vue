@@ -6,16 +6,23 @@
           <img :src="images.coinImage" alt="coin image" class="mr-2" />
           <p>Berries: {{ formatNumberWithZero(userCharacter.coin) }}</p>
         </div>
-        <div class="avatar">
-          <PopperComponent arrow content="Clique aqui pra trocar de avatar" hover placement="right">
-            <img
-              :src="getAvatarImageBattle(userCharacter.characterId, userCharacter.avatar)"
-              alt="avatar image"
-              class="is-clickable"
-              @click="null"
-            />
-          </PopperComponent>
-        </div>
+        <RouterLink to="/avatar">
+          <div class="avatar">
+            <PopperComponent
+              arrow
+              content="Clique aqui pra trocar de avatar"
+              hover
+              placement="right"
+            >
+              <img
+                :src="getAvatarImageBattle(userCharacter.characterId, userCharacter.avatar)"
+                alt="avatar image"
+                class="is-clickable"
+                @click="null"
+              />
+            </PopperComponent>
+          </div>
+        </RouterLink>
         <div class="user-info">
           <div class="user-name">{{ userCharacter.name }}</div>
           <div class="user-class">{{ getClass(userCharacter.class) }}</div>
@@ -133,10 +140,7 @@ import {
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { IUserCharacter } from '@/interface/IUserCharacter';
 import UserCharacterService from '@/service/UserCharacterService';
-import UserCharacterBreedEnum from '@/enum/UserCharacterBreedEnum';
-import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
-import UserCharacterFactionEnum from '@/enum/UserCharacterFactionEnum';
-import UserCharacterSeaEnum from '@/enum/UserCharacterSeaEnum';
+import { userCharacterStore } from '@/stores/userCharacterStore';
 
 const navItems = ref([
   {
@@ -203,37 +207,8 @@ const navItems = ref([
     route: 'crew'
   }
 ]);
-const userCharacter = ref<IUserCharacter>({
-  avatar: 1,
-  breed: UserCharacterBreedEnum.Human,
-  characterId: 1,
-  class: UserCharacterClassEnum.Swordsman,
-  coin: 0,
-  experience: 0,
-  experienceMax: 0,
-  faction: UserCharacterFactionEnum.Pirate,
-  hp: 0,
-  hpMax: 0,
-  id: '',
-  level: 1,
-  mp: 0,
-  mpMax: 0,
-  name: 'Test',
-  score: 0,
-  sea: UserCharacterSeaEnum.East,
-  stamina: 0,
-  staminaMax: 0,
-  character: {
-    id: 1,
-    name: '',
-    avatarMax: 1
-  },
-  user: {
-    credit: 0,
-    vip: null,
-    fullName: ''
-  }
-});
+const store = userCharacterStore();
+const userCharacter = ref<IUserCharacter>(store.userCharacter);
 const timeRemaining = ref(calculateTimeRemaining(new Date().toISOString()));
 let timerId: ReturnType<typeof setInterval> | null = null;
 
@@ -263,6 +238,7 @@ async function getUserCharacterAPI(): Promise<void> {
   try {
     const getUserCharacter = await UserCharacterService.getMe();
     userCharacter.value = getUserCharacter;
+    store.saveUserCharacter(userCharacter.value);
     if (isVip(userCharacter.value.user.vip)) {
       countdown(userCharacter.value.user.vip!);
     }

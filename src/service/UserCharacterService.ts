@@ -46,4 +46,9 @@ export default class UserCharacterService {
     const response = await api.get<IUserCharacter[]>(`${this.baseUrl}/top/class?class=${_class}`);
     return response.data;
   }
+
+  static async updateAvatar(avatar: number): Promise<IResponse> {
+    const response = await api.put<IResponse>(`${this.baseUrl}/avatar/${avatar}`);
+    return response.data;
+  }
 }

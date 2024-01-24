@@ -280,6 +280,8 @@ import topSilverImage from '@/assets/images/icon/top-silver.png';
 import topBronzeImage from '@/assets/images/icon/top-bronze.png';
 import newspaperBgImage from '@/assets/images/layout/newspaper-bg.jpg';
 import swordIconImage from '@/assets/images/icon/sword.png';
+import patternSelectionImage from '@/assets/images/layout/pattern-selection.png';
+import patternSelectionTopImage from '@/assets/images/layout/pattern-selection-top.png';
 
 const images = {
   homeCloudsImage,
@@ -563,7 +565,9 @@ const images = {
   topSilverImage,
   topBronzeImage,
   newspaperBgImage,
-  swordIconImage
+  swordIconImage,
+  patternSelectionImage,
+  patternSelectionTopImage
 };
 
 export default images;
