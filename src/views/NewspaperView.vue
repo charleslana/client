@@ -41,6 +41,8 @@
           <div class="title-bg" :style="{ backgroundImage: `url(${images.titleBgImage})` }">
             Próximos Eventos
           </div>
+          <p class="event-text">Experiência (2x) - Início: 24/01/2024 16:00:00</p>
+          <p class="event-text">Berries (2x) - Início: 24/01/2024 16:00:00</p>
           <div class="title-bg" :style="{ backgroundImage: `url(${images.titleBgImage})` }">
             Ranking
           </div>
@@ -112,26 +114,6 @@
           >
             <div class="top-box-1">
               <ul>
-                <li v-for="(swordman, index) in topSwordsman" :key="index">
-                  <div class="avatar-players">
-                    <img
-                      :src="getAvatarImageMini(swordman.characterId, swordman.avatar)"
-                      alt="avatar player image"
-                    />
-                  </div>
-                  <div class="data-player">
-                    <div class="username-player">{{ swordman.name }}</div>
-                    <div class="username-level">Nível: {{ swordman.level }}</div>
-                    <div class="username-score">{{ formatNumber(swordman.score) }} pontos</div>
-                  </div>
-                  <div class="top-icon" :style="{ backgroundImage: getTopIcon(index + 1) }">
-                    {{ index + 1 }}
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="top-box-2">
-              <ul>
                 <li v-for="(fighter, index) in topFighters" :key="index">
                   <div class="avatar-players">
                     <img
@@ -143,6 +125,26 @@
                     <div class="username-player">{{ fighter.name }}</div>
                     <div class="username-level">Nível: {{ fighter.level }}</div>
                     <div class="username-score">{{ formatNumber(fighter.score) }} pontos</div>
+                  </div>
+                  <div class="top-icon" :style="{ backgroundImage: getTopIcon(index + 1) }">
+                    {{ index + 1 }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="top-box-2">
+              <ul>
+                <li v-for="(swordman, index) in topSwordsman" :key="index">
+                  <div class="avatar-players">
+                    <img
+                      :src="getAvatarImageMini(swordman.characterId, swordman.avatar)"
+                      alt="avatar player image"
+                    />
+                  </div>
+                  <div class="data-player">
+                    <div class="username-player">{{ swordman.name }}</div>
+                    <div class="username-level">Nível: {{ swordman.level }}</div>
+                    <div class="username-score">{{ formatNumber(swordman.score) }} pontos</div>
                   </div>
                   <div class="top-icon" :style="{ backgroundImage: getTopIcon(index + 1) }">
                     {{ index + 1 }}
@@ -448,5 +450,12 @@ async function getTopClassAPI(): Promise<void> {
   color: #fff;
   text-align: center;
   line-height: 33px;
+}
+
+.event-text {
+  font-size: 13px;
+  line-height: 13px;
+  margin-bottom: 0 !important;
+  color: black;
 }
 </style>

@@ -4,7 +4,7 @@
       <div class="user-header-bg" :style="{ backgroundImage: `url(${images.userHeaderBgImage})` }">
         <div class="coin-icon is-flex">
           <img :src="images.coinImage" alt="coin image" class="mr-2" />
-          <p>Belly: {{ formatNumberWithZero(userCharacter.coin) }}</p>
+          <p>Berries: {{ formatNumberWithZero(userCharacter.coin) }}</p>
         </div>
         <div class="avatar">
           <PopperComponent arrow content="Clique aqui pra trocar de avatar" hover placement="right">
@@ -223,6 +223,11 @@ const userCharacter = ref<IUserCharacter>({
   sea: UserCharacterSeaEnum.East,
   stamina: 0,
   staminaMax: 0,
+  character: {
+    id: 1,
+    name: '',
+    avatarMax: 1
+  },
   user: {
     credit: 0,
     vip: null,
