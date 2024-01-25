@@ -1,5 +1,5 @@
 <template>
-  <div class="event-box-wrapper">
+  <div class="event-box-wrapper" :class="{ 'event-box-wrapper-fixed': isScrolled }">
     <img
       :src="images.maxIconImage"
       alt="max icon image"
@@ -21,25 +21,37 @@ import { isEventBox, saveEventBox } from '@/utils/localStorageUtils';
 import { ref } from 'vue';
 
 const isEventBoxVisible = ref(isEventBox());
+const isScrolled = ref(false);
 
 const toggleEventBoxVisibility = (): void => {
   isEventBoxVisible.value = !isEventBoxVisible.value;
   saveEventBox(isEventBoxVisible.value.toString());
 };
+
+const handleScroll = (): void => {
+  isScrolled.value = window.scrollY > 0;
+};
+
+window.addEventListener('scroll', handleScroll);
 </script>
 
 <style scoped>
 .event-box-wrapper {
-  position: absolute;
+  position: fixed;
+  z-index: 1;
   bottom: 0px;
-  left: 4px;
+}
+
+.event-box-wrapper-fixed {
+  position: fixed;
+  z-index: 1;
 }
 
 .event-box {
   background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(17, 38, 61, 1) 100%);
   box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.7);
   padding: 8px 8px 8px 14px;
-  width: 208px;
+  width: 209px;
   text-align: center;
   line-height: 1.2;
 }
@@ -72,7 +84,7 @@ const toggleEventBoxVisibility = (): void => {
 }
 
 .animate-enter-active {
-  width: 208px;
+  width: 209px;
   height: auto;
 }
 </style>

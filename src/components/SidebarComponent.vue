@@ -1,115 +1,89 @@
 <template>
-  <div>
-    <div class="sidebar" :style="{ backgroundImage: `url(${images.sidebarContentImage})` }">
-      <div class="sidebar-top" :style="{ backgroundImage: `url(${images.sidebarTopImage})` }"></div>
-      <div class="sidebar-title" :style="{ backgroundImage: `url(${images.sidebarTitleImage})` }">
-        Estatísticas
-      </div>
-      <div class="sidebar-stats" :style="{ backgroundImage: `url(${images.sidebarStatsImage})` }">
-        <PopperComponent arrow hover placement="right">
-          <div
-            class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
-          >
-            <div class="sidebar-stats-bar-container">
-              <div
-                class="sidebar-stats-hp"
-                :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(hp, hpMax), 123)}px`
-                }"
-              >
-                <div
-                  class="sidebar-stats-bar"
-                  :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
-                ></div>
-              </div>
-            </div>
-            <img :src="images.iconStatsHpImage" alt="stats hp image" height="12" />
-            <span>{{ calculatePercentage(hp, hpMax) }}%</span>
-          </div>
-          <template #content><b>HP:</b> {{ hp }} de {{ hpMax }}</template>
-        </PopperComponent>
-        <PopperComponent arrow hover placement="right">
-          <div
-            class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
-          >
-            <div class="sidebar-stats-bar-container">
-              <div
-                class="sidebar-stats-mp"
-                :style="{
-                  width: `${calculateWidthForPercentage(calculatePercentage(mp, mpMax), 123)}px`
-                }"
-              >
-                <div
-                  class="sidebar-stats-bar"
-                  :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
-                ></div>
-              </div>
-            </div>
-            <img :src="images.iconStatsMpImage" alt="stats hp image" height="12" />
-            <span>{{ calculatePercentage(mp, mpMax) }}%</span>
-          </div>
-          <template #content><b>MP:</b> {{ mp }} de {{ mpMax }}</template>
-        </PopperComponent>
-        <PopperComponent arrow hover placement="right">
-          <div
-            class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
-          >
-            <div class="sidebar-stats-bar-container">
-              <div
-                class="sidebar-stats-stamina"
-                :style="{
-                  width: `${calculateWidthForPercentage(
-                    calculatePercentage(stamina, staminaMax),
-                    123
-                  )}px`
-                }"
-              >
-                <div
-                  class="sidebar-stats-bar"
-                  :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
-                ></div>
-              </div>
-            </div>
-            <img :src="images.iconStatsStaminaImage" alt="stats hp image" height="12" />
-            <span>{{ stamina }}/{{ staminaMax }}</span>
-          </div>
-          <template #content
-            >STAMINA<br />Seus pontos de stamina são utilizados toda vez que se inicia uma batalha,
-            para cada batalha se utiliza 1 ponto. Ao acabar esses pontos você não poderá mais
-            batalhar.<br />
-            A cada 4 minutos se regenera 1 ponto automaticamente.<br />
-            Para jogadores VIP, a stamina se regenera 2 pontos a cada 4 minutos.</template
-          >
-        </PopperComponent>
-      </div>
-      <div v-for="(menu, index) in menus" :key="index">
-        <div class="sidebar-title" :style="{ backgroundImage: `url(${images.sidebarTitleImage})` }">
-          {{ menu.title }}
-        </div>
+  <div class="sidebar" :style="{ backgroundImage: `url(${images.sidebarContentImage})` }">
+    <div class="sidebar-top" :style="{ backgroundImage: `url(${images.sidebarTopImage})` }"></div>
+    <div class="sidebar-title" :style="{ backgroundImage: `url(${images.sidebarTitleImage})` }">
+      Estatísticas
+    </div>
+    <div class="sidebar-stats" :style="{ backgroundImage: `url(${images.sidebarStatsImage})` }">
+      <PopperComponent arrow hover placement="right">
         <div
-          class="sidebar-menu-bg"
-          :style="{ backgroundImage: `url(${images.sidebarMenuBgImage})` }"
+          class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
         >
-          <div
-            class="sidebar-menu-top"
-            :style="{ backgroundImage: `url(${images.sidebarMenuTopImage})` }"
-          ></div>
-          <ul class="sidebar-menu-content">
-            <li v-for="(link, linkIndex) in menu.links" :key="linkIndex">
-              <a @click="handleNavigation(link.route)">
-                {{ link.title }}
-                <img v-if="link.new" :src="images.iconNewGifImage" alt="new image" />
-              </a>
-            </li>
-          </ul>
-          <div
-            class="sidebar-menu-bottom"
-            :style="{ backgroundImage: `url(${images.sidebarMenuBottomImage})` }"
-          ></div>
+          <div class="sidebar-stats-bar-container">
+            <div
+              class="sidebar-stats-hp"
+              :style="{
+                width: `${calculateWidthForPercentage(calculatePercentage(hp, hpMax), 123)}px`
+              }"
+            >
+              <div
+                class="sidebar-stats-bar"
+                :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
+              ></div>
+            </div>
+          </div>
+          <img :src="images.iconStatsHpImage" alt="stats hp image" height="12" />
+          <span>{{ calculatePercentage(hp, hpMax) }}%</span>
         </div>
-      </div>
+        <template #content><b>HP:</b> {{ hp }} de {{ hpMax }}</template>
+      </PopperComponent>
+      <PopperComponent arrow hover placement="right">
+        <div
+          class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
+        >
+          <div class="sidebar-stats-bar-container">
+            <div
+              class="sidebar-stats-mp"
+              :style="{
+                width: `${calculateWidthForPercentage(calculatePercentage(mp, mpMax), 123)}px`
+              }"
+            >
+              <div
+                class="sidebar-stats-bar"
+                :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
+              ></div>
+            </div>
+          </div>
+          <img :src="images.iconStatsMpImage" alt="stats hp image" height="12" />
+          <span>{{ calculatePercentage(mp, mpMax) }}%</span>
+        </div>
+        <template #content><b>MP:</b> {{ mp }} de {{ mpMax }}</template>
+      </PopperComponent>
+      <PopperComponent arrow hover placement="right">
+        <div
+          class="sidebar-stats-container is-flex is-justify-content-space-between is-align-items-center"
+        >
+          <div class="sidebar-stats-bar-container">
+            <div
+              class="sidebar-stats-stamina"
+              :style="{
+                width: `${calculateWidthForPercentage(
+                  calculatePercentage(stamina, staminaMax),
+                  123
+                )}px`
+              }"
+            >
+              <div
+                class="sidebar-stats-bar"
+                :style="{ backgroundImage: `url(${images.sidebarStatsBarImage})` }"
+              ></div>
+            </div>
+          </div>
+          <img :src="images.iconStatsStaminaImage" alt="stats hp image" height="12" />
+          <span>{{ stamina }}/{{ staminaMax }}</span>
+        </div>
+        <template #content
+          >STAMINA<br />Seus pontos de stamina são utilizados toda vez que se inicia uma batalha,
+          para cada batalha se utiliza 1 ponto. Ao acabar esses pontos você não poderá mais
+          batalhar.<br />
+          A cada 4 minutos se regenera 1 ponto automaticamente.<br />
+          Para jogadores VIP, a stamina se regenera 2 pontos a cada 4 minutos.</template
+        >
+      </PopperComponent>
+    </div>
+    <div v-for="(menu, index) in menus" :key="index">
       <div class="sidebar-title" :style="{ backgroundImage: `url(${images.sidebarTitleImage})` }">
-        Ranking
+        {{ menu.title }}
       </div>
       <div
         class="sidebar-menu-bg"
@@ -120,42 +94,63 @@
           :style="{ backgroundImage: `url(${images.sidebarMenuTopImage})` }"
         ></div>
         <ul class="sidebar-menu-content">
-          <li>
-            <RouterLink to="/route">Avançados</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/route">Jogadores</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/route">Maestria</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/route">Treinos</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/route">Tripulação</RouterLink>
+          <li v-for="(link, linkIndex) in menu.links" :key="linkIndex">
+            <a @click="handleNavigation(link.route)">
+              {{ link.title }}
+              <img v-if="link.new" :src="images.iconNewGifImage" alt="new image" />
+            </a>
           </li>
         </ul>
-        <div class="is-flex is-justify-content-center is-align-items-center">
-          <input class="search-input" placeholder="Buscar jogador" />
-          <button
-            type="button"
-            class="search-button"
-            :style="{ backgroundImage: `url(${images.layoutBlueButton2Image})` }"
-          >
-            OK
-          </button>
-        </div>
         <div
           class="sidebar-menu-bottom"
           :style="{ backgroundImage: `url(${images.sidebarMenuBottomImage})` }"
         ></div>
       </div>
+    </div>
+    <div class="sidebar-title" :style="{ backgroundImage: `url(${images.sidebarTitleImage})` }">
+      Ranking
+    </div>
+    <div class="sidebar-menu-bg" :style="{ backgroundImage: `url(${images.sidebarMenuBgImage})` }">
       <div
-        class="sidebar-bottom"
-        :style="{ backgroundImage: `url(${images.sidebarBottomImage})` }"
+        class="sidebar-menu-top"
+        :style="{ backgroundImage: `url(${images.sidebarMenuTopImage})` }"
+      ></div>
+      <ul class="sidebar-menu-content">
+        <li>
+          <RouterLink to="/route">Avançados</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/route">Jogadores</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/route">Maestria</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/route">Treinos</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/route">Tripulação</RouterLink>
+        </li>
+      </ul>
+      <div class="is-flex is-justify-content-center is-align-items-center">
+        <input class="search-input" placeholder="Buscar jogador" />
+        <button
+          type="button"
+          class="search-button"
+          :style="{ backgroundImage: `url(${images.layoutBlueButton2Image})` }"
+        >
+          OK
+        </button>
+      </div>
+      <div
+        class="sidebar-menu-bottom"
+        :style="{ backgroundImage: `url(${images.sidebarMenuBottomImage})` }"
       ></div>
     </div>
+    <div
+      class="sidebar-bottom"
+      :style="{ backgroundImage: `url(${images.sidebarBottomImage})` }"
+    ></div>
     <EventBoxComponent />
   </div>
 </template>
@@ -289,6 +284,7 @@ defineProps({
   margin: 0 8px 0 3px;
   padding: 0 1px;
   float: left;
+  position: relative;
 }
 
 .sidebar-top {

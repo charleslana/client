@@ -104,9 +104,15 @@
     :style="{ backgroundImage: `url(${images.layoutManageAccountBoxLargeImage})` }"
   >
     <h2 class="title-box has-text-centered mb-2">Escolha seu avatar</h2>
-    <div class="avatar-box has-text-centered">
+    <input
+      type="text"
+      class="input-text mb-2"
+      placeholder="Pesquisar nome"
+      v-model="filterCharacterName"
+    />
+    <div class="avatar-box">
       <img
-        v-for="character in characters"
+        v-for="character in filteredCharacters"
         :key="character.id"
         @click="chooseAvatar(character.id)"
         class="avatar-image"
@@ -126,7 +132,7 @@
     <h2 class="title-box mb-2">Preencha os dados</h2>
     <form @submit.prevent="registerForm">
       <h1 class="label mb-0">Nome do personagem</h1>
-      <input type="text" name="nome" class="input-text" v-model="characterName" />
+      <input type="text" class="input-text" v-model="characterName" />
       <h1 class="label mt-5 mb-0">Mar</h1>
       <select class="input-select" v-model="sea">
         <option :value="UserCharacterSeaEnum.North" selected>North Blue</option>
@@ -168,7 +174,7 @@
 
 <script setup lang="ts">
 import images from '@/data/imageData';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { getAvatarImageMini } from '@/utils/avatarUtils';
 import HomeButtonComponent from './HomeButtonComponent.vue';
 import { ButtonColorEnum } from '@/enum/ButtonColorEnum';
@@ -197,6 +203,7 @@ const _class = ref<UserCharacterClassEnum>(UserCharacterClassEnum.Swordsman);
 const isVip = ref(false);
 const myCharacters = ref<IUserCharacter[]>([]);
 const loading = ref(false);
+const filterCharacterName = ref('');
 
 const emit = defineEmits(['send-message', 'toggle-loading']);
 
@@ -204,6 +211,15 @@ onMounted(async () => {
   await getAllUserCharactersAPI();
   await getUserVIP();
   await getAllCharacterAPI();
+});
+
+const filteredCharacters = computed(() => {
+  return characters.value.filter((character) => {
+    return character.name
+      .toLowerCase()
+      .trim()
+      .includes(filterCharacterName.value.toLowerCase().trim());
+  });
 });
 
 function goToStep(number: number): void {
@@ -329,6 +345,9 @@ async function getAllCharacterAPI(): Promise<void> {
   try {
     const getAll = await CharacterService.getAll();
     characters.value = getAll;
+    // const clonedArray = characters.value.slice();
+    // const duplicatedArray = Array.from({ length: 50 }, () => clonedArray).flat();
+    // characters.value = duplicatedArray;
   } catch (err: unknown) {
     //
   } finally {
@@ -453,7 +472,7 @@ async function selectUserCharacterAPI(id: string): Promise<void> {
 }
 
 .avatar-box {
-  height: 530px;
+  height: 481px;
   overflow-y: auto;
   margin-bottom: 7px;
 }
