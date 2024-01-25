@@ -189,7 +189,7 @@ const menus = ref([
       { title: 'Status', route: 'route', new: false },
       { title: 'Tarefas Diárias', route: 'route', new: false },
       { title: 'Transformar', route: 'route', new: false },
-      { title: 'Treinamento', route: 'route', new: false },
+      { title: 'Treinamento', route: 'training', new: false },
       { title: 'Tripulação', route: 'route', new: false }
     ]
   },

@@ -282,6 +282,8 @@ import newspaperBgImage from '@/assets/images/layout/newspaper-bg.jpg';
 import swordIconImage from '@/assets/images/icon/sword.png';
 import patternSelectionImage from '@/assets/images/layout/pattern-selection.png';
 import patternSelectionTopImage from '@/assets/images/layout/pattern-selection-top.png';
+import helperTrainingImage from '@/assets/images/helper/training.png';
+import layoutTrainingPointsImage from '@/assets/images/layout/training-points-bg.jpg';
 
 const images = {
   homeCloudsImage,
@@ -567,7 +569,9 @@ const images = {
   newspaperBgImage,
   swordIconImage,
   patternSelectionImage,
-  patternSelectionTopImage
+  patternSelectionTopImage,
+  helperTrainingImage,
+  layoutTrainingPointsImage
 };
 
 export default images;

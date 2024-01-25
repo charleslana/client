@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue';
 import NewspaperDetailsView from '@/views/NewspaperDetailsView.vue';
 import NewspaperView from '@/views/NewspaperView.vue';
 import RegisterView from '@/views/RegisterView.vue';
+import TrainingView from '@/views/TrainingView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { projectName } from '@/utils/const';
 
@@ -45,6 +46,12 @@ const router = createRouter({
       name: 'avatar',
       component: AvatarView,
       meta: { title: `${projectName} - Avatar` }
+    },
+    {
+      path: '/training',
+      name: 'training',
+      component: TrainingView,
+      meta: { title: `${projectName} - Treinamento` }
     },
     {
       path: '/model',
