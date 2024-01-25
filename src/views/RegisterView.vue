@@ -262,9 +262,11 @@ function validateRegister(): boolean {
   }
   if (existUser.value) {
     userError.value = 'Já existe o nome cadastrado';
+    error = true;
   }
   if (existEmail.value) {
     emailError.value = 'Já existe o e-mail cadastrado';
+    error = true;
   }
   return error;
 }
