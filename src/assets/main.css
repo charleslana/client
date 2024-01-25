@@ -63,3 +63,8 @@ li {
   padding: 5px 0 0 40px;
   margin: 0 0 10px 0;
 }
+
+.is-not-clickable {
+  cursor: default;
+  pointer-events: none;
+}

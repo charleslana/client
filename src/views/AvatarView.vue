@@ -29,6 +29,7 @@
             <div class="columns is-multiline is-flex is-centered has-text-centered">
               <div
                 class="column avatar-box"
+                :class="{ 'is-not-clickable': index > 2 && !userIsVip }"
                 v-for="index in avatarMax"
                 :key="index"
                 @click="saveAvatar(index)"
@@ -39,6 +40,7 @@
                   :class="{ choose: avatar !== index, blinking: isBlinking }"
                   width="177"
                 />
+                <div class="avatar-vip" v-if="index > 2 && !userIsVip">VIP</div>
               </div>
             </div>
           </div>
@@ -58,13 +60,14 @@ import { getAvatarImageStatus } from '@/utils/avatarUtils';
 import { ref, watch } from 'vue';
 import { userCharacterStore as useUserCharacterStore } from '@/stores/userCharacterStore';
 import UserCharacterService from '@/service/UserCharacterService';
-import { showAlert, showError } from '@/utils/utils';
+import { showAlert, showError, isVip } from '@/utils/utils';
 
 const store = useUserCharacterStore();
 const avatar = ref<number>(store.userCharacter.avatar);
 const avatarMax = ref(store.userCharacter.character.avatarMax);
 const characterId = ref(store.userCharacter.characterId);
 const isBlinking = ref(false);
+const userIsVip = ref(isVip(store.userCharacter.user.vip));
 
 watch(
   () => store.userCharacter,
@@ -72,6 +75,7 @@ watch(
     avatar.value = newUserCharacter.avatar;
     avatarMax.value = newUserCharacter.character.avatarMax;
     characterId.value = newUserCharacter.characterId;
+    userIsVip.value = isVip(newUserCharacter.user.vip);
   }
 );
 
@@ -145,6 +149,7 @@ async function changeAvatarAPI(selectedAvatar: number): Promise<void> {
   margin-bottom: 10px;
   padding: 5px;
   flex-grow: 0;
+  position: relative;
 }
 
 .avatar-box img {
@@ -171,5 +176,23 @@ async function changeAvatarAPI(selectedAvatar: number): Promise<void> {
 
 .blinking {
   animation: blink 2s infinite;
+}
+
+.avatar-vip {
+  padding: 4px 0 2px;
+  position: absolute;
+  bottom: 16px;
+  left: 9px;
+  width: 175px;
+  pointer-events: none;
+  color: #fff;
+  font:
+    24px Helvetica,
+    Sans-Serif;
+  letter-spacing: -1px;
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  text-align: center;
 }
 </style>
