@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="container-content">
     <div
       class="container-wrapper"
       :style="{ backgroundImage: `url(${images.layoutBgContentImage})` }"
@@ -24,7 +24,7 @@ import images from '@/data/imageData';
 </script>
 
 <style scoped>
-.content {
+.container-content {
   display: flex;
   align-items: flex-start;
   flex-direction: column;

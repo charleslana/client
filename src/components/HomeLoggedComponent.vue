@@ -190,6 +190,7 @@ import UserCharacterClassEnum from '@/enum/UserCharacterClassEnum';
 import type { AxiosError } from 'axios';
 import type ICelebrateError from '@/interface/ICelebrateError';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 const step = ref(1);
 const factionSelected = ref<UserCharacterFactionEnum | null>(null);
@@ -302,14 +303,20 @@ function getFactionButton(faction: string): string {
 }
 
 function confirmDeletion(id: string) {
-  const confirmMessage =
-    'Você tem certeza de que deseja deletar este personagem? O processo é irreversível!';
-  const isConfirmed = window.confirm(confirmMessage);
-  if (isConfirmed) {
-    loading.value = true;
-    emit('toggle-loading', true);
-    deleteUserCharacterAPI(id);
-  }
+  Swal.fire({
+    title: 'Deseja continuar?',
+    text: 'Você tem certeza de que deseja deletar este personagem? O processo é irreversível!',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      loading.value = true;
+      emit('toggle-loading', true);
+      deleteUserCharacterAPI(id);
+    }
+  });
 }
 
 async function getAllUserCharactersAPI(): Promise<void> {
