@@ -241,7 +241,6 @@ function goToStep(number: number): void {
     default:
       break;
   }
-  scrollToTop();
 }
 
 function chooseFaction(selectFaction: UserCharacterFactionEnum): void {
@@ -264,10 +263,6 @@ async function registerForm(): Promise<void> {
     emit('toggle-loading', true);
     await createUserCharacterAPI();
   }
-}
-
-function scrollToTop(): void {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function selectCharacter(id: string): void {
@@ -391,7 +386,6 @@ async function createUserCharacterAPI(): Promise<void> {
   } finally {
     loading.value = false;
     emit('toggle-loading', false);
-    scrollToTop();
   }
 }
 

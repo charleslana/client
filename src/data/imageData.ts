@@ -284,6 +284,11 @@ import patternSelectionImage from '@/assets/images/layout/pattern-selection.png'
 import patternSelectionTopImage from '@/assets/images/layout/pattern-selection-top.png';
 import helperTrainingImage from '@/assets/images/helper/training.png';
 import layoutTrainingPointsImage from '@/assets/images/layout/training-points-bg.jpg';
+import layoutTrainingAttributeImage from '@/assets/images/layout/training-attribute.png';
+import iconStrengthImage from '@/assets/images/icon/strength.png';
+import iconDexterityImage from '@/assets/images/icon/dexterity.png';
+import iconIntelligenceImage from '@/assets/images/icon/intelligence.png';
+import iconResistanceImage from '@/assets/images/icon/resistance.png';
 
 const images = {
   homeCloudsImage,
@@ -571,7 +576,12 @@ const images = {
   patternSelectionImage,
   patternSelectionTopImage,
   helperTrainingImage,
-  layoutTrainingPointsImage
+  layoutTrainingPointsImage,
+  layoutTrainingAttributeImage,
+  iconStrengthImage,
+  iconDexterityImage,
+  iconIntelligenceImage,
+  iconResistanceImage
 };
 
 export default images;

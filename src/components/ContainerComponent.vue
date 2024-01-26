@@ -53,5 +53,8 @@ import images from '@/data/imageData';
 
 .container-padding {
   padding: 8px 15px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 </style>

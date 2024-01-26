@@ -68,3 +68,8 @@ li {
   cursor: default;
   pointer-events: none;
 }
+
+img {
+  height: fit-content;
+  max-width: none;
+}
